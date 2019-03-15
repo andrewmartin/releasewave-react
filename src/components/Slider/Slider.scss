@@ -1,0 +1,42 @@
+@import "../../styles/bootstrap";
+
+.slick-list {
+  @include default-transition;
+}
+
+.slick-slider {
+  padding: 25px 0;
+  text-align: center;
+  border-top: 1px solid #F5D2C7;
+
+  p {
+    font-size: 1rem;
+  }
+}
+
+.slick-dots {
+  @include list-unstyled;
+  margin: 0;
+  li {
+    display: inline-block;
+    cursor: pointer;
+
+    &:hover,
+    &.slick-active {
+      span {
+        background: $brand-red;
+      }
+    }
+  }
+
+  li span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    text-indent: -9999px;
+    border: 0;
+    border-radius: 100%;
+    background: #555555;
+  }
+}

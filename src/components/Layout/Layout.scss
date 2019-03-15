@@ -1,0 +1,65 @@
+@import "../../styles/bootstrap";
+
+img {
+  max-width: 100%;
+}
+
+.layout {
+  height: 100%;
+  min-height: 500px;
+  margin: 50px 0 0;
+  padding: 50px 0;
+  background: $content-bg;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
+}
+
+.home-content {
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+.page-intro {
+  &__image {
+    height: 300px;
+    margin: 0 0 25px;
+    background-position: center center;
+    background-position: fixed;
+    background-size: cover;
+  }
+}
+
+.bm-item {
+  &:focus {
+    outline: none !important;
+  }
+}
+
+$album-box-shadow: 5px 5px 0 0 rgba(0,0,0,.1);
+
+@mixin content-box {
+  border: 1px solid $gray-100;
+  box-shadow: $album-box-shadow;
+}
+
+.webform {
+  &__error {
+    padding: 15px;
+    border: 1px solid red;
+  }
+}
+
+.webform-wrapper {
+  @include content-box;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #FFFFFF;
+}
+
+.form-feedback {
+  margin: 5px 0 10px;
+  padding: 5px;
+  border: 1px solid red;
+  font-size: 12px;
+}

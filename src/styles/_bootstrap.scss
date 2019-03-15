@@ -1,0 +1,8 @@
+@import "~bootstrap/scss/functions";
+@import "variables";
+@import "~bootstrap/scss/mixins";
+
+// mixins
+@mixin default-transition() {
+  transition: all .3s ease-out;
+}
