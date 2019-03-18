@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import cx from 'classnames';
 import { Formik } from 'formik';
 
+import Errors from 'components/Errors/Errors';
+
 class Register extends Component {
   renderForm(props) {
     const { values, errors, handleChange, handleSubmit, handleBlur, isValid, touched } = props;
@@ -12,7 +14,7 @@ class Register extends Component {
     });
 
     const Errors = () =>
-      Object.keys(errors).length
+      !!Object.keys(errors).length
         ? Object.keys(errors).map(key => (
             <div key={key} className="form-feedback">
               {errors[key]}
@@ -51,17 +53,7 @@ class Register extends Component {
   }
 
   onSubmit = async (data, actions) => {
-    const { payload = null } = await this.props.onSubmit(data);
-
-    if (payload.error && payload.error.errors) {
-      const errors = payload.error.errors.full_messages
-        ? payload.error.errors.full_messages.join(', ')
-        : payload.error.errors
-        ? payload.error.errors.join(',')
-        : 'There was an error.';
-      actions.setFieldError('password', errors);
-    }
-
+    await this.props.onSubmit(data);
     actions.setSubmitting(false);
   };
 
@@ -80,8 +72,12 @@ class Register extends Component {
   };
 
   render() {
+    const {
+      user: { serverError },
+    } = this.props;
+
     return (
-      <div className="webform-wrapper ">
+      <div className="webform-wrapper">
         <h2>Register</h2>
         <Formik
           validate={this.validate}
@@ -89,6 +85,7 @@ class Register extends Component {
           onSubmit={this.onSubmit}
           render={this.renderForm}
         />
+        <Errors error={serverError} />
       </div>
     );
   }

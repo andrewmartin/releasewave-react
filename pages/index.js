@@ -4,23 +4,33 @@ import { connect } from 'react-redux';
 import Register from 'components/Forms/Register/Register';
 import Login from 'components/Forms/Login/Login';
 
-import { actions } from 'store/reducers/user';
+import { bindAllActions } from 'store/actions/helpers';
 
 class Home extends React.Component {
-  componentDidMount() {
+  async getInitialProps() {
+    const {
+      actions: { getArtists },
+    } = this.props;
+
+    try {
+      const data = await getArtists();
+      console.log('data', data);
+    } catch (err) {
+      console.log('err');
+    }
+
     // console.log('updated', this.props);
+    return {
+      data,
+    };
   }
 
   render() {
-    const {
-      actions: { registerUser, loginUser },
-    } = this.props;
+    const { data } = this.props;
 
     return (
       <div>
         <h2>Home</h2>
-        <Register onSubmit={registerUser} />
-        <Login onSubmit={loginUser} />
       </div>
     );
   }
@@ -32,14 +42,7 @@ const mapStateToProps = ({ client }) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    {
-      ...actions,
-    },
-    dispatch
-  ),
-});
+const mapDispatchToProps = dispatch => bindAllActions(dispatch);
 
 export default connect(
   mapStateToProps,

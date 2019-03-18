@@ -30,11 +30,6 @@ nextApp.prepare().then(async () => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use('/api', require('./api/router'));
 
-  // app.use('/api/data', async (req, res) => {
-  //   const data = await getEntries();
-  //   res.json(data);
-  // });
-
   app.use(handler);
 
   app.listen(PORT, err => {

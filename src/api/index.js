@@ -9,6 +9,7 @@ class Fetch {
 
     this.headers = {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
       ...headers,
     };
   }

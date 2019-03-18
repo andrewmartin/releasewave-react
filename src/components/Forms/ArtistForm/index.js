@@ -1,18 +1,40 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import { Formik } from 'formik';
-import FileField from 'components/Forms/components/FileField';
+import { FileField } from 'components/Forms/components';
+import Errors from 'components/Errors/Errors';
 
 const fields = ['name', 'bandcamp', 'facebook', 'spotify', 'soundcloud'];
 
 class ArtistForm extends Component {
+  static defaultProps = {
+    artist: {
+      serverError: null,
+    },
+  };
+
   constructor(props) {
     super(props);
-
     let initialValues = {};
-    fields.forEach(field => {
-      initialValues[field] = '';
-    });
+
+    if (props.artist) {
+      const { id, bandcamp, facebook, name, soundcloud, spotify, image } = props.artist;
+
+      initialValues = {
+        id: id || '',
+        bandcamp: bandcamp || '',
+        facebook: facebook || '',
+        name: name || '',
+        soundcloud: soundcloud || '',
+        spotify: spotify || '',
+        image: image || '',
+      };
+    } else {
+      fields.forEach(field => {
+        initialValues[field] = '';
+      });
+    }
+
     this.state = { fields, initialValues, submitted: false };
   }
 
@@ -23,10 +45,6 @@ class ArtistForm extends Component {
       webform__error: !isValid && this.state.submitted,
       'needs-validation': !isValid,
     });
-
-    console.log('errors', errors);
-
-    const Errors = () => (errors['serverError'] ? <div className="form-feedback">{errors['serverError']}</div> : null);
 
     return (
       <form className={classes} onSubmit={handleSubmit}>
@@ -46,7 +64,11 @@ class ArtistForm extends Component {
         ))}
         <FileField name="image" label="Image" {...props} />
 
-        <Errors />
+        {values.image && (
+          <div className="form-group">
+            <img src={values.image.large} alt="" />
+          </div>
+        )}
         <button className="btn btn-lg btn-primary" type="submit">
           Submit
         </button>
@@ -59,20 +81,7 @@ class ArtistForm extends Component {
       submitted: true,
     });
 
-    const { payload = null } = await this.props.onSubmit(data);
-
-    if (payload.error) {
-      let errors = 'There was an error.';
-      if (payload.error.errors) {
-        errors = payload.error.errors.full_messages
-          ? payload.error.errors.full_messages.join(', ')
-          : payload.error.errors
-          ? payload.error.errors.join(',')
-          : 'There was an error.';
-      }
-      actions.setFieldError('serverError', errors);
-    }
-
+    await this.props.onSubmit(data);
     actions.setSubmitting(false);
   };
 
@@ -82,8 +91,7 @@ class ArtistForm extends Component {
     const { fields } = this.state;
 
     fields.map(field => {
-      console.log('values', values);
-      if (!values[field]) {
+      if (!values[field] && field === 'name') {
         errors[field] = `Please enter a ${field} value.`;
       }
     });
@@ -92,13 +100,13 @@ class ArtistForm extends Component {
   };
 
   render() {
+    const {
+      artist: { serverError },
+    } = this.props;
     const { initialValues } = this.state;
-
-    console.log('initialValues', initialValues);
 
     return (
       <div className="webform-wrapper">
-        <h2>Create Artist</h2>
         <Formik
           validate={this.validate}
           fields={initialValues}
@@ -106,6 +114,7 @@ class ArtistForm extends Component {
           onSubmit={this.onSubmit}
           render={this.renderForm}
         />
+        <Errors error={serverError} />
       </div>
     );
   }

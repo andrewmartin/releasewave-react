@@ -1,10 +1,13 @@
 import { createAction, handleActions } from 'redux-actions';
-
+import { LOCATION_CHANGE } from 'connected-next-router';
 import { sendNotification } from 'store/actions/notifications';
 import { fetchAction } from 'store/actions/fetch';
 
 const fetchArtistStart = createAction('artist/FETCH_ARTIST_START');
 const createArtist = createAction('artist/CREATE_ARTIST');
+const editArtistStart = createAction('artist/EDIT_ARTIST_START');
+const editArtist = createAction('artist/EDIT_ARTIST');
+const deleteArtist = createAction('artist/DELETE_ARTIST');
 const getArtists = createAction('artist/GET_ARTISTS');
 const artistError = createAction('artist/ERROR');
 
@@ -14,9 +17,9 @@ export const actions = {
 
     try {
       const data = await dispatch(
-        fetchAction('artists.json', {
+        fetchAction('artists', {
           options: {
-            data: JSON.stringify({ artist: payload }),
+            data: { artist: payload },
             method: 'POST',
           },
         })
@@ -31,12 +34,63 @@ export const actions = {
       );
     }
   },
+  editArtist: payload => async dispatch => {
+    dispatch(fetchArtistStart());
+
+    // no need to update with processed images
+    const { image } = payload;
+    if (image.thumb) {
+      delete payload.image;
+    }
+
+    try {
+      const data = await dispatch(
+        fetchAction(`artists/${payload.id}`, {
+          options: {
+            data: { artist: payload },
+            method: 'PATCH',
+          },
+        })
+      );
+      dispatch(sendNotification('Edited!'));
+      return dispatch(editArtist(data));
+    } catch (error) {
+      console.log('error', error);
+
+      return dispatch(
+        artistError({
+          error,
+        })
+      );
+    }
+  },
+  deleteArtist: id => async dispatch => {
+    dispatch(fetchArtistStart());
+
+    try {
+      const data = await dispatch(
+        fetchAction(`artists/${id}`, {
+          options: {
+            method: 'DELETE',
+          },
+        })
+      );
+      dispatch(sendNotification('Deleted!'));
+      return dispatch(deleteArtist(data));
+    } catch (error) {
+      return dispatch(
+        artistError({
+          error,
+        })
+      );
+    }
+  },
   getArtists: params => async dispatch => {
     dispatch(fetchArtistStart());
 
     try {
       const data = await dispatch(
-        fetchAction('artists.json', {
+        fetchAction('artists', {
           options: {
             params,
           },
@@ -55,6 +109,19 @@ export const actions = {
 
 const defaultState = {
   isLoading: false,
+  serverError: null,
+  items: [],
+};
+
+const appendItem = (stateKey, payload) => stateKey.concat(payload);
+
+const removeItem = (stateKey, payload) => stateKey.filter(i => i.id !== payload).filter(n => n);
+
+const replaceItem = (stateKey, payload) => {
+  const newState = stateKey.slice(0).filter(item => item.id !== payload.id);
+  newState.push(payload);
+
+  return newState.filter(n => n);
 };
 
 export default handleActions(
@@ -64,6 +131,16 @@ export default handleActions(
         return {
           ...state,
           isLoading: true,
+          serverError: null,
+        };
+      },
+    },
+    [LOCATION_CHANGE]: {
+      next: state => {
+        return {
+          ...state,
+          isLoading: true,
+          serverError: null,
         };
       },
     },
@@ -71,7 +148,7 @@ export default handleActions(
       next: (state, { payload }) => {
         return {
           ...state,
-          ...payload,
+          items: appendItem(state.items, payload),
           isLoading: false,
         };
       },
@@ -82,14 +159,53 @@ export default handleActions(
           ...state,
           ...payload,
           isLoading: false,
+          serverError: null,
+        };
+      },
+    },
+    [editArtistStart]: {
+      next: (state, { payload }) => {
+        return {
+          ...state,
+          ...payload.artist,
+          isLoading: false,
+          serverError: null,
+        };
+      },
+    },
+    [editArtist]: {
+      next: (state, { payload }) => {
+        console.log('payload', payload);
+
+        return {
+          ...state,
+          ...payload,
+          items: replaceItem(state.items, payload),
+          isLoading: false,
+          serverError: null,
+        };
+      },
+    },
+    [deleteArtist]: {
+      next: (state, { payload: { id } }) => {
+        return {
+          ...state,
+          items: removeItem(state.items, id),
+          isLoading: false,
+          serverError: null,
         };
       },
     },
     [artistError]: {
       next: (state, { payload }) => {
+        let serverError = ['There was an error.'];
+        if (payload && payload.error && payload.error.response && payload.error.response.data) {
+          const { data } = payload.error.response;
+          serverError = data.errors || [data.error];
+        }
         return {
           ...state,
-          ...payload,
+          serverError,
           isLoading: false,
         };
       },

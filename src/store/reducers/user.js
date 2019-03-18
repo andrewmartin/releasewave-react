@@ -1,7 +1,9 @@
 import { createAction, handleActions } from 'redux-actions';
 
+import ApiService from 'api/service';
 import { sendNotification } from 'store/actions/notifications';
 import { fetchAction } from 'store/actions/fetch';
+import { showModal, hideModal } from 'store/reducers/modal';
 
 export const fetchUserStart = createAction('user/FETCH_USER_START');
 export const registerUserStart = createAction('user/REGISTER_USER_START');
@@ -14,21 +16,15 @@ export const loginUserSuccess = createAction('user/LOGIN_USER_SUCCESS');
 export const actions = {
   registerUser: payload => async dispatch => {
     dispatch(fetchUserStart());
-    dispatch(registerUserStart());
 
     try {
-      const data = await dispatch(
-        fetchAction('/auth', {
-          options: { data: payload, method: 'POST' },
-        })
-      );
+      const response = await ApiService.api.instance('/auth', { data: payload, method: 'POST' });
       dispatch(sendNotification('Registered!'));
-      return dispatch(registerUserSuccess(data));
+      return dispatch(registerUserSuccess(response));
     } catch (error) {
       return dispatch(
         registerUserError({
-          ...error,
-          // error: error.response.data,
+          error,
         })
       );
     }
@@ -37,17 +33,13 @@ export const actions = {
     dispatch(fetchUserStart());
 
     try {
-      const data = await dispatch(
-        fetchAction('/auth/sign_in', {
-          options: { data: payload, method: 'POST' },
-        })
-      );
+      const response = await ApiService.api.instance('/auth/sign_in', { data: payload, method: 'POST' });
       dispatch(sendNotification('Logged in!'));
-      return dispatch(loginUserSuccess(data));
+      return dispatch(loginUserSuccess(response));
     } catch (error) {
       return dispatch(
         loginUserError({
-          ...error,
+          error,
         })
       );
     }
@@ -59,33 +51,71 @@ export const actions = {
 
 const defaultState = {
   isLoading: false,
+  serverError: null,
 };
 
 export default handleActions(
   {
+    [showModal]: {
+      next: state => {
+        return {
+          ...state,
+          isLoading: true,
+          serverError: null,
+        };
+      },
+    },
+    [hideModal]: {
+      next: state => {
+        return {
+          ...state,
+          isLoading: true,
+          serverError: null,
+        };
+      },
+    },
     [fetchUserStart]: {
       next: state => {
         return {
           ...state,
           isLoading: true,
+          serverError: null,
         };
       },
     },
     [registerUserSuccess]: {
-      next: (state, { payload }) => {
+      next: (
+        state,
+        {
+          payload: {
+            response: { data, headers },
+          },
+        }
+      ) => {
         return {
           ...state,
-          ...payload,
+          headers: { ...headers },
+          ...data.data,
           isLoading: false,
+          serverError: null,
         };
       },
     },
     [loginUserSuccess]: {
-      next: (state, { payload }) => {
+      next: (
+        state,
+        {
+          payload: {
+            response: { data, headers },
+          },
+        }
+      ) => {
         return {
           ...state,
-          ...payload,
+          headers: { ...headers },
+          ...data.data,
           isLoading: false,
+          serverError: null,
         };
       },
     },
@@ -95,19 +125,37 @@ export default handleActions(
       },
     },
     [registerUserError]: {
-      next: (state, { payload }) => {
+      next: (
+        state,
+        {
+          payload: {
+            error: {
+              response: { data },
+            },
+          },
+        }
+      ) => {
         return {
           ...state,
-          ...payload.response.data,
+          serverError: data.errors,
           isLoading: false,
         };
       },
     },
     [loginUserError]: {
-      next: (state, { payload }) => {
+      next: (
+        state,
+        {
+          payload: {
+            error: {
+              response: { data },
+            },
+          },
+        }
+      ) => {
         return {
           ...state,
-          ...payload.response.data,
+          serverError: data.errors,
           isLoading: false,
         };
       },

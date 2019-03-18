@@ -51,17 +51,7 @@ class Login extends Component {
   }
 
   onSubmit = async (data, actions) => {
-    const { payload = null } = await this.props.onSubmit(data);
-
-    if (payload.error && payload.error.errors) {
-      const errors = payload.error.errors.full_messages
-        ? payload.error.errors.full_messages.join(', ')
-        : payload.error.errors
-        ? payload.error.errors.join(',')
-        : 'There was an error.';
-      actions.setFieldError('password', errors);
-    }
-
+    await this.props.onSubmit(data);
     actions.setSubmitting(false);
   };
 
@@ -80,6 +70,12 @@ class Login extends Component {
   };
 
   render() {
+    const {
+      user: { serverError },
+    } = this.props;
+
+    const Errors = () => (serverError ? <div className="form-feedback">{serverError}</div> : null);
+
     return (
       <div className="webform-wrapper ">
         <h2>Login</h2>
@@ -93,6 +89,7 @@ class Login extends Component {
           onSubmit={this.onSubmit}
           render={this.renderForm}
         />
+        <Errors />
       </div>
     );
   }

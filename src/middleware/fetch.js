@@ -2,7 +2,7 @@ import { logoutUser } from 'store/reducers/user';
 
 const parseResponse = ({ headers, data }) => {
   return {
-    headers: { ...headers },
+    headers,
     ...data,
   };
 };
@@ -46,11 +46,9 @@ export const fetchMiddleware = ({ instance: fetch }) => store => next => action 
     };
 
     const { headers } = store.getState().user;
-    if (headers && headers['content-type']) {
-      delete headers['content-type'];
-    }
-
-    console.log('headers', headers);
+    // if (headers && headers['content-type']) {
+    //   delete headers['content-type'];
+    // }
 
     const reqOptions = {
       ...defaultOptions,
@@ -61,8 +59,6 @@ export const fetchMiddleware = ({ instance: fetch }) => store => next => action 
         ...headers,
       },
     };
-
-    console.log('reqOptions', reqOptions);
 
     if (headers) {
       return fetch(`auth/validate_token`, {

@@ -1,7 +1,380 @@
+// global
+
+html,
+body {
+  height: 100%;
+  background: $content-bg;
+}
+
+#__next {
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.layout {
+  display: flex;
+  overflow: scroll;
+  flex: 1;
+  flex-direction: column;
+}
+
+img {
+  max-width: 100%;
+}
+
+button {
+  outline: none !important;
+}
+
+// mixins
+
+$album-box-shadow: 5px 5px 0 0 rgba(0,0,0,.1);
+
+@mixin content-box {
+  border: 1px solid $gray-100;
+  border-radius: 0;
+  box-shadow: $album-box-shadow;
+}
+
+@mixin align-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// content
+
+.masthead,
+.mastfoot {
+  padding: 15px;
+  border-bottom: 2px solid $gray-300;
+  background: #fff;
+
+  .container {
+    display: flex;
+  }
+}
+
+.mastfoot {
+  border-top: 2px solid $gray-300;
+  border-bottom: 0;
+}
+
+.logo {
+  a {
+    display: flex;
+    align-items: center;
+    letter-spacing: -2px;
+    text-transform: lowercase;
+    font-size: 40px;
+    font-weight: 800;
+
+    &:hover {
+      text-decoration: none;
+      span {
+        color: #333;
+      }
+    }
+  }
+  figure {
+    display: block;
+    width: 175px * .75;
+    height: 97px * .75;
+    margin: 0 15px 0 0;
+    background: transparent url("/static/releasewave-logo.svg") no-repeat scroll top left;
+    background-size: contain;
+  }
+
+  span {
+    display: flex;
+    justify-content: center;
+    color: #000;
+    line-height: 1;
+  }
+
+  strong {
+    display: block;
+    color: color("pink");
+  }
+}
+
+.page-intro {
+  &__image {
+    height: 300px;
+    margin: 0 0 25px;
+    background-position: center center;
+    background-position: fixed;
+    background-size: cover;
+  }
+}
+
+// navigation
+
+.primary-navigation {
+  @include align-center;
+  margin-left: auto;
+  ul {
+    margin: 0;
+
+    @extend .list-unstyled;
+
+    li {
+      display: inline-block;
+      margin: 0 15px;
+    }
+  }
+
+  a {
+    text-transform: lowercase;
+
+    @extend .btn;
+    @extend .btn-sm;
+    @extend .btn-link;
+    @extend .btn-secondary;
+  }
+}
+
+// vendor
+
+.bm-item {
+  &:focus {
+    outline: none !important;
+  }
+}
+
+// forms
+
+.webform {
+  &__error {
+    padding: 15px;
+    border: 1px solid red;
+  }
+}
+
+.webform-wrapper {
+  background: #fff;
+}
+
+.form-feedback {
+  margin: 5px 0 10px;
+  padding: 5px;
+  border: 1px solid red;
+  font-size: 12px;
+}
+
 .dropzone {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 25px;
-  border: 3px solid #EFEFEF;
+  border: 3px solid #efefef;
+}
+
+// modals
+
+.modal-content {
+  @include content-box;
+  background-clip: unset;
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+.modal-footer {
+  p {
+    margin-bottom: 0;
+  }
+}
+
+// dropdowns
+
+.dropdown-menu {
+  @include content-box;
+}
+
+// admin dash
+
+.admin-dashboard {
+  padding: 50px 0;
+
+  @extend .container;
+
+  > div {
+    @include make-row;
+  }
+
+  aside,
+  main {
+    @include make-col-ready;
+  }
+
+  aside {
+    @include make-col(2);
+  }
+
+  main {
+    @include make-col-offset(1);
+    @include make-col(9);
+  }
+
+  aside> ul {
+    margin: 0;
+
+    @extend .list-unstyled;
+
+    li {
+      margin: 0 0 15px;
+
+      a {
+        @extend .btn;
+        @extend .btn-info;
+        @extend .btn-sm;
+        @extend .btn-block;
+
+        &.is-active {
+          @extend .disabled;
+        }
+      }
+    }
+  }
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid $gray-300;
+
+  > button {
+    margin-left: auto;
+  }
+}
+
+// overrides
+
+.btn {
+  &:focus,
+  &:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+// pages
+
+.release-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 50px 0 0;
+
+  header {
+    @include content-box;
+    display: flex;
+    padding: 40px;
+    background: #fff;
+
+    h2 {
+      margin: 0 0 30px;
+      letter-spacing: -1px;
+      font-size: 60px;
+      line-height: 1.2;
+
+      cite {
+        display: block;
+        color: $gray-500;
+        font-size: 30px;
+        font-weight: 200;
+        font-style: normal;
+      }
+    }
+  }
+
+  article {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+  }
+
+  figure {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
+    margin: 0 0 0 auto;
+
+    img {
+      margin-bottom: 15px;
+    }
+
+    span {
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: $gray-600;
+      font-size: 1rem;
+    }
+  }
+}
+
+.artist-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 15px 0 5px;
+  font-size: 30px;
+  line-height: 1;
+
+  &__social {
+    margin-left: 10px;
+    opacity: .5;
+  }
+
+  &:hover {
+    .artist-link__social {
+      opacity: 1;
+    }
+  }
+}
+
+.social {
+  @include align-center();
+  margin: 0;
+
+  @extend .list-unstyled;
+
+  li {
+    position: relative;
+    top: -3px;
+    margin: 0 5px;
+    opacity: .2;
+    svg {
+      max-width: 100%;
+    }
+  }
+}
+
+
+
+.discussion {
+  flex: 1;
+  margin: 100px 0 0;
+  padding: 50px 0;
+  border-top: 3px solid $gray-200;
+  background: $gray-300;
+
+  h3 {
+    margin: 0 0 30px;
+    letter-spacing: -1px;
+    font-size: 40px;
+  }
 }

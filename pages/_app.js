@@ -1,11 +1,11 @@
 import App, { Container } from 'next/app';
 import React from 'react';
 import withRedux from 'next-redux-wrapper';
+import { bindAllActions } from 'store/actions/helpers';
 import { ConnectedRouter, LOCATION_CHANGE } from 'connected-next-router';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import configureStore from 'store';
-import { actions as contentfulActions } from 'store/reducers/data';
 import { Notifs } from 'redux-notifications';
 import Layout from 'components/Layout';
 
@@ -28,17 +28,19 @@ class Application extends App {
         payload: {
           location: {
             pathname: ctx.asPath,
+            query: ctx.query,
           },
           action: 'POP',
         },
       });
-      await dispatch(contentfulActions.fetchPages());
     }
+
+    const { actions } = bindAllActions(dispatch);
 
     return {
       isServer: ctx.isServer,
       pageProps: {
-        ...(Component.getInitialProps ? await Component.getInitialProps(ctx, { ctx }) : {}),
+        ...(Component.getInitialProps ? await Component.getInitialProps(ctx, { actions }) : {}),
       },
     };
   }

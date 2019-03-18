@@ -1,7 +1,9 @@
 @import url("https://use.typekit.net/ccs2hmh.css");
+@import url("https://use.typekit.net/tcw0xsq.css");
 
 @import "~slick-carousel/slick/slick.css";
 @import "~react-infinite-calendar/styles.css";
+@import "~react-table/react-table.css";
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
@@ -9,9 +11,9 @@
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
-
 @import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
+@import "variables";
+// @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
@@ -48,6 +50,6 @@
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/print";
 
-@import "./vendor/redux-notifications";
-
+@import "~react-infinite-calendar/styles.css";
 @import "layout";
+@import "./vendor/redux-notifications";

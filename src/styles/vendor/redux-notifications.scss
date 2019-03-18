@@ -17,16 +17,18 @@
 }
 
 .notif {
-  position      : relative;
-  overflow      : hidden;
-  box-sizing    : border-box;
-  max-height    : 400px;
-  margin-bottom : 2px;
-  padding       : 20px;
-  color         : #FFFFFF;
-  border-radius : 4px;
-  box-shadow    : 0 0 1px 1px rgba(10, 10, 11, .125);
-  font          : 1rem normal $font-family-sans-serif;
+  @include content-box;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  max-height: 400px;
+  margin-bottom: 2px;
+  padding: 15px;
+  color: #fff;
+  border: 0;
+  border-radius: 0;
+  font: 1rem normal $font-family-sans-serif;
+  line-height: 1;
 }
 
 .notif--success {
@@ -48,7 +50,7 @@
 .notif__container {
   position  : fixed;
   z-index   : 1000;
-  top       : 10px;
+  top       : 0px;
   right     : 0;
   left      : 0;
   width     : 80%;
