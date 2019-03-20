@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { stack as Menu } from 'react-burger-menu';
-import ActiveLink from 'components/ActiveLink';
 import { decorator as reduxBurgerMenu } from 'redux-burger-menu';
 const DecoratedMenu = reduxBurgerMenu(Menu);
 import { WithUser, WithoutUser } from 'components/connect';
