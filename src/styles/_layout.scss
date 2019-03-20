@@ -483,7 +483,13 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     }
 
     img {
+      width: 100%;
       margin-bottom: 15px;
+
+      @include media("<lg") {
+        align-self: center;
+        width: 50%;
+      }
     }
 
     span {
