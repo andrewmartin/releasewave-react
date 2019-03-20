@@ -85,11 +85,10 @@ export default class UpcomingReleases extends Component {
         <Masonry
           style={style}
           className="upcoming-releases"
-          elementType={'ul'}
+          elementType="ul"
           options={masonryOptions}
           disableImagesLoaded={true}
-          updateOnEachImageLoad={false}
-          onLayoutComplete={this.handleLayoutReady}>
+          updateOnEachImageLoad={false}>
           {childElements}
         </Masonry>
       </InfiniteScroll>
