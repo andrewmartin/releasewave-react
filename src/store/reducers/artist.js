@@ -3,6 +3,7 @@ import { LOCATION_CHANGE } from 'connected-next-router';
 import { sendNotification } from 'store/actions/notifications';
 import { fetchAction } from 'store/actions/fetch';
 import { parseServerError } from 'store/helpers';
+import { showModal } from 'store/reducers/modal';
 
 const fetchArtistStart = createAction('artist/FETCH_ARTIST_START');
 const createArtist = createAction('artist/CREATE_ARTIST');
@@ -137,6 +138,15 @@ export default handleActions(
       },
     },
     [LOCATION_CHANGE]: {
+      next: state => {
+        return {
+          ...state,
+          isLoading: true,
+          serverError: null,
+        };
+      },
+    },
+    [showModal]: {
       next: state => {
         return {
           ...state,

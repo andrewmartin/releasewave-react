@@ -147,15 +147,14 @@ class Releases extends Component {
   render() {
     const {
       actions,
-      release,
-      release: { items },
+      release: { isLoading, items },
     } = this.props;
 
     const { editing, columns } = this.state;
 
     return (
       <div>
-        <EditReleaseModal release={{ ...release, ...editing }} actions={actions} />
+        <EditReleaseModal release={{ ...editing, isLoading }} actions={actions} />
         <header className="admin-header">
           <h3>Releases</h3>
           <Button color="primary" onClick={this.showCreate} size="sm">

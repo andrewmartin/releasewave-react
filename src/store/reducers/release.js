@@ -3,6 +3,7 @@ import { LOCATION_CHANGE } from 'connected-next-router';
 import { sendNotification } from 'store/actions/notifications';
 import { fetchAction } from 'store/actions/fetch';
 import { parseServerError } from 'store/helpers';
+import { showModal } from 'store/reducers/modal';
 
 const fetchReleaseStart = createAction('release/FETCH_RELEASE_START');
 const createRelease = createAction('release/CREATE_RELEASE');
@@ -192,7 +193,16 @@ export default handleActions(
       next: state => {
         return {
           ...state,
-          isLoading: false,
+          isLoading: true,
+          serverError: null,
+        };
+      },
+    },
+    [showModal]: {
+      next: state => {
+        return {
+          ...state,
+          isLoading: true,
           serverError: null,
         };
       },
