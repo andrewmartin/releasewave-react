@@ -5,12 +5,23 @@ import Artists from 'pages/Admin/Artists';
 import Releases from 'pages/Admin/Releases';
 
 class AdminRoutes extends Component {
+  componentDidMount() {
+    const {
+      user: { is_admin },
+    } = this.props;
+
+    if (!is_admin) window.location = process.env.SITE_ROOT;
+  }
+
   render() {
     const {
+      user,
       router: {
         location: { pathname },
       },
     } = this.props;
+
+    if (!user.is_admin) return null;
 
     if (!pathname) return null;
 

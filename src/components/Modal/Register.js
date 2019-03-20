@@ -27,7 +27,7 @@ export default class RegisterModal extends Component {
     return (
       <Modal type={TYPES.REGISTER}>
         <ModalBody>
-          <RegisterForm onSubmit={this.submit} user={user} />
+          <RegisterForm isLoading={user.isLoading} onSubmit={this.submit} user={user} />
         </ModalBody>
         <ModalFooter>
           <p>

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
+import { WithAdminUser } from 'components/connect';
 import { TYPES } from 'store/reducers/modal';
+import ActiveLink from 'components/ActiveLink';
 
 export default class UserDropdown extends Component {
   static defaultProps = {
@@ -27,17 +30,22 @@ export default class UserDropdown extends Component {
     const {
       isOpen,
       toggle,
-      user: { email },
+      user: { name, email },
     } = this.props;
 
     return (
       <Dropdown isOpen={isOpen} toggle={toggle}>
-        <DropdownToggle className="btn-sm btn-link" caret>
-          {email}
+        <DropdownToggle className="dropdown-btn" caret>
+          {name || email}
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem header>{email}</DropdownItem>
+          <DropdownItem onClick={this.showModal.bind(this, TYPES.EDIT_USER)}>{name || email}</DropdownItem>
           <DropdownItem divider />
+          <WithAdminUser>
+            <ActiveLink prefetch href="/admin">
+              <DropdownItem>Admin</DropdownItem>
+            </ActiveLink>
+          </WithAdminUser>
           <DropdownItem onClick={this.logout}>Logout</DropdownItem>
         </DropdownMenu>
       </Dropdown>

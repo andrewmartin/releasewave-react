@@ -22,7 +22,7 @@ export default class CreateReleaseModal extends Component {
     return (
       <Modal type={TYPES.CREATE_RELEASE}>
         <ModalBody>
-          <ReleaseForm onSubmit={this.submit} release={release} />
+          <ReleaseForm isLoading={release.isLoading} onSubmit={this.submit} release={release} />
         </ModalBody>
       </Modal>
     );

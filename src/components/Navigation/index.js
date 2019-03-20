@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
-
 import ActiveLink from 'components/ActiveLink';
 import UserDropdown from './components/UserDropdown';
+import { IoIosMenu } from 'react-icons/io';
+export const NavItems = () => (
+  <>
+    <li>
+      <ActiveLink href="/">Home</ActiveLink>
+    </li>
+    {/* <li>
+      <ActiveLink href="/releases">Releases</ActiveLink>
+    </li> */}
+  </>
+);
 
 export default class Navigation extends Component {
+  static defaultProps = {
+    className: 'primary-navigation',
+  };
+
   state = {
     dropdownOpen: false,
   };
@@ -23,23 +37,32 @@ export default class Navigation extends Component {
     }));
   };
 
+  toggleMenu = () => {
+    const {
+      actions: { toggleMenu },
+      burgerMenu: { isOpen },
+    } = this.props;
+
+    toggleMenu(!isOpen);
+  };
+
   render() {
-    const { actions, user } = this.props;
+    const { actions, user, className } = this.props;
     const { dropdownOpen } = this.state;
 
     return (
-      <nav className="primary-navigation">
+      <nav className={className}>
         <ul>
-          <li>
-            <ActiveLink href="/">Home</ActiveLink>
-          </li>
-          <li>
-            <ActiveLink href="/admin">Admin</ActiveLink>
-          </li>
-          <li>
-            <UserDropdown user={user} actions={actions} isOpen={dropdownOpen} toggle={this.toggle} />
-          </li>
+          <NavItems />
+          {user && (
+            <li>
+              <UserDropdown user={user} actions={actions} isOpen={dropdownOpen} toggle={this.toggle} />
+            </li>
+          )}
         </ul>
+        <button onClick={this.toggleMenu} className="mobile-toggle">
+          <IoIosMenu />
+        </button>
       </nav>
     );
   }

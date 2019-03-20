@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { LOCATION_CHANGE } from 'connected-next-router';
 import { sendNotification } from 'store/actions/notifications';
 import { fetchAction } from 'store/actions/fetch';
+import { parseServerError } from 'store/helpers';
 
 const fetchReleaseStart = createAction('release/FETCH_RELEASE_START');
 const createRelease = createAction('release/CREATE_RELEASE');
@@ -41,7 +42,7 @@ export const actions = {
 
     // no need to update with processed images
     const { image } = payload;
-    if (image.thumb) {
+    if (image && image.thumb) {
       delete payload.image;
     }
 
@@ -176,6 +177,7 @@ export default handleActions(
         return {
           ...state,
           ...payload,
+          items: state.items.concat(payload.items),
           isLoading: false,
           serverError: null,
         };
@@ -226,14 +228,9 @@ export default handleActions(
     },
     [releaseError]: {
       next: (state, { payload }) => {
-        let serverError = ['There was an error.'];
-        if (payload && payload.error && payload.error.response && payload.error.response.data) {
-          const { data } = payload.error.response;
-          serverError = data.errors || [data.error];
-        }
         return {
           ...state,
-          serverError,
+          serverError: parseServerError(payload),
           isLoading: false,
         };
       },

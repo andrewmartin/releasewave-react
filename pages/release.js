@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindAllActions } from 'store/actions/helpers';
 
-import ReleasePage from 'components/pages/Release';
+import { CreateReviewModal, EditReviewModal } from 'components/Modal';
+import ReleasePage from 'pages/Release';
 
 class Release extends React.Component {
   static async getInitialProps(ctx, { actions }) {
@@ -13,6 +14,7 @@ class Release extends React.Component {
 
     try {
       await actions.getRelease({ name });
+      await actions.getReviews(name);
     } catch (err) {
       console.log('err', err);
     }
@@ -24,13 +26,26 @@ class Release extends React.Component {
   }
 
   render() {
-    const { release } = this.props;
-    return <ReleasePage {...release} />;
+    const {
+      modal: { modalData },
+      release,
+      review,
+      actions,
+    } = this.props;
+    return (
+      <>
+        <CreateReviewModal actions={actions} release={release} />
+        <EditReviewModal actions={actions} release={release} review={modalData} />
+        <ReleasePage actions={actions} {...release} review={review} />
+      </>
+    );
   }
 }
 
-const mapStateToProps = ({ client, release }) => {
+const mapStateToProps = ({ modal, client, release, review }) => {
   return {
+    modal,
+    review,
     release,
     client,
   };

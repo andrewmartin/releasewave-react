@@ -49,7 +49,14 @@
 @import "~bootstrap/scss/spinners";
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/print";
-
+$breakpoints: $grid-breakpoints;
+@import "~include-media/dist/include-media";
 @import "~react-infinite-calendar/styles.css";
+// @import "~draft-js/dist/Draft.css";
+@import "~react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+// @import "~draft-js-static-toolbar-plugin/lib/plugin.css";
+
 @import "layout";
 @import "./vendor/redux-notifications";
+@import "./vendor/spinner";
+@import "./vendor/burger-menu";

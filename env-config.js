@@ -6,4 +6,5 @@ module.exports = {
   'process.env.CONTENTFUL_ACCESS_TOKEN': parsedEnv.CONTENTFUL_ACCESS_TOKEN,
   'process.env.API_ROOT': parsedEnv.API_ROOT,
   'process.env.SITE_ROOT': parsedEnv.SITE_ROOT,
+  'process.env.REACT_SPINKIT_NO_STYLES': 'true',
 };

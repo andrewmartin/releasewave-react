@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import { Formik } from 'formik';
-import { FileField, DateField, SelectField, TextField } from 'components/Forms/components';
+import { FileField, DateField, SelectField, TextField, EmbedField } from 'components/Forms/components';
 import Errors from 'components/Errors/Errors';
 
-const fields = ['name', 'description'];
+const fields = ['name'];
 
 class ReleaseForm extends Component {
   static defaultProps = {
@@ -18,7 +18,7 @@ class ReleaseForm extends Component {
     let initialValues = {};
 
     if (props.release) {
-      const { id, name, image, description, artists, release_date } = props.release;
+      const { id, name, image, embeds, description, artists, release_date } = props.release;
 
       initialValues = {
         id: id || '',
@@ -27,6 +27,7 @@ class ReleaseForm extends Component {
         description: description || '',
         artist_ids: artists ? artists.map(({ id, name }) => ({ value: id, label: name })) : [],
         release_date: release_date || '',
+        embed_code: embeds ? embeds.map(embed => embed.content) : [],
       };
     } else {
       fields.forEach(field => {
@@ -38,6 +39,7 @@ class ReleaseForm extends Component {
   }
 
   renderForm = props => {
+    const { isLoading } = this.props;
     const { values, handleSubmit, isValid } = props;
 
     const classes = cx('webform', {
@@ -50,6 +52,9 @@ class ReleaseForm extends Component {
         {fields.map(name => (
           <TextField key={name} name={name} {...props} />
         ))}
+        <div className="form-group">
+          <TextField name="description" type="textarea" {...props} />
+        </div>
         <div className="field-group">
           <DateField label="Release Date" name="release_date" {...props} />
         </div>
@@ -60,7 +65,8 @@ class ReleaseForm extends Component {
         <div className="field-group">
           <SelectField name="artist_ids" label="Artist(s)" {...props} />
         </div>
-        <button className="btn btn-lg btn-primary" type="submit">
+        <EmbedField placeholder="Paste embed code here" name="embed_code" label="Embed" {...props} />
+        <button disabled={isLoading} className="btn btn-lg btn-primary" type="submit">
           Submit
         </button>
       </form>
@@ -95,9 +101,9 @@ class ReleaseForm extends Component {
   };
 
   render() {
-    const {
-      release: { serverError },
-    } = this.props;
+    const { release } = this.props;
+    const serverError = release ? release.serverError : null;
+
     const { initialValues } = this.state;
 
     return (

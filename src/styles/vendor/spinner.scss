@@ -1,0 +1,60 @@
+.spinner {
+  width: 70px;
+  height: 60px;
+  margin: 100px auto;
+  text-align: center;
+  font-size: 18px;
+}
+
+.spinner> div {
+  display: inline-block;
+  width: 6px;
+  height: 100%;
+  margin: 0 1px;
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  background-color: color("pink");
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -.9s;
+  animation-delay: -.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -.8s;
+  animation-delay: -.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    -webkit-transform: scaleY(.3);
+  }
+  20% {
+    -webkit-transform: scaleY(1.1);
+  }
+}
+
+@keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    -webkit-transform: scaleY(.4);
+    transform: scaleY(.4);
+  }  20% {
+    -webkit-transform: scaleY(1.1);
+    transform: scaleY(1.1);
+  }
+}

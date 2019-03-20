@@ -8,15 +8,16 @@ import AdminRoutes from 'pages/Admin/Routes';
 
 class Admin extends React.Component {
   render() {
-    const { rehydrated } = this.props;
+    const { user, rehydrated } = this.props;
     if (!rehydrated) return null;
 
-    return <AdminRoutes />;
+    return <AdminRoutes user={user} />;
   }
 }
 
-const mapStateToProps = ({ artist, client, _persist }) => {
+const mapStateToProps = ({ user, artist, client, _persist }) => {
   return {
+    user,
     rehydrated: Boolean(_persist && _persist.rehydrated),
     client,
     artist,

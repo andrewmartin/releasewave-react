@@ -5,7 +5,9 @@ import { Formik } from 'formik';
 import Errors from 'components/Errors/Errors';
 
 class Register extends Component {
-  renderForm(props) {
+  renderForm = props => {
+    const { isLoading } = this.props;
+
     const { values, errors, handleChange, handleSubmit, handleBlur, isValid, touched } = props;
 
     const classes = cx('webform', {
@@ -45,12 +47,12 @@ class Register extends Component {
           />
         </div>
         <Errors />
-        <button className="btn btn-lg btn-primary" type="submit">
+        <button disabled={isLoading} className="btn btn-lg btn-primary" type="submit">
           Submit
         </button>
       </form>
     );
-  }
+  };
 
   onSubmit = async (data, actions) => {
     await this.props.onSubmit(data);

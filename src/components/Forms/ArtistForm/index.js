@@ -39,6 +39,8 @@ class ArtistForm extends Component {
   }
 
   renderForm = props => {
+    const { isLoading } = this.props;
+
     const { values, errors, handleChange, handleSubmit, handleBlur, isValid, touched } = props;
 
     const classes = cx('webform', {
@@ -69,7 +71,7 @@ class ArtistForm extends Component {
             <img src={values.image.large} alt="" />
           </div>
         )}
-        <button className="btn btn-lg btn-primary" type="submit">
+        <button disabled={isLoading} className="btn btn-lg btn-primary" type="submit">
           Submit
         </button>
       </form>

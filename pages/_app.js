@@ -47,6 +47,7 @@ class Application extends App {
 
   componentDidMount() {
     const { store } = this.props;
+
     persistStore(store);
   }
 

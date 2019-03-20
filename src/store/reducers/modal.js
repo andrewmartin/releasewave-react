@@ -11,11 +11,14 @@ export const TYPES = {
   EDIT_ARTIST: 'EDIT_ARTIST',
   CREATE_RELEASE: 'CREATE_RELEASE',
   EDIT_RELEASE: 'EDIT_RELEASE',
+  CREATE_REVIEW: 'CREATE_REVIEW',
+  EDIT_REVIEW: 'EDIT_REVIEW',
+  EDIT_USER: 'EDIT_USER',
 };
 
 export const actions = {
-  showModal: payload => dispatch => {
-    dispatch(showModal(payload));
+  showModal: (type, modalData) => dispatch => {
+    dispatch(showModal({ type, modalData }));
   },
   hideModal: () => dispatch => {
     dispatch(hideModal());
@@ -24,15 +27,19 @@ export const actions = {
 
 const defaultState = {
   activeModal: null,
+  modalData: null,
 };
 
 export default handleActions(
   {
     [showModal]: {
       next: (state, { payload }) => {
+        const { type, modalData } = payload;
+
         return {
           ...state,
-          activeModal: payload,
+          activeModal: type,
+          modalData: modalData,
         };
       },
     },

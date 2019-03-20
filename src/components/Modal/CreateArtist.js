@@ -22,7 +22,7 @@ export default class CreateArtistModal extends Component {
     return (
       <Modal type={TYPES.CREATE_ARTIST}>
         <ModalBody>
-          <ArtistForm onSubmit={this.submit} artist={artist} />
+          <ArtistForm isLoading={artist.isLoading} onSubmit={this.submit} artist={artist} />
         </ModalBody>
       </Modal>
     );

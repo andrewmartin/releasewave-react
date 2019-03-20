@@ -3,7 +3,11 @@ import cx from 'classnames';
 import { Formik } from 'formik';
 
 class Login extends Component {
-  renderForm(props) {
+  renderForm = props => {
+    const {
+      user: { isLoading },
+    } = this.props;
+
     const { values, errors, handleChange, handleSubmit, handleBlur, isValid, touched } = props;
 
     const classes = cx('webform', {
@@ -43,12 +47,12 @@ class Login extends Component {
           />
         </div>
         <Errors />
-        <button className="btn btn-lg btn-primary" type="submit">
+        <button disabled={isLoading} className="btn btn-lg btn-primary" type="submit">
           Submit
         </button>
       </form>
     );
-  }
+  };
 
   onSubmit = async (data, actions) => {
     await this.props.onSubmit(data);
@@ -71,7 +75,7 @@ class Login extends Component {
 
   render() {
     const {
-      user: { serverError },
+      user: { serverError, isLoading },
     } = this.props;
 
     const Errors = () => (serverError ? <div className="form-feedback">{serverError}</div> : null);

@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { LOCATION_CHANGE } from 'connected-next-router';
 import { sendNotification } from 'store/actions/notifications';
 import { fetchAction } from 'store/actions/fetch';
+import { parseServerError } from 'store/helpers';
 
 const fetchArtistStart = createAction('artist/FETCH_ARTIST_START');
 const createArtist = createAction('artist/CREATE_ARTIST');
@@ -39,7 +40,7 @@ export const actions = {
 
     // no need to update with processed images
     const { image } = payload;
-    if (image.thumb) {
+    if (image && image.thumb) {
       delete payload.image;
     }
 
@@ -175,8 +176,6 @@ export default handleActions(
     },
     [editArtist]: {
       next: (state, { payload }) => {
-        console.log('payload', payload);
-
         return {
           ...state,
           ...payload,
@@ -198,14 +197,9 @@ export default handleActions(
     },
     [artistError]: {
       next: (state, { payload }) => {
-        let serverError = ['There was an error.'];
-        if (payload && payload.error && payload.error.response && payload.error.response.data) {
-          const { data } = payload.error.response;
-          serverError = data.errors || [data.error];
-        }
         return {
           ...state,
-          serverError,
+          serverError: parseServerError(payload),
           isLoading: false,
         };
       },

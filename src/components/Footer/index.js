@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import Navigation from 'components/Navigation';
-import Logo from 'components/Logo';
 
 export default class Footer extends Component {
   render() {
+    const { burgerMenu } = this.props;
+
     return (
       <footer className="mastfoot">
         <div className="container">
-          <Logo />
-          <Navigation logout={this.props.logout} />
+          <h3>release wave</h3>
+          <Navigation burgerMenu={burgerMenu} className="secondary-navigation" logout={this.props.logout} />
         </div>
       </footer>
     );

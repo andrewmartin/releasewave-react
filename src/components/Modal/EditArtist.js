@@ -21,7 +21,7 @@ export default class EditArtistModal extends Component {
     return (
       <Modal type={TYPES.EDIT_ARTIST}>
         <ModalBody>
-          <ArtistForm onSubmit={this.submit} artist={artist} />
+          <ArtistForm isLoading={artist.isLoading} onSubmit={this.submit} artist={artist} />
         </ModalBody>
       </Modal>
     );

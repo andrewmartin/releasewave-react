@@ -12,19 +12,21 @@ export default class LoginModal extends Component {
     } = this.props;
 
     const { payload } = await loginUser(data);
+    console.log('payload', payload);
     if (!payload.error) {
       hideModal();
     }
   };
   render() {
     const {
+      user,
       actions: { showModal },
     } = this.props;
 
     return (
       <Modal type={TYPES.LOGIN}>
         <ModalBody>
-          <LoginForm onSubmit={this.submit} user={this.props.user} />
+          <LoginForm isLoading={user.isLoading} onSubmit={this.submit} user={user} />
         </ModalBody>
         <ModalFooter>
           <p>

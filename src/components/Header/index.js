@@ -4,13 +4,13 @@ import Logo from 'components/Logo';
 
 export default class Header extends Component {
   render() {
-    const { actions, user } = this.props;
+    const { burgerMenu, actions, user } = this.props;
 
     return (
       <header className="masthead">
         <div className="container">
           <Logo />
-          <Navigation user={user} actions={actions} />
+          <Navigation burgerMenu={burgerMenu} user={user} actions={actions} />
         </div>
       </header>
     );

@@ -21,7 +21,7 @@ export default class EditReleaseModal extends Component {
     return (
       <Modal type={TYPES.EDIT_RELEASE}>
         <ModalBody>
-          <ReleaseForm onSubmit={this.submit} release={release} />
+          <ReleaseForm isLoading={release.isLoading} onSubmit={this.submit} release={release} />
         </ModalBody>
       </Modal>
     );

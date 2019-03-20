@@ -6,7 +6,14 @@ class Dashboard extends Component {
   render() {
     const { children } = this.props;
 
-    return <h3>Dashboard</h3>;
+    return (
+      <div>
+        <h2>Admin Dashboard</h2>
+        <p>Manage content on the left, or create reviews by navigating to the frontend of the site.</p>
+
+        <p className="form-feedback">You must create an artist first in order to associate it with a release.</p>
+      </div>
+    );
   }
 }
 

@@ -6,7 +6,8 @@ import { bindAllActions } from 'store/actions/helpers';
 import Head from 'components/head';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
-import { RegisterModal, LoginModal } from 'components/Modal';
+import BurgerMenu from 'components/BurgerMenu';
+import { RegisterModal, LoginModal, EditUserModal } from 'components/Modal';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -14,26 +15,29 @@ class Layout extends React.Component {
   };
 
   render() {
-    const { user, actions, Component, ...restProps } = this.props;
+    const { burgerMenu, user, actions, Component, ...restProps } = this.props;
 
     return (
       <Fragment>
+        <BurgerMenu />
         <RegisterModal actions={actions} user={user} />
         <LoginModal actions={actions} user={user} />
+        <EditUserModal actions={actions} user={user} />
         <div className="app">
           <Head title="Release Wave" />
           <div className="layout">
-            <Header user={user} actions={actions} />
+            <Header burgerMenu={burgerMenu} user={user} actions={actions} />
             <Component {...restProps} />
           </div>
-          <Footer />
+          <Footer burgerMenu={burgerMenu} />
         </div>
       </Fragment>
     );
   }
 }
 
-const mapStateToProps = ({ modal, user }) => ({
+const mapStateToProps = ({ burgerMenu, modal, user }) => ({
+  burgerMenu,
   modal,
   user,
 });

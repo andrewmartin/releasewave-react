@@ -54,3 +54,6 @@ export { default as CreateArtistModal } from './CreateArtist';
 export { default as EditArtistModal } from './EditArtist';
 export { default as CreateReleaseModal } from './CreateRelease';
 export { default as EditReleaseModal } from './EditRelease';
+export { default as CreateReviewModal } from './CreateReview';
+export { default as EditReviewModal } from './EditReview';
+export { default as EditUserModal } from './EditUser';

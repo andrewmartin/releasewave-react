@@ -10,7 +10,6 @@ class Artist extends React.Component {
 
     try {
       const data = await getArtists();
-      console.log('data', data);
     } catch (err) {
       console.log('err');
     }
