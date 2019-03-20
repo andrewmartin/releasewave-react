@@ -129,12 +129,8 @@ export default handleActions(
       },
     },
     [LOCATION_CHANGE]: {
-      next: state => {
-        return {
-          ...state,
-          isLoading: true,
-          serverError: null,
-        };
+      next: () => {
+        return defaultState;
       },
     },
     [createReview]: {

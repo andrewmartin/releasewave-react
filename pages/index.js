@@ -7,8 +7,11 @@ class Home extends React.Component {
   static async getInitialProps(ctx, { actions }) {
     const { isServer } = ctx;
 
+    const { getReleases, clearReleases } = actions;
+
     try {
-      await actions.getReleases();
+      clearReleases();
+      await getReleases();
     } catch (err) {
       console.log('err', err);
     }

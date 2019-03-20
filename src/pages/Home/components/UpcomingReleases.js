@@ -19,14 +19,14 @@ class UpcomingReleasesItem extends Component {
       artists,
       release_date,
       description,
-      image: { square },
+      image: { full },
     } = this.props;
 
     return (
       <li className="upcoming-release">
         <ActiveLink href={`/releases/${slug}`}>
           <figure>
-            <img src={square} alt={name} />
+            <img src={full} alt={name} />
           </figure>
           <span>
             <strong>{name}</strong>

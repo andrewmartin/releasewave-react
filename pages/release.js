@@ -20,9 +20,17 @@ class Release extends React.Component {
     }
 
     return {
+      name,
       actions,
       isServer,
     };
+  }
+
+  async componentDidMount() {
+    const { name, actions } = this.props;
+
+    await actions.getRelease({ name });
+    await actions.getReviews(name);
   }
 
   render() {

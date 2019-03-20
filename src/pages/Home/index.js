@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Head from 'components/head';
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 import UpcomingReleases from './components/UpcomingReleases';
 

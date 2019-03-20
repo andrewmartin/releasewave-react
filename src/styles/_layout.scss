@@ -89,6 +89,10 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     font-size: 40px;
     font-weight: 800;
 
+    @include media("<md") {
+      flex-wrap: wrap;
+    }
+
     &:hover {
       text-decoration: none;
       span {
@@ -103,6 +107,10 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     margin: 0 15px 0 0;
     background: transparent url("/static/releasewave-logo.svg") no-repeat scroll top left;
     background-size: contain;
+
+    @include media("<md") {
+      margin: 0 20px 5px;
+    }
   }
 
   span {
@@ -420,6 +428,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
     @include media("<lg") {
       flex-wrap: wrap;
+      padding: 20px;
     }
 
     h2 {
@@ -428,12 +437,20 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
       font-size: 60px;
       line-height: 1.2;
 
+      @include media("<lg") {
+        font-size: 40px;
+      }
+
       cite {
         display: block;
         color: $gray-500;
         font-size: 30px;
         font-weight: 200;
         font-style: normal;
+
+        @include media("<lg") {
+          font-size: 25px;
+        }
       }
     }
   }
@@ -444,6 +461,10 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     flex-direction: column;
     justify-content: center;
     padding-right: 50px;
+
+    @include media("<md") {
+      padding-right: 0;
+    }
   }
 
   figure {
@@ -456,6 +477,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     @include media("<lg") {
       order: -1;
       width: 100%;
+      margin: 0 0 30px;
     }
 
     img {
@@ -518,6 +540,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     margin: 0;
     letter-spacing: -1px;
     font-size: 40px;
+    line-height: 1.2;
   }
 
   &__header {
@@ -541,16 +564,35 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   padding: 30px;
   background: #fff;
 
+  @include media("<lg") {
+    flex-wrap: wrap;
+  }
+
   &__img {
     align-self: flex-start;
+    order: 2;
     width: 15%;
     margin-right: 50px;
     text-align: center;
+
+    @include media("<lg") {
+      width: 100%;
+      margin: 0 0 25px;
+
+      img {
+        max-width: 50%;
+      }
+    }
 
     span {
       @include date-format;
       display: inline-block;
       margin-top: 20px;
+
+      @include media("<lg") {
+        display: block;
+        width: 100%;
+      }
     }
   }
 
@@ -566,7 +608,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     }
 
     h3 {
-      margin-bottom: 0;
+      margin-bottom: 10px;
     }
 
     p {
@@ -602,10 +644,19 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
     img {
       width: 120px;
+
+      @include media("<md") {
+        width: 100%;
+      }
     }
 
     figure {
       margin: 0 25px 0 0;
+
+      @include media("<md") {
+        width: 100%;
+        margin: 0 0 20px;
+      }
     }
 
     .upcoming-release__description {
@@ -621,6 +672,10 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
       padding: 30px;
       color: $gray-800;
       background: #fff;
+
+      @include media("<md") {
+        flex-wrap: wrap;
+      }
 
       p {
         margin: 20px 0;
@@ -698,11 +753,24 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
   > div {
     @include content-box;
+    position: relative;
     display: flex;
+    overflow: hidden;
     flex-direction: row;
     justify-content: center;
+    max-width: 100%;
     margin: 0 0 20px;
     padding: 20px;
+    padding-top: 56.25%;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
   }
 }
 

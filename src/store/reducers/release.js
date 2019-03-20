@@ -6,6 +6,7 @@ import { parseServerError } from 'store/helpers';
 
 const fetchReleaseStart = createAction('release/FETCH_RELEASE_START');
 const createRelease = createAction('release/CREATE_RELEASE');
+const clearReleases = createAction('release/CLEAR_RELEASES');
 const editReleaseStart = createAction('release/EDIT_RELEASE_START');
 const editRelease = createAction('release/EDIT_RELEASE');
 const deleteRelease = createAction('release/DELETE_RELEASE');
@@ -146,6 +147,7 @@ export const actions = {
       );
     }
   },
+  clearReleases: () => dispatch => dispatch(clearReleases()),
 };
 
 const defaultState = {
@@ -167,6 +169,16 @@ const replaceItem = (stateKey, payload) => {
 
 export default handleActions(
   {
+    [clearReleases]: {
+      next: state => {
+        return {
+          ...state,
+          isLoading: true,
+          serverError: null,
+          items: [],
+        };
+      },
+    },
     [fetchReleaseStart]: {
       next: state => {
         return {
