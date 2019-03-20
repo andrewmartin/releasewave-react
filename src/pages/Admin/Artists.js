@@ -11,6 +11,7 @@ class Artists extends Component {
     {
       Header: 'id',
       accessor: 'id',
+      show: false,
     },
     {
       Header: 'Name',

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ActiveLink from 'components/ActiveLink';
 import UserDropdown from './components/UserDropdown';
 import { WithAdminUser } from 'components/connect';
-import { IoIosMenu } from 'react-icons/io';
+import { FaBars } from 'react-icons/fa';
+
 export const NavItems = () => (
   <>
     <li>
@@ -67,7 +68,7 @@ export default class Navigation extends Component {
         </ul>
         {burgerMenu && (
           <button onClick={this.toggleMenu} className="mobile-toggle">
-            <IoIosMenu />
+            <FaBars />
           </button>
         )}
       </nav>

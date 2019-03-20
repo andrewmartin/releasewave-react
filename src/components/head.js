@@ -40,7 +40,7 @@ class Head extends Component {
     return (
       <NextHead>
         <meta charSet="UTF-8" />
-        <title />
+        <title>{this.title()}</title>
 
         <script src="https://cdn.polyfill.io/v3/polyfill.min.js" />
 

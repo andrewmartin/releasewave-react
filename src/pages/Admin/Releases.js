@@ -8,13 +8,14 @@ import { TYPES } from 'store/reducers/modal';
 import Table from 'components/Table/Table';
 import { EditReleaseModal } from 'components/Modal';
 
-class Artists extends Component {
+class Releases extends Component {
   state = {
     editing: null,
     columns: [
       {
         Header: 'id',
         accessor: 'id',
+        show: false,
       },
       {
         Header: 'Name',
@@ -48,7 +49,7 @@ class Artists extends Component {
         accessor: ({ artists }) => artists.map(artist => artist.name).join(','),
       },
       {
-        Header: '',
+        Header: 'Actions',
         Cell: ({ original }) => {
           const {
             actions: { deleteRelease },
@@ -169,4 +170,4 @@ class Artists extends Component {
   }
 }
 
-export default withAdmin(Artists);
+export default withAdmin(Releases);
