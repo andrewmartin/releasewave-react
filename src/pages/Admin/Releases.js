@@ -46,7 +46,11 @@ class Releases extends Component {
       {
         id: 'artists',
         Header: 'Artists',
-        accessor: ({ artists }) => artists.map(artist => artist.name).join(','),
+        accessor: ({ artists }) => {
+          if (artists && artists.length) {
+            return artists.map(artist => artist.name).join(',');
+          }
+        },
       },
       {
         Header: 'Actions',

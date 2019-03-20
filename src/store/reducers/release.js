@@ -193,7 +193,7 @@ export default handleActions(
       next: state => {
         return {
           ...state,
-          isLoading: true,
+          isLoading: false,
           serverError: null,
         };
       },
@@ -202,7 +202,7 @@ export default handleActions(
       next: state => {
         return {
           ...state,
-          isLoading: true,
+          isLoading: false,
           serverError: null,
         };
       },
