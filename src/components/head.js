@@ -20,7 +20,7 @@ class Head extends Component {
         <meta charSet="UTF-8" />
         <title>Release Wave - {title} - Discover the Next & Best Wave of Music</title>
 
-        <script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=String.prototype.startsWith,Array.from,Array.prototype.fill,Array.prototype.keys,Array.prototype.findIndex,Number.isInteger&flags=gated" />
+        <script src="https://cdn.polyfill.io/v3/polyfill.min.js" />
 
         <meta name="description" content={description + ' - Discover The Next, Best Wave of Music'} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
