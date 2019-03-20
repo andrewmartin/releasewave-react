@@ -30,7 +30,7 @@ export default class HomePage extends Component {
 
     return (
       <div className="home-page">
-        <Head title={`Release Wave | Home`} />
+        <Head title="Home" />
         <div className="container-fluid">
           <div>
             <main>
