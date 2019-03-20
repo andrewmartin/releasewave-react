@@ -10,19 +10,41 @@ class Head extends Component {
     description: "Release Wave is the best way to see what's coming next in the world of music.",
     ogImage: defaultOGImage,
     url: process.env.SITE_ROOT,
+    ogImageWidth: 1200,
+    ogImageHeight: 700,
+  };
+
+  title = () => {
+    const { title } = this.props;
+
+    if (title) {
+      return `${title} - Release Wave - Discover the Next & Best Wave of Music`;
+    }
+
+    return 'Release Wave - Discover the Next & Best Wave of Music';
+  };
+
+  description = () => {
+    const { description } = this.props;
+
+    if (description) {
+      return `${description} - Release Wave`;
+    }
+
+    return 'Release Wave - Discover the Next & Best Wave of Music';
   };
 
   render() {
-    const { description, title, url, ogImage } = this.props;
+    const { url, ogImage, ogImageWidth, ogImageHeight } = this.props;
 
     return (
       <NextHead>
         <meta charSet="UTF-8" />
-        <title>Release Wave - {title} - Discover the Next & Best Wave of Music</title>
+        <title />
 
         <script src="https://cdn.polyfill.io/v3/polyfill.min.js" />
 
-        <meta name="description" content={description + ' - Discover The Next, Best Wave of Music'} />
+        <meta name="description" content={this.description()} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" sizes="57x57" href="/static/apple-touch-icon-57x57.png" />
@@ -44,14 +66,14 @@ class Head extends Component {
         <meta name="msapplication-square310x310logo" content="/static/largetile.png" />
 
         <meta property="og:url" content={url} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
+        <meta property="og:title" content={this.title()} />
+        <meta property="og:description" content={this.description()} />
         <meta name="twitter:site" content={url} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content={ogImage} />
         <meta property="og:image" content={ogImage} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="700" />
+        <meta property="og:image:width" content={ogImageWidth} />
+        <meta property="og:image:height" content={ogImageHeight} />
       </NextHead>
     );
   }

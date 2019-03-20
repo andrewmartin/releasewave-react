@@ -67,9 +67,12 @@ export default class ReleasePage extends Component {
       <div className="release-page">
         <div className="release-page__bg" style={{ backgroundImage: `url(${bgImage})` }} />
         <Head
-          title={`${name} - ${artistNames} | Release Wave`}
+          title={`${name} - ${artistNames}`}
           description={striptags(description)}
           url={`${process.env.SITE_ROOT}/releases/${slug}`}
+          ogImage={image.full}
+          ogImageWidth={500}
+          ogImageHeight={500}
         />
         <div className="container">
           <header className="release-page__header">
