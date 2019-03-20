@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NextHead from 'next/head';
 import { string } from 'prop-types';
 
-const defaultOGImage = '/static/releasewave-logo.svg';
+const defaultOGImage = '/static/ogImage.png';
 
 class Head extends Component {
   static defaultProps = {
@@ -18,11 +18,11 @@ class Head extends Component {
     return (
       <NextHead>
         <meta charSet="UTF-8" />
-        <title> {title} </title>
+        <title>Release Wave - {title} - Discover the Next & Best Wave of Music</title>
 
         <script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=String.prototype.startsWith,Array.from,Array.prototype.fill,Array.prototype.keys,Array.prototype.findIndex,Number.isInteger&flags=gated" />
 
-        <meta name="description" content={description} />
+        <meta name="description" content={description + ' - Discover The Next, Best Wave of Music'} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" sizes="57x57" href="/static/apple-touch-icon-57x57.png" />
@@ -51,7 +51,7 @@ class Head extends Component {
         <meta name="twitter:image" content={ogImage} />
         <meta property="og:image" content={ogImage} />
         <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+        <meta property="og:image:height" content="700" />
       </NextHead>
     );
   }
