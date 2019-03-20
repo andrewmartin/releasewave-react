@@ -592,8 +592,8 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   &__img {
     align-self: flex-start;
     order: 2;
-    width: 15%;
-    margin-right: 50px;
+    width: 25%;
+    margin-left: 50px;
     text-align: center;
 
     @include media("<lg") {
