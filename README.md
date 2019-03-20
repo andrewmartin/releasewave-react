@@ -4,10 +4,17 @@ This project uses Next.js. [Original Next.js README here](doc/NEXT.md)
 
 ## Roadmap
 
-- [ ] Artists Landing Page
-- [ ] Artists Index
-- [ ] Releases Index
-- [ ] Review Replies
+- [ ] Artists
+  - [ ] Artists Index
+  - [ ] Artists Landing Page
+- [ ] Search
+- [ ] Releases
+  - [ ] Index
+- [ ] Reviews
+  - [ ] Review Replies
+  - [ ] Review Ratings
+  - [ ] For Fans Of
+  - [ ] Genres
 - [ ] User Index
 - [ ] User Profile
 
