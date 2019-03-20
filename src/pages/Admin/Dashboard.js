@@ -9,7 +9,10 @@ class Dashboard extends Component {
     return (
       <div>
         <h2>Admin Dashboard</h2>
-        <p>Manage content on the left, or create reviews by navigating to the frontend of the site.</p>
+        <p>
+          Manage content using the tabs above, or create reviews by navigating to the{' '}
+          <a href="/releases/morbid-stuff">frontend of the site</a>.
+        </p>
 
         <p className="form-feedback">You must create an artist first in order to associate it with a release.</p>
       </div>

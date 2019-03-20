@@ -23,7 +23,7 @@ class UpcomingReleasesItem extends Component {
     } = this.props;
 
     return (
-      <li>
+      <li className="upcoming-release">
         <ActiveLink href={`/releases/${slug}`}>
           <figure>
             <img src={square} alt={name} />
@@ -31,7 +31,7 @@ class UpcomingReleasesItem extends Component {
           <span>
             <strong>{name}</strong>
             <em>{artists.map(a => a.name).join(',')}</em>
-            <p>{description}</p>
+            <div className="upcoming-release__description" dangerouslySetInnerHTML={{ __html: description }} />
             {release_date && <cite>{formatDate(release_date)}</cite>}
           </span>
         </ActiveLink>
@@ -61,7 +61,7 @@ export default class UpcomingReleases extends Component {
     if (!items) return null;
 
     const childElements = items.map(item => {
-      return <UpcomingReleasesItem key={item.id} {...item} />;
+      return <UpcomingReleasesItem key={item.id + item.slug} {...item} />;
     });
 
     if (isLoading) {
@@ -84,7 +84,7 @@ export default class UpcomingReleases extends Component {
       <InfiniteScroll hasMore={hasMore} isLoading={isLoading} onScroll={onFetchMore}>
         <Masonry
           style={style}
-          className={'upcoming-releases'}
+          className="upcoming-releases"
           elementType={'ul'}
           options={masonryOptions}
           disableImagesLoaded={true}
