@@ -1,18 +1,18 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, { Component } from 'react';
-import { IoLogoInstagram, IoLogoFacebook, IoMdMusicalNotes, IoIosCloudy } from 'react-icons/io';
+import { FaSpotify, FaBandcamp, FaSoundcloud, FaFacebook } from 'react-icons/fa';
 const Social = {
   bandcamp: {
-    Icon: IoMdMusicalNotes,
+    Icon: FaBandcamp,
   },
   soundcloud: {
-    Icon: IoIosCloudy,
+    Icon: FaSoundcloud,
   },
   spotify: {
-    Icon: IoLogoInstagram,
+    Icon: FaSpotify,
   },
   facebook: {
-    Icon: IoLogoFacebook,
+    Icon: FaFacebook,
   },
 };
 

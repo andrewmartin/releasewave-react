@@ -8,21 +8,33 @@ import Logo from 'components/Logo';
 import { NavItems } from 'components/Navigation';
 
 class SlideMenu extends Component {
+  onClick = () => {
+    const {
+      actions: { toggleMenu },
+    } = this.props;
+
+    toggleMenu(false);
+  };
+
   render() {
     return (
-      <DecoratedMenu>
-        <header className="menu-header">
-          <Logo />
-        </header>
-        <nav className="slide-menu">
-          <ul>
-            <NavItems />
-            <WithUser>
-              <ActiveLink href="/admin">Admin</ActiveLink>
-            </WithUser>
-          </ul>
-        </nav>
-      </DecoratedMenu>
+      <div onClick={this.onClick}>
+        <DecoratedMenu>
+          <header className="menu-header">
+            <Logo />
+          </header>
+          <nav className="slide-menu">
+            <ul>
+              <NavItems />
+              <WithUser>
+                <li>
+                  <ActiveLink href="/admin">Admin</ActiveLink>
+                </li>
+              </WithUser>
+            </ul>
+          </nav>
+        </DecoratedMenu>
+      </div>
     );
   }
 }

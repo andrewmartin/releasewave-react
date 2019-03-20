@@ -19,7 +19,7 @@ class Layout extends React.Component {
 
     return (
       <Fragment>
-        <BurgerMenu />
+        <BurgerMenu actions={actions} />
         <RegisterModal actions={actions} user={user} />
         <LoginModal actions={actions} user={user} />
         <EditUserModal actions={actions} user={user} />
