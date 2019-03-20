@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import ActiveLink from 'components/ActiveLink';
 import UserDropdown from './components/UserDropdown';
+import { WithAdminUser } from 'components/connect';
 import { IoIosMenu } from 'react-icons/io';
 export const NavItems = () => (
   <>
     <li>
       <ActiveLink href="/">Home</ActiveLink>
     </li>
-    {/* <li>
-      <ActiveLink href="/releases">Releases</ActiveLink>
-    </li> */}
+    <WithAdminUser>
+      <>
+        <li>
+          <ActiveLink href="/admin">Admin</ActiveLink>
+        </li>
+      </>
+    </WithAdminUser>
   </>
 );
 

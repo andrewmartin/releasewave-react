@@ -5,6 +5,7 @@ import Head from 'components/head';
 import { WithOwnUser } from 'components/connect';
 import { TYPES } from 'store/reducers/modal';
 import { WithUser } from 'components/connect';
+import striptags from 'striptags';
 
 export default class ReleasePage extends Component {
   showCreateReview = () => {
@@ -67,7 +68,7 @@ export default class ReleasePage extends Component {
         <div className="release-page__bg" style={{ backgroundImage: `url(${bgImage})` }} />
         <Head
           title={`${name} - ${artistNames} | Release Wave`}
-          description={description}
+          description={striptags(description)}
           url={`${process.env.SITE_ROOT}/releases/${slug}`}
         />
         <div className="container">
@@ -79,11 +80,13 @@ export default class ReleasePage extends Component {
                   <ArtistLink key={artist.id} artist={artist} />
                 ))}
               </h2>
-              <p>{description}</p>
+              <div className="release-page__description" dangerouslySetInnerHTML={{ __html: description }} />
               <div className="embeds">
-                {embeds.map((embed, index) => (
-                  <div key={index} dangerouslySetInnerHTML={{ __html: embed.content }} />
-                ))}
+                {embeds
+                  .filter(({ content }) => content)
+                  .map((embed, index) => (
+                    <div key={index} dangerouslySetInnerHTML={{ __html: embed.content }} />
+                  ))}
               </div>
             </article>
             <figure>

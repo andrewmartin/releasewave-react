@@ -278,34 +278,49 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   }
 
   aside {
-    @include make-col(2);
-  }
+    padding-bottom: 20px;
 
-  main {
-    @include make-col-offset(1);
-    @include make-col(9);
-  }
-
-  aside> ul {
-    margin: 0;
-
-    @extend .list-unstyled;
-
-    li {
-      margin: 0 0 15px;
-
-      a {
-        @extend .btn;
-        @extend .btn-info;
-        @extend .btn-sm;
-        @extend .btn-block;
-
-        &.is-active {
-          @extend .disabled;
-        }
-      }
+    .is-active {
+      @extend .active;
     }
   }
+
+  // aside {
+  //   @include make-col(12);
+
+  //   @include media(">lg") {
+  //     @include make-col(2);
+  //   }
+  // }
+
+  main {
+    @include make-col(12);
+
+    @include media(">lg") {
+      @include make-col(12);
+    }
+  }
+
+  // aside> ul {
+  //   margin: 0;
+
+  //   @extend .list-unstyled;
+
+  //   li {
+  //     margin: 0 0 15px;
+
+  //     a {
+  //       @extend .btn;
+  //       @extend .btn-info;
+  //       @extend .btn-sm;
+  //       @extend .btn-block;
+
+  //       &.is-active {
+  //         @extend .disabled;
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 .admin-header {

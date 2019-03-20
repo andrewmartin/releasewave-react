@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import { Formik } from 'formik';
-import { FileField, DateField, SelectField, TextField, EmbedField } from 'components/Forms/components';
+import { FileField, DateField, SelectField, TextField, EmbedField, RichTextField } from 'components/Forms/components';
 import Errors from 'components/Errors/Errors';
 
 const fields = ['name'];
@@ -53,7 +53,7 @@ class ReleaseForm extends Component {
           <TextField key={name} name={name} {...props} />
         ))}
         <div className="form-group">
-          <TextField name="description" type="textarea" {...props} />
+          <RichTextField name="description" {...props} />
         </div>
         <div className="field-group">
           <DateField label="Release Date" name="release_date" {...props} />

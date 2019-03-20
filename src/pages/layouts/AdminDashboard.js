@@ -15,15 +15,21 @@ class AdminDashboard extends Component {
         <CreateReleaseModal release={release} actions={actions} />
         <div>
           <aside>
-            <ul>
-              <li>
-                <ActiveLink href="/admin">Dashboard</ActiveLink>
+            <ul className="nav nav-tabs">
+              <li className="nav-item">
+                <ActiveLink className="nav-link" href="/admin">
+                  Dashboard
+                </ActiveLink>
               </li>
-              <li>
-                <ActiveLink href="/admin/artists">Artists</ActiveLink>
+              <li className="nav-item">
+                <ActiveLink className="nav-link" href="/admin/artists">
+                  Artists
+                </ActiveLink>
               </li>
-              <li>
-                <ActiveLink href="/admin/releases">Releases</ActiveLink>
+              <li className="nav-item">
+                <ActiveLink className="nav-link" href="/admin/releases">
+                  Releases
+                </ActiveLink>
               </li>
             </ul>
           </aside>

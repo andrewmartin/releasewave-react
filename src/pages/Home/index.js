@@ -21,10 +21,13 @@ export default class HomePage extends Component {
   };
 
   render() {
-    const { release } = this.props;
+    const {
+      release,
+      release: { items },
+    } = this.props;
 
-    const { current_page, per_page, total_entries, isLoading } = release;
-    const hasMore = current_page + per_page <= total_entries;
+    const { total_entries, isLoading } = release;
+    const hasMore = items <= total_entries;
 
     return (
       <div className="home-page">

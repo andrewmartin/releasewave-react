@@ -43,6 +43,11 @@ class Artists extends Component {
         accessor: 'release_date',
       },
       {
+        id: 'artists',
+        Header: 'Artists',
+        accessor: ({ artists }) => artists.map(artist => artist.name).join(','),
+      },
+      {
         Header: '',
         Cell: ({ original }) => {
           const {
@@ -80,10 +85,9 @@ class Artists extends Component {
 
   fetchData = () => {
     const {
-      actions: { getReleases },
+      actions: { getAllReleases },
     } = this.props;
-
-    getReleases();
+    getAllReleases();
   };
 
   componentDidMount() {

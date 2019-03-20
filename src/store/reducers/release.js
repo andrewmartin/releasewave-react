@@ -10,6 +10,7 @@ const editReleaseStart = createAction('release/EDIT_RELEASE_START');
 const editRelease = createAction('release/EDIT_RELEASE');
 const deleteRelease = createAction('release/DELETE_RELEASE');
 const getReleases = createAction('release/GET_RELEASES');
+const getAllReleases = createAction('release/GET_ALL_RELEASES');
 const getRelease = createAction('release/GET_RELEASE');
 const releaseError = createAction('release/ERROR');
 
@@ -124,6 +125,27 @@ export const actions = {
       );
     }
   },
+  getAllReleases: params => async dispatch => {
+    dispatch(fetchReleaseStart());
+
+    try {
+      const data = await dispatch(
+        fetchAction('releases', {
+          options: {
+            params,
+          },
+        })
+      );
+      return dispatch(getAllReleases(data));
+    } catch (error) {
+      console.error('error', error);
+      return dispatch(
+        releaseError({
+          error,
+        })
+      );
+    }
+  },
 };
 
 const defaultState = {
@@ -178,6 +200,17 @@ export default handleActions(
           ...state,
           ...payload,
           items: state.items.concat(payload.items),
+          isLoading: false,
+          serverError: null,
+        };
+      },
+    },
+    [getAllReleases]: {
+      next: (state, { payload }) => {
+        return {
+          ...state,
+          ...payload,
+          items: payload.items,
           isLoading: false,
           serverError: null,
         };
