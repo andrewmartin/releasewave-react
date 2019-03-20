@@ -52,7 +52,7 @@ export default class Navigation extends Component {
   };
 
   render() {
-    const { actions, user, className } = this.props;
+    const { burgerMenu, actions, user, className } = this.props;
     const { dropdownOpen } = this.state;
 
     return (
@@ -65,9 +65,11 @@ export default class Navigation extends Component {
             </li>
           )}
         </ul>
-        <button onClick={this.toggleMenu} className="mobile-toggle">
-          <IoIosMenu />
-        </button>
+        {burgerMenu && (
+          <button onClick={this.toggleMenu} className="mobile-toggle">
+            <IoIosMenu />
+          </button>
+        )}
       </nav>
     );
   }

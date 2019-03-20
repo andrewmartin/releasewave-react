@@ -77,6 +77,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   h3 {
     margin: 0;
     color: $gray-300;
+    line-height: 1;
   }
 }
 
@@ -88,6 +89,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     text-transform: lowercase;
     font-size: 40px;
     font-weight: 800;
+    line-height: 1;
 
     @include media("<md") {
       flex-wrap: wrap;
@@ -614,6 +616,12 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     p {
       font-size: 18px;
       line-height: 24px;
+    }
+
+    > div {
+      @include media("<lg") {
+        margin-bottom: 30px;
+      }
     }
   }
 }

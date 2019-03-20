@@ -9,7 +9,7 @@ export default class Footer extends Component {
       <footer className="mastfoot">
         <div className="container">
           <h3>release wave</h3>
-          <Navigation burgerMenu={burgerMenu} className="secondary-navigation" logout={this.props.logout} />
+          <Navigation burgerMenu={false} className="secondary-navigation" logout={this.props.logout} />
         </div>
       </footer>
     );
