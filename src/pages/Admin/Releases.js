@@ -169,7 +169,13 @@ class Releases extends Component {
           </Button>
         </header>
         <article>
-          <Table pageSize={per_page} columns={columns} items={items} showPagination={false} />
+          <Table
+            pageSize={per_page}
+            defaultPageSize={per_page}
+            columns={columns}
+            items={items}
+            showPagination={false}
+          />
           <Pagination
             isLoading={isLoading}
             onFetch={params => this.fetchData(params)}

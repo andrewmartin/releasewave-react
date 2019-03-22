@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindAllActions } from 'store/actions/helpers';
 import HomePage from 'pages/Home';
+import track from 'analytics';
 
 class Home extends React.Component {
   static async getInitialProps(ctx, { actions }) {
@@ -21,6 +22,10 @@ class Home extends React.Component {
       isServer,
     };
   }
+
+  componentDidMount = () => {
+    track(window.location.pathname + window.location.search);
+  };
 
   render() {
     const { actions, release } = this.props;

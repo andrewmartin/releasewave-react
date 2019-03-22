@@ -9,8 +9,12 @@ import configureStore from 'store';
 import { Notifs } from 'redux-notifications';
 import Layout from 'components/Layout';
 
+import { initAnalytics } from 'analytics';
+
 import 'shared/polyfills';
 import 'styles/app.scss';
+
+initAnalytics();
 
 class Application extends App {
   static async getInitialProps(props) {
@@ -40,14 +44,15 @@ class Application extends App {
     return {
       isServer: ctx.isServer,
       pageProps: {
-        ...(Component.getInitialProps ? await Component.getInitialProps(ctx, { actions }) : {}),
+        ...(Component.getInitialProps
+          ? await Component.getInitialProps(ctx, { actions })
+          : {}),
       },
     };
   }
 
   componentDidMount() {
     const { store } = this.props;
-
     persistStore(store);
   }
 

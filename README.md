@@ -20,4 +20,4 @@ This project uses Next.js. [Original Next.js README here](doc/NEXT.md)
 
 ### Hotfixes
 
-- [ ] Add 'Twitter', 'Website', and 'Wikipedia' as link options for artists
+- [ x ] Add 'Twitter', 'Website', and 'Wikipedia' as link options for artists

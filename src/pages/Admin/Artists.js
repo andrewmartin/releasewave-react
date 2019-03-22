@@ -150,6 +150,7 @@ class Artists extends Component {
         <article>
           <Table
             pageSize={per_page}
+            defaultPageSize={per_page}
             columns={this.columns}
             items={items}
             showPagination={false}

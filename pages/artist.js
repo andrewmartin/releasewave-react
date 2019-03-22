@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindAllActions } from 'store/actions/helpers';
+import track from 'analytics';
 
 class Artist extends React.Component {
   async getInitialProps() {
@@ -19,6 +20,10 @@ class Artist extends React.Component {
       data,
     };
   }
+
+  componentDidMount = () => {
+    track(window.location.pathname + window.location.search);
+  };
 
   render() {
     const { data } = this.props;

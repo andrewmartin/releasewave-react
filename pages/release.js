@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindAllActions } from 'store/actions/helpers';
 import { CreateReviewModal, EditReviewModal } from 'components/Modal';
 import ReleasePage from 'pages/Release';
+import track from 'analytics';
 
 class Release extends React.Component {
   static async getInitialProps(ctx, { actions }) {
@@ -24,6 +25,10 @@ class Release extends React.Component {
       isServer,
     };
   }
+
+  componentDidMount = () => {
+    track(window.location.pathname + window.location.search);
+  };
 
   render() {
     const {
