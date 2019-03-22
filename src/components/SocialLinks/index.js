@@ -6,6 +6,8 @@ import {
   FaSoundcloud,
   FaFacebook,
   FaExternalLinkSquareAlt,
+  FaTwitter,
+  FaItunes,
 } from 'react-icons/fa';
 const Social = {
   bandcamp: {
@@ -22,6 +24,12 @@ const Social = {
   },
   website: {
     Icon: FaExternalLinkSquareAlt,
+  },
+  twitter: {
+    Icon: FaTwitter,
+  },
+  itunes: {
+    Icon: FaItunes,
   },
 };
 
@@ -40,13 +48,15 @@ export default class SocialLinks extends Component {
   }
 
   render() {
-    const { bandcamp, soundcloud, spotify, facebook, website } = this.props;
+    const { itunes, bandcamp, soundcloud, spotify, facebook, website, twitter } = this.props;
 
     return (
       <ul className="social">
         {spotify && this.renderIcon('spotify', spotify)}
         {facebook && this.renderIcon('facebook', facebook)}
+        {twitter && this.renderIcon('twitter', twitter)}
         {bandcamp && this.renderIcon('bandcamp', bandcamp)}
+        {itunes && this.renderIcon('itunes', itunes)}
         {soundcloud && this.renderIcon('soundcloud', soundcloud)}
         {website && this.renderIcon('website', website)}
       </ul>
