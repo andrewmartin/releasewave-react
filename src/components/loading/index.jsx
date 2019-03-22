@@ -1,12 +1,12 @@
 import React from 'react';
-var Loader = require('react-loaders').Loader;
+var { Loader } = require('react-loaders');
 
 import './Loading.scss';
 
 const Loading = ({ config }) => {
   return (
     <div className="loader">
-      <Loader type="ball-scale-ripple" color="#782426" />
+      <Loader type="ball-scale-ripple" color="#ac1e8c" />
     </div>
   );
 };

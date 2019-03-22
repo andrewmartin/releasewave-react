@@ -7,6 +7,7 @@ import { withAdmin } from 'pages/layouts/withAdminDashboard';
 import { TYPES } from 'store/reducers/modal';
 import Table from 'components/Table/Table';
 import { EditReleaseModal } from 'components/Modal';
+import Pagination from 'components/Pagination';
 
 class Releases extends Component {
   state = {
@@ -61,7 +62,9 @@ class Releases extends Component {
           return (
             <ul className="list-unstyled list-group list-group-horizontal">
               <li>
-                <ActiveLink className="btn btn-sm btn-primary" href={`/releases/${original.slug}`}>
+                <ActiveLink
+                  className="btn btn-sm btn-primary"
+                  href={`/releases/${original.slug}`}>
                   Show
                 </ActiveLink>
               </li>
@@ -88,11 +91,11 @@ class Releases extends Component {
     ],
   };
 
-  fetchData = () => {
+  fetchData = params => {
     const {
       actions: { getAllReleases },
     } = this.props;
-    getAllReleases();
+    getAllReleases(params, true);
   };
 
   componentDidMount() {
@@ -101,9 +104,9 @@ class Releases extends Component {
 
   showCreate = () => {
     const {
-      actions: { showModal },
+      actions: { showModal, clearRelease },
     } = this.props;
-
+    clearRelease();
     showModal(TYPES.CREATE_RELEASE);
   };
 
@@ -151,7 +154,7 @@ class Releases extends Component {
   render() {
     const {
       actions,
-      release: { isLoading, items },
+      release: { isLoading, items, per_page, total_entries, current_page },
     } = this.props;
 
     const { editing, columns } = this.state;
@@ -166,7 +169,14 @@ class Releases extends Component {
           </Button>
         </header>
         <article>
-          <Table columns={columns} items={items} />
+          <Table pageSize={per_page} columns={columns} items={items} showPagination={false} />
+          <Pagination
+            isLoading={isLoading}
+            onFetch={params => this.fetchData(params)}
+            perPage={per_page}
+            totalEntries={total_entries}
+            currentPage={current_page}
+          />
         </article>
       </div>
     );

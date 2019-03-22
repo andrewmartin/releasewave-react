@@ -1,6 +1,12 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, { Component } from 'react';
-import { FaSpotify, FaBandcamp, FaSoundcloud, FaFacebook } from 'react-icons/fa';
+import {
+  FaSpotify,
+  FaBandcamp,
+  FaSoundcloud,
+  FaFacebook,
+  FaExternalLinkSquareAlt,
+} from 'react-icons/fa';
 const Social = {
   bandcamp: {
     Icon: FaBandcamp,
@@ -13,6 +19,9 @@ const Social = {
   },
   facebook: {
     Icon: FaFacebook,
+  },
+  website: {
+    Icon: FaExternalLinkSquareAlt,
   },
 };
 
@@ -31,7 +40,7 @@ export default class SocialLinks extends Component {
   }
 
   render() {
-    const { bandcamp, soundcloud, spotify, facebook } = this.props;
+    const { bandcamp, soundcloud, spotify, facebook, website } = this.props;
 
     return (
       <ul className="social">
@@ -39,6 +48,7 @@ export default class SocialLinks extends Component {
         {facebook && this.renderIcon('facebook', facebook)}
         {bandcamp && this.renderIcon('bandcamp', bandcamp)}
         {soundcloud && this.renderIcon('soundcloud', soundcloud)}
+        {website && this.renderIcon('website', website)}
       </ul>
     );
   }

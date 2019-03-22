@@ -4,6 +4,7 @@ import ConfirmButton from 'react-confirm-button';
 import { withAdmin } from 'pages/layouts/withAdminDashboard';
 import { TYPES } from 'store/reducers/modal';
 import Table from 'components/Table/Table';
+import Pagination from 'components/Pagination';
 import { EditArtistModal } from 'components/Modal';
 
 class Artists extends Component {
@@ -68,12 +69,12 @@ class Artists extends Component {
     editing: null,
   };
 
-  fetchData = () => {
+  fetchData = params => {
     const {
       actions: { getArtists },
     } = this.props;
 
-    getArtists();
+    getArtists(params, true);
   };
 
   componentDidMount() {
@@ -132,15 +133,14 @@ class Artists extends Component {
   render() {
     const {
       actions,
-      artist,
-      artist: { items },
+      artist: { isLoading, items, per_page, total_entries, current_page },
     } = this.props;
 
     const { editing } = this.state;
 
     return (
       <div>
-        <EditArtistModal artist={{ ...artist, ...editing }} actions={actions} />
+        <EditArtistModal artist={{ isLoading, ...editing }} actions={actions} />
         <header className="admin-header">
           <h3>Artists</h3>
           <Button color="primary" onClick={this.showCreate} size="sm">
@@ -148,7 +148,19 @@ class Artists extends Component {
           </Button>
         </header>
         <article>
-          <Table columns={this.columns} items={items} />
+          <Table
+            pageSize={per_page}
+            columns={this.columns}
+            items={items}
+            showPagination={false}
+          />
+          <Pagination
+            isLoading={isLoading}
+            onFetch={params => this.fetchData(params)}
+            perPage={per_page}
+            totalEntries={total_entries}
+            currentPage={current_page}
+          />
         </article>
       </div>
     );

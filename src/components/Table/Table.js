@@ -36,7 +36,12 @@ export default class Table extends Component {
 
     return (
       <div className="table">
-        <ReactTable className="-striped -highlight" columns={this.buildColumns()} data={items} {...this.props} />
+        <ReactTable
+          className="-striped -highlight"
+          columns={this.buildColumns()}
+          data={items}
+          {...this.props}
+        />
       </div>
     );
   }

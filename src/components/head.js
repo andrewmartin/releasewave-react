@@ -36,15 +36,12 @@ class Head extends Component {
 
   render() {
     const { url, ogImage, ogImageWidth, ogImageHeight } = this.props;
-
     return (
       <NextHead>
         <meta charSet="UTF-8" />
-        <title>{this.title()}</title>
+        <title key="title">{this.title()}</title>
 
         <script src="https://cdn.polyfill.io/v3/polyfill.min.js" />
-
-        <meta name="description" content={this.description()} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" sizes="57x57" href="/static/apple-touch-icon-57x57.png" />
@@ -65,15 +62,16 @@ class Head extends Component {
         <meta name="msapplication-wide310x150logo" content="/static/widetile.png" />
         <meta name="msapplication-square310x310logo" content="/static/largetile.png" />
 
-        <meta property="og:url" content={url} />
-        <meta property="og:title" content={this.title()} />
-        <meta property="og:description" content={this.description()} />
-        <meta name="twitter:site" content={url} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={ogImage} />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:image:width" content={ogImageWidth} />
-        <meta property="og:image:height" content={ogImageHeight} />
+        <meta key="description" name="description" content={this.description()} />
+        <meta key="og:url" property="og:url" content={url} />
+        <meta key="og:title" property="og:title" content={this.title()} />
+        <meta key="og:description" property="og:description" content={this.description()} />
+        <meta key="twitter:site" name="twitter:site" content={url} />
+        <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
+        <meta key="twitter:image" name="twitter:image" content={ogImage} />
+        <meta key="og:image" property="og:image" content={ogImage} />
+        <meta key="og:image:width" property="og:image:width" content={ogImageWidth} />
+        <meta key="og:image:height" property="og:image:height" content={ogImageHeight} />
       </NextHead>
     );
   }

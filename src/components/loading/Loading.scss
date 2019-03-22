@@ -1,5 +1,5 @@
 @import "../../styles/bootstrap";
-$primary-color: $brand-red;
+$primary-color: color("pink");
 @import "~loaders.css/src/animations/ball-scale-ripple.scss";
 
 .loader {

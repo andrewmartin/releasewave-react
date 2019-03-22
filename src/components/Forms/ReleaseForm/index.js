@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import { Formik } from 'formik';
-import { FileField, DateField, SelectField, TextField, EmbedField, RichTextField } from 'components/Forms/components';
+import {
+  FileField,
+  DateField,
+  SelectField,
+  TextField,
+  EmbedField,
+  RichTextField,
+} from 'components/Forms/components';
 import Errors from 'components/Errors/Errors';
 
-const fields = ['name'];
+const fields = ['name', 'website', 'buy'];
 
 class ReleaseForm extends Component {
   static defaultProps = {
@@ -15,27 +22,50 @@ class ReleaseForm extends Component {
 
   constructor(props) {
     super(props);
-    let initialValues = {};
 
-    if (props.release) {
-      const { id, name, image, embeds, description, artists, release_date } = props.release;
+    this.state = { fields, initialValues: {}, submitted: false };
+  }
 
-      initialValues = {
-        id: id || '',
-        name: name || '',
-        image: image || '',
-        description: description || '',
-        artist_ids: artists ? artists.map(({ id, name }) => ({ value: id, label: name })) : [],
-        release_date: release_date || '',
-        embed_code: embeds ? embeds.map(embed => embed.content) : [],
-      };
-    } else {
-      fields.forEach(field => {
-        initialValues[field] = '';
-      });
+  componentWillMount = () => {
+    this.setInitialValues();
+  };
+
+  componentDidUpdate(prevProps) {
+    const {
+      release: { slug },
+    } = this.props;
+
+    if (slug !== prevProps.release.slug) {
+      this.setInitialValues();
     }
+  }
 
-    this.state = { fields, initialValues, submitted: false };
+  setInitialValues() {
+    const {
+      id,
+      name,
+      image,
+      embeds,
+      description,
+      artists,
+      release_date,
+      buy,
+    } = this.props.release;
+
+    const initialValues = {
+      id: id || '',
+      name: name || '',
+      image: image || '',
+      description: description || '',
+      artist_ids: artists ? artists.map(({ id, name }) => ({ value: id, label: name })) : [],
+      release_date: release_date || '',
+      embed_code: embeds ? embeds.map(embed => embed.content) : [],
+      buy: buy || '',
+    };
+
+    this.setState({
+      initialValues,
+    });
   }
 
   renderForm = props => {
@@ -46,6 +76,8 @@ class ReleaseForm extends Component {
       webform__error: !isValid && this.state.submitted,
       'needs-validation': !isValid,
     });
+
+    console.log('values', values);
 
     return (
       <form className={classes} onSubmit={handleSubmit}>
@@ -65,7 +97,12 @@ class ReleaseForm extends Component {
         <div className="field-group">
           <SelectField name="artist_ids" label="Artist(s)" {...props} />
         </div>
-        <EmbedField placeholder="Paste embed code here" name="embed_code" label="Embed" {...props} />
+        <EmbedField
+          placeholder="Paste embed code here"
+          name="embed_code"
+          label="Embed"
+          {...props}
+        />
         <button disabled={isLoading} className="btn btn-lg btn-primary" type="submit">
           Submit
         </button>
@@ -109,8 +146,8 @@ class ReleaseForm extends Component {
     return (
       <div className="webform-wrapper">
         <Formik
+          enableReinitialize
           validate={this.validate}
-          fields={initialValues}
           initialValues={initialValues}
           onSubmit={this.onSubmit}
           render={this.renderForm}

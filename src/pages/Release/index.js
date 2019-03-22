@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import ArtistLink from 'components/ArtistLink';
+import BuyLink from 'components/BuyLink';
 import { formatDate } from 'components/helpers';
-import Head from 'components/head';
 import { WithOwnUser } from 'components/connect';
 import { TYPES } from 'store/reducers/modal';
 import { WithUser } from 'components/connect';
+import Head from 'components/head';
 import striptags from 'striptags';
 
 export default class ReleasePage extends Component {
@@ -47,7 +48,9 @@ export default class ReleasePage extends Component {
             </header>
             <div dangerouslySetInnerHTML={{ __html: review.content }} />
             <WithOwnUser entity={review}>
-              <button onClick={this.showEditReview.bind(this, review)} className="btn btn-sm btn-secondary">
+              <button
+                onClick={this.showEditReview.bind(this, review)}
+                className="btn btn-sm btn-secondary">
                 Edit
               </button>
             </WithOwnUser>
@@ -58,14 +61,13 @@ export default class ReleasePage extends Component {
   }
 
   render() {
-    const { embeds, slug, description, name, image, artists, release_date } = this.props;
+    const { embeds, description, name, image, artists, release_date, slug, buy } = this.props;
 
     const artistNames = artists.map(artist => artist.name).join(',');
     const bgImage = artists && artists[0].image ? artists[0].image.full : null;
 
     return (
       <div className="release-page">
-        <div className="release-page__bg" style={{ backgroundImage: `url(${bgImage})` }} />
         <Head
           title={`${name} - ${artistNames}`}
           description={striptags(description)}
@@ -74,6 +76,8 @@ export default class ReleasePage extends Component {
           ogImageWidth={500}
           ogImageHeight={500}
         />
+        <div className="release-page__bg" style={{ backgroundImage: `url(${bgImage})` }} />
+
         <div className="container">
           <header className="release-page__header">
             <article>
@@ -83,7 +87,10 @@ export default class ReleasePage extends Component {
                   <ArtistLink key={artist.id} artist={artist} />
                 ))}
               </h2>
-              <div className="release-page__description" dangerouslySetInnerHTML={{ __html: description }} />
+              <div
+                className="release-page__description"
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
               <div className="embeds">
                 {embeds
                   .filter(({ content }) => content)
@@ -94,6 +101,7 @@ export default class ReleasePage extends Component {
             </article>
             <figure>
               <img src={image.full} alt={`${name} album art`} />
+              <BuyLink date={release_date} href={buy} />
               <span>{formatDate(release_date)}</span>
             </figure>
           </header>

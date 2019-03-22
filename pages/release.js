@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindAllActions } from 'store/actions/helpers';
-
 import { CreateReviewModal, EditReviewModal } from 'components/Modal';
 import ReleasePage from 'pages/Release';
 
@@ -13,7 +12,7 @@ class Release extends React.Component {
     } = ctx;
 
     try {
-      await actions.getRelease({ name });
+      await actions.getRelease({ slug: name });
       await actions.getReviews(name);
     } catch (err) {
       console.log('err', err);
@@ -26,13 +25,6 @@ class Release extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    const { name, actions } = this.props;
-
-    await actions.getRelease({ name });
-    await actions.getReviews(name);
-  }
-
   render() {
     const {
       modal: { modalData },
@@ -40,6 +32,7 @@ class Release extends React.Component {
       review,
       actions,
     } = this.props;
+
     return (
       <>
         <CreateReviewModal actions={actions} release={release} />

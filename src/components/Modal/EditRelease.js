@@ -6,6 +6,17 @@ import { TYPES } from 'store/reducers/modal';
 import Modal from './';
 
 export default class EditReleaseModal extends Component {
+  async componentDidUpdate(prevProps) {
+    const {
+      actions: { getRelease },
+      release: { slug },
+    } = this.props;
+
+    if (slug !== prevProps.release.slug) {
+      await getRelease({ slug });
+    }
+  }
+
   submit = async data => {
     const {
       actions: { hideModal, editRelease },

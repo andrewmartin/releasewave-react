@@ -6,6 +6,17 @@ import { TYPES } from 'store/reducers/modal';
 import Modal from './';
 
 export default class EditArtistModal extends Component {
+  async componentDidUpdate(prevProps) {
+    const {
+      actions: { getArtist },
+      artist: { slug },
+    } = this.props;
+
+    if (slug !== prevProps.artist.slug) {
+      await getArtist({ slug });
+    }
+  }
+
   submit = async data => {
     const {
       actions: { hideModal, editArtist },
@@ -18,6 +29,7 @@ export default class EditArtistModal extends Component {
   };
   render() {
     const { artist } = this.props;
+
     return (
       <Modal type={TYPES.EDIT_ARTIST}>
         <ModalBody>

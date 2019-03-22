@@ -11,6 +11,8 @@ const editArtistStart = createAction('artist/EDIT_ARTIST_START');
 const editArtist = createAction('artist/EDIT_ARTIST');
 const deleteArtist = createAction('artist/DELETE_ARTIST');
 const getArtists = createAction('artist/GET_ARTISTS');
+const getArtistsReplace = createAction('artist/GET_ARTISTS_REPLACE');
+const getArtist = createAction('artist/GET_ARTIST');
 const artistError = createAction('artist/ERROR');
 
 export const actions = {
@@ -87,7 +89,22 @@ export const actions = {
       );
     }
   },
-  getArtists: params => async dispatch => {
+  getArtist: payload => async dispatch => {
+    dispatch(fetchArtistStart());
+
+    try {
+      const data = await dispatch(fetchAction(`artists/${payload.slug}`));
+      return dispatch(getArtist(data));
+    } catch (error) {
+      console.error('error', error);
+      return dispatch(
+        artistError({
+          error,
+        })
+      );
+    }
+  },
+  getArtists: (params, replace) => async dispatch => {
     dispatch(fetchArtistStart());
 
     try {
@@ -98,7 +115,7 @@ export const actions = {
           },
         })
       );
-      return dispatch(getArtists(data));
+      return replace ? dispatch(getArtistsReplace(data)) : dispatch(getArtists(data));
     } catch (error) {
       return dispatch(
         artistError({
@@ -117,7 +134,8 @@ const defaultState = {
 
 const appendItem = (stateKey, payload) => stateKey.concat(payload);
 
-const removeItem = (stateKey, payload) => stateKey.filter(i => i.id !== payload).filter(n => n);
+const removeItem = (stateKey, payload) =>
+  stateKey.filter(i => i.id !== payload).filter(n => n);
 
 const replaceItem = (stateKey, payload) => {
   const newState = stateKey.slice(0).filter(item => item.id !== payload.id);
@@ -165,6 +183,28 @@ export default handleActions(
       },
     },
     [getArtists]: {
+      next: (state, { payload }) => {
+        return {
+          ...state,
+          ...payload,
+          items: state.items.concat(payload.items),
+          isLoading: false,
+          serverError: null,
+        };
+      },
+    },
+    [getArtistsReplace]: {
+      next: (state, { payload }) => {
+        return {
+          ...state,
+          ...payload,
+          items: payload.items,
+          isLoading: false,
+          serverError: null,
+        };
+      },
+    },
+    [getArtist]: {
       next: (state, { payload }) => {
         return {
           ...state,

@@ -8,6 +8,7 @@ import { showModal } from 'store/reducers/modal';
 const fetchReleaseStart = createAction('release/FETCH_RELEASE_START');
 const createRelease = createAction('release/CREATE_RELEASE');
 const clearReleases = createAction('release/CLEAR_RELEASES');
+const clearRelease = createAction('release/CLEAR_RELEASE');
 const editReleaseStart = createAction('release/EDIT_RELEASE_START');
 const editRelease = createAction('release/EDIT_RELEASE');
 const deleteRelease = createAction('release/DELETE_RELEASE');
@@ -73,7 +74,7 @@ export const actions = {
     dispatch(fetchReleaseStart());
 
     try {
-      const data = await dispatch(fetchAction(`releases/${payload.name}`));
+      const data = await dispatch(fetchAction(`releases/${payload.slug}`));
       return dispatch(getRelease(data));
     } catch (error) {
       console.error('error', error);
@@ -149,12 +150,7 @@ export const actions = {
     }
   },
   clearReleases: () => dispatch => dispatch(clearReleases()),
-};
-
-const defaultState = {
-  isLoading: false,
-  serverError: null,
-  items: [],
+  clearRelease: () => dispatch => dispatch(clearRelease()),
 };
 
 const appendItem = (stateKey, payload) => stateKey.concat(payload);
@@ -168,6 +164,12 @@ const replaceItem = (stateKey, payload) => {
   return newState.filter(n => n);
 };
 
+const defaultState = {
+  isLoading: false,
+  serverError: null,
+  items: [],
+};
+
 export default handleActions(
   {
     [clearReleases]: {
@@ -177,6 +179,15 @@ export default handleActions(
           isLoading: true,
           serverError: null,
           items: [],
+        };
+      },
+    },
+    [clearRelease]: {
+      next: state => {
+        return {
+          isLoading: true,
+          serverError: null,
+          items: state.items,
         };
       },
     },
