@@ -11,7 +11,7 @@ import {
 } from 'components/Forms/components';
 import Errors from 'components/Errors/Errors';
 
-const fields = ['name', 'website', 'buy'];
+const fields = ['name', 'buy'];
 
 class ReleaseForm extends Component {
   static defaultProps = {
