@@ -1,5 +1,5 @@
 import React from 'react';
-var { Loader } = require('react-loaders');
+const { Loader } = require('react-loaders');
 
 import './Loading.scss';
 
