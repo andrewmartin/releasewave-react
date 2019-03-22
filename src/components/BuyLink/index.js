@@ -5,7 +5,6 @@ export default class BuyLink extends Component {
   render() {
     const { href, date } = this.props;
     const futureDate = moment(date).isAfter(new Date());
-    console.log('futureDate', futureDate);
 
     return (
       // eslint-disable-next-line react/jsx-no-target-blank

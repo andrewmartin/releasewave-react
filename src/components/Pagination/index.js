@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { FullLoading } from 'components/Loading';
 import cx from 'classnames';
+import { withRouter } from 'components/connect/index';
 
-export default class Pagination extends Component {
+class Pagination extends Component {
   state = {
-    numberOfLinks: 0,
+    links: [],
   };
 
   onNext = e => {
@@ -26,21 +27,28 @@ export default class Pagination extends Component {
   };
 
   componentDidUpdate = prevProps => {
-    const { totalEntries, perPage } = this.props;
+    const {
+      totalEntries,
+      perPage,
+      isLoading,
+      router: {
+        location: { pathname },
+      },
+    } = this.props;
 
-    if (totalEntries !== prevProps.totalEntries) {
+    if (pathname !== prevProps.router.location.pathname || isLoading !== prevProps.isLoading) {
+      const links = this.generateLinks((totalEntries % perPage) + 1);
       this.setState({
-        numberOfLinks: (totalEntries % perPage) + 1,
+        links,
       });
     }
   };
 
-  generateLinks() {
+  generateLinks = amount => {
     const { currentPage } = this.props;
-    const { numberOfLinks } = this.state;
 
     const links = [];
-    for (let page = 1; page < numberOfLinks + 1; page++) {
+    for (let page = 1; page < amount + 1; page++) {
       links.push(
         <li className="page-item" key={page}>
           <a
@@ -56,7 +64,7 @@ export default class Pagination extends Component {
     }
 
     return links;
-  }
+  };
 
   render() {
     const { isLoading, currentPage } = this.props;
@@ -70,7 +78,7 @@ export default class Pagination extends Component {
               Previous
             </a>
           </li>
-          {this.generateLinks()}
+          {this.state.links}
           <li className="page-item">
             <a onClick={this.onNext} className="page-link" href="#">
               Next
@@ -82,3 +90,5 @@ export default class Pagination extends Component {
     );
   }
 }
+
+export default withRouter(Pagination);

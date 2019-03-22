@@ -77,8 +77,6 @@ class ReleaseForm extends Component {
       'needs-validation': !isValid,
     });
 
-    console.log('values', values);
-
     return (
       <form className={classes} onSubmit={handleSubmit}>
         {fields.map(name => (
