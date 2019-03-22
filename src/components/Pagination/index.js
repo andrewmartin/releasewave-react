@@ -37,7 +37,7 @@ class Pagination extends Component {
     } = this.props;
 
     if (pathname !== prevProps.router.location.pathname || isLoading !== prevProps.isLoading) {
-      const links = this.generateLinks((totalEntries % perPage) + 1);
+      const links = this.generateLinks(Math.ceil(totalEntries / perPage));
       this.setState({
         links,
       });
