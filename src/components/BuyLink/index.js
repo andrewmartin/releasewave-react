@@ -6,6 +6,8 @@ export default class BuyLink extends Component {
     const { href, date } = this.props;
     const futureDate = moment(date).isAfter(new Date());
 
+    if (!href) return null;
+
     return (
       // eslint-disable-next-line react/jsx-no-target-blank
       <a href={href} target="_blank" className="btn btn-primary purchase-link">
