@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FullLoading } from 'components/Loading';
+import { FullLoading } from 'components/Loader';
 import cx from 'classnames';
 import { withRouter } from 'components/connect/index';
 
