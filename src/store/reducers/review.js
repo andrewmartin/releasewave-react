@@ -108,7 +108,8 @@ const defaultState = {
 
 const appendItem = (stateKey, payload) => stateKey.concat(payload);
 
-const removeItem = (stateKey, payload) => stateKey.filter(i => i.id !== payload).filter(n => n);
+const removeItem = (stateKey, payload) =>
+  stateKey.filter(i => i.id !== payload).filter(n => n);
 
 const replaceItem = (stateKey, payload) => {
   const newState = stateKey.slice(0).filter(item => item.id !== payload.id);
@@ -129,8 +130,12 @@ export default handleActions(
       },
     },
     [LOCATION_CHANGE]: {
-      next: () => {
-        return defaultState;
+      next: state => {
+        return {
+          ...state,
+          isLoading: false,
+          serverError: false,
+        };
       },
     },
     [createReview]: {
