@@ -130,7 +130,10 @@ export default handleActions(
     },
     [LOCATION_CHANGE]: {
       next: () => {
-        return defaultState;
+        return {
+          ...defaultState,
+          ...state,
+        };
       },
     },
     [createReview]: {
