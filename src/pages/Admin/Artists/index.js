@@ -5,6 +5,7 @@ import { withAdmin } from 'pages/layouts/withAdminDashboard';
 import { TYPES } from 'store/reducers/modal';
 import Table from 'components/Table/Table';
 import Pagination from 'components/Pagination';
+import Router from 'next/router';
 import { EditArtistModal } from 'components/Modal';
 
 class Artists extends Component {
@@ -44,7 +45,10 @@ class Artists extends Component {
         return (
           <ul className="list-unstyled list-group list-group-horizontal">
             <li>
-              <Button color="primary" size="sm" onClick={() => this.showEdit(original)}>
+              <Button
+                color="primary"
+                size="sm"
+                onClick={() => Router.push(`/admin/artists/${original.slug}`)}>
                 Edit
               </Button>
             </li>
@@ -169,3 +173,5 @@ class Artists extends Component {
 }
 
 export default withAdmin(Artists);
+
+export { default as ArtistsEdit } from './Edit';

@@ -19,6 +19,7 @@ class UpcomingReleasesItem extends Component {
       artists,
       release_date,
       description,
+      short_description,
       image: { full },
     } = this.props;
 
@@ -31,7 +32,10 @@ class UpcomingReleasesItem extends Component {
           <span>
             <strong>{name}</strong>
             <em>{artists.map(a => a.name).join(',')}</em>
-            <div className="upcoming-release__description" dangerouslySetInnerHTML={{ __html: description }} />
+            <div
+              className="upcoming-release__description"
+              dangerouslySetInnerHTML={{ __html: short_description || description }}
+            />
             {release_date && <cite>{formatDate(release_date)}</cite>}
           </span>
         </ActiveLink>

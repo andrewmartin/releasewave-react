@@ -3,6 +3,7 @@ import { withRouter } from 'components/connect/index';
 import Dashboard from 'pages/Admin/Dashboard';
 import Artists from 'pages/Admin/Artists';
 import Releases from 'pages/Admin/Releases';
+import Router from 'next/router';
 
 class AdminRoutes extends Component {
   componentDidMount() {
@@ -15,15 +16,16 @@ class AdminRoutes extends Component {
 
   render() {
     const {
-      user,
+      user: { is_admin },
       router: {
         location: { pathname },
       },
     } = this.props;
 
-    if (!user.is_admin) return null;
-
-    if (!pathname) return null;
+    if (!pathname || !is_admin) {
+      Router.push('/');
+      return null;
+    }
 
     // custom "router" in lieu of <BrowserRouter /> not playing nicely
     // this is to avoid unnecessary route declarations in next router

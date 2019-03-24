@@ -5,4 +5,5 @@ module.exports = routes()
   .add('releases', '/releases')
   .add('artist', '/artists/:name')
   .add('release', '/releases/:name')
-  .add('admin', '/admin/:page');
+  .add('admin/releases', '/admin/releases/:name')
+  .add('admin/artists', '/admin/artists/:name');

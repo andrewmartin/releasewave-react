@@ -238,10 +238,6 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   }
 }
 
-.webform-wrapper {
-  background: #fff;
-}
-
 .form-feedback {
   margin: 5px 0 10px;
   padding: 5px;
@@ -792,16 +788,40 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   font-weight: 200;
 }
 
-.large-heading {
-  margin: 0 0 30px;
-  padding: 0 0 30px;
-  letter-spacing: -2px;
-  text-transform: uppercase;
-  text-transform: lowercase;
-  color: theme-color("pink");
-  font-size: 60px;
-  font-style: 900;
+.intro {
+  margin-bottom: 100px;
+
+  > div {
+    @include make-row;
+
+    > div {
+      @include make-col-ready;
+      @include make-col(6);
+    }
+  }
+
+  h1 {
+    margin: 0 0 10px;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    text-transform: lowercase;
+    font-size: 60px;
+    font-style: 900;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 24px;
+
+    span {
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: $gray-500;
+    }
+  }
 }
+
+
 
 .embeds {
   margin: 30px 0;
@@ -879,7 +899,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
 .editor {
   @include content-box;
-  min-height: 500px;
+  min-height: 300px;
   margin-bottom: 20px;
   padding: 20px;
   cursor: text;

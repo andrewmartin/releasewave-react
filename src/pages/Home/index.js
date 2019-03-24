@@ -34,8 +34,16 @@ export default class HomePage extends Component {
         <div className="container-fluid">
           <div>
             <main>
-              <div className="col-sm-12">
-                <h4 className="large-heading">The Wave</h4>
+              <div className="col-sm-12 intro">
+                <div>
+                  <div>
+                    <h1 className="large-heading">The Wave</h1>
+                    <p>
+                      <span>The Wave</span> is our curated list of essential upcoming releases
+                      and essential listening.
+                    </p>
+                  </div>
+                </div>
               </div>
               <UpcomingReleases
                 isLoading={isLoading}

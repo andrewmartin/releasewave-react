@@ -39,7 +39,9 @@ export default class UserDropdown extends Component {
           {name || email}
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem onClick={this.showModal.bind(this, TYPES.EDIT_USER)}>{name || email}</DropdownItem>
+          <DropdownItem onClick={this.showModal.bind(this, TYPES.EDIT_USER)}>
+            {name || email}
+          </DropdownItem>
           <DropdownItem divider />
           <WithAdminUser>
             <ActiveLink prefetch href="/admin">
@@ -65,7 +67,9 @@ export default class UserDropdown extends Component {
           Sign Up
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem onClick={this.showModal.bind(this, TYPES.REGISTER)}>Register</DropdownItem>
+          <DropdownItem onClick={this.showModal.bind(this, TYPES.REGISTER)}>
+            Register
+          </DropdownItem>
           <DropdownItem onClick={this.showModal.bind(this, TYPES.LOGIN)}>Login</DropdownItem>
         </DropdownMenu>
       </Dropdown>

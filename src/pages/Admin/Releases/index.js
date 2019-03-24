@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import ConfirmButton from 'react-confirm-button';
-import ActiveLink from 'components/ActiveLink';
+import Router from 'next/router';
 
+import ActiveLink from 'components/ActiveLink';
 import { withAdmin } from 'pages/layouts/withAdminDashboard';
 import { TYPES } from 'store/reducers/modal';
 import Table from 'components/Table/Table';
@@ -69,7 +70,10 @@ class Releases extends Component {
                 </ActiveLink>
               </li>
               <li>
-                <Button color="info" size="sm" onClick={() => this.showEdit(original)}>
+                <Button
+                  color="info"
+                  size="sm"
+                  onClick={() => Router.push(`/admin/releases/${original.slug}`)}>
                   Edit
                 </Button>
               </li>
@@ -190,3 +194,5 @@ class Releases extends Component {
 }
 
 export default withAdmin(Releases);
+
+export { default as ReleasesEdit } from './Edit';

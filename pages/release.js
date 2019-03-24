@@ -12,12 +12,8 @@ class Release extends React.Component {
       query: { name },
     } = ctx;
 
-    try {
-      await actions.getRelease({ slug: name });
-      await actions.getReviews(name);
-    } catch (err) {
-      console.log('err', err);
-    }
+    await actions.getRelease({ slug: name });
+    await actions.getReviews(name);
 
     return {
       name,

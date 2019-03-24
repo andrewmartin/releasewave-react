@@ -27,12 +27,17 @@ export default class EditReleaseModal extends Component {
       hideModal();
     }
   };
+
   render() {
     const { release } = this.props;
     return (
       <Modal type={TYPES.EDIT_RELEASE}>
         <ModalBody>
-          <ReleaseForm isLoading={release.isLoading} onSubmit={this.submit} release={release} />
+          <ReleaseForm
+            isLoading={release.isLoading}
+            onSubmit={this.submit}
+            release={release}
+          />
         </ModalBody>
       </Modal>
     );

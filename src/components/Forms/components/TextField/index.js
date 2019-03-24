@@ -14,7 +14,13 @@ export default class TextField extends Component {
       <div key={name} className="form-group">
         <label htmlFor={name}>{changeCase.titleCase(name)}</label>
         {type === 'textarea' ? (
-          <textarea className="form-control" onChange={handleChange} name={name} rows="2" defaultValue={values[name]} />
+          <textarea
+            className="form-control"
+            onChange={handleChange}
+            name={name}
+            rows="2"
+            defaultValue={values[name]}
+          />
         ) : (
           <input
             onChange={handleChange}

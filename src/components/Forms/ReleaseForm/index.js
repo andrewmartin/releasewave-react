@@ -50,6 +50,7 @@ class ReleaseForm extends Component {
       artists,
       release_date,
       buy,
+      short_description,
     } = this.props.release;
 
     const initialValues = {
@@ -61,6 +62,7 @@ class ReleaseForm extends Component {
       release_date: release_date || '',
       embed_code: embeds ? embeds.map(embed => embed.content) : [],
       buy: buy || '',
+      short_description: short_description || '',
     };
 
     this.setState({
@@ -82,6 +84,9 @@ class ReleaseForm extends Component {
         {fields.map(name => (
           <TextField key={name} name={name} {...props} />
         ))}
+        <div className="form-group">
+          <RichTextField name="short_description" {...props} />
+        </div>
         <div className="form-group">
           <RichTextField name="description" {...props} />
         </div>
