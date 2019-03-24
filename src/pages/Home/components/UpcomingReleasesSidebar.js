@@ -46,14 +46,14 @@ class UpcomingReleasesSidebarItems extends Component {
   };
 
   render() {
-    const { items, month } = this.props;
+    const { items, month, monthName } = this.props;
     const { toShow } = this.state;
     const hasAll = toShow >= items.length;
     if (!items || !items.length) return null;
 
     return (
       <div className="upcoming-releases-sidebar-section">
-        <h3>{moment(month).format('MMMM')}</h3>
+        <h3>{monthName}</h3>
         <ul key={month}>{items.slice(0, toShow).map(item => this.renderItem(month, item))}</ul>
         <button className={'btn btn-link btn-sm'} hidden={hasAll} onClick={this.expandItems}>
           Show More
@@ -70,23 +70,46 @@ export default class UpcomingReleasesSidebar extends Component {
 
   render() {
     const { itemsByMonth } = this.props;
+
     const nextThreeMonths = [
-      moment(new Date())
-        .add(1, 'M')
-        .format('MM'),
-      moment(new Date())
-        .add(2, 'M')
-        .format('MM'),
-      moment(new Date())
-        .add(3, 'M')
-        .format('MM'),
+      {
+        name: moment(new Date())
+          .add(1, 'M')
+          .format('MMMM'),
+        key: moment(new Date())
+          .add(1, 'M')
+          .format('MM'),
+      },
+      {
+        name: moment(new Date())
+          .add(2, 'M')
+          .format('MMMM'),
+        key: moment(new Date())
+          .add(2, 'M')
+          .format('MM'),
+      },
+      {
+        name: moment(new Date())
+          .add(3, 'M')
+          .format('MMMM'),
+        key: moment(new Date())
+          .add(3, 'M')
+          .format('MM'),
+      },
     ];
 
     return (
       <aside className="upcoming-releases-sidebar">
-        {nextThreeMonths.map(month => {
-          if (itemsByMonth[month]) {
-            return <UpcomingReleasesSidebarItems month={month} items={itemsByMonth[month]} />;
+        {nextThreeMonths.map(({ name, key }) => {
+          if (itemsByMonth[key]) {
+            return (
+              <UpcomingReleasesSidebarItems
+                key={name}
+                month={key}
+                monthName={name}
+                items={itemsByMonth[key]}
+              />
+            );
           }
         })}
       </aside>

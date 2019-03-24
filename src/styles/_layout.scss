@@ -570,8 +570,6 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   }
 }
 
-
-
 .discussion {
   flex: 1;
   margin: 0;
@@ -770,23 +768,24 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     }
 
     strong {
-      font-size: 30px;
-      line-height: 34px;
-    }
-
-    em {
-      display: block;
-      margin: 5px 0 0;
-      color: $gray-500;
-      font-size: 18px;
+      font-size: 26px;
       line-height: 1.2;
     }
+
 
     strong,
     em {
       display: block;
       font-family: $headings-font-family;
       font-style: normal;
+    }
+    em {
+      display: block;
+      margin: 10px 0 0;
+      color: $gray-500;
+      font-family: $font-family-sans-serif;
+      font-size: 16px;
+      line-height: 1.2;
     }
   }
 }
@@ -826,9 +825,29 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
   li {
     width: 100%;
+
+    img {
+      width: 200px;
+    }
   }
 }
 
+.artist-page {
+  margin: 100px 0;
+}
+
+.artists-list {
+  margin: 0;
+
+  @extend .list-unstyled;
+}
+
+.artists-list-item {
+  > a {
+    @include content-box;
+    background: #fff;
+  }
+}
 
 // atoms
 

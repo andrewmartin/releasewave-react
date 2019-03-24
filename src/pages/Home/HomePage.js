@@ -36,7 +36,7 @@ export default class HomePage extends Component {
           <UpcomingReleasesSidebar itemsByMonth={itemsByMonth} />
           <main>
             <div className="col-sm-12">
-              <h1 className="large-heading">Featured</h1>
+              <h1 className="large-heading">Featured Releases</h1>
               <p className="intro-text">
                 <span>essential new releases</span> we put at the top of the list.
               </p>

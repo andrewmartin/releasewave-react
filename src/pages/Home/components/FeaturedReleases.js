@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Masonry from 'react-masonry-component';
 import Spinner from 'components/Spinner';
 
 import UpcomingReleasesItem from './UpcomingReleasesItem';

@@ -14,7 +14,7 @@ export default class UpcomingReleasesItem extends Component {
 
   trim = description => {
     const content = striptags(description);
-    return `<p>${content.substr(0, 250)}...</p>`;
+    return `<p>${content.substr(0, 500)}...</p>`;
   };
 
   render() {
