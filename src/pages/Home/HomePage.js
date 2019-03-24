@@ -32,19 +32,21 @@ export default class HomePage extends Component {
     return (
       <div className="home-page">
         {isLoading && <FullLoading />}
-        <div className="container-fluid featured-releases-container">
-          <UpcomingReleasesSidebar itemsByMonth={itemsByMonth} />
-          <main>
-            <div className="col-sm-12">
-              <h1 className="large-heading">Featured Releases</h1>
-              <p className="intro-text">
-                <span>essential new releases</span> we put at the top of the list.
-              </p>
-            </div>
-            <div className="col-sm-12">
-              <FeaturedReleases isLoading={isLoading} hasMore={hasMore} {...this.props} />
-            </div>
-          </main>
+        <div className="featured-releases-container">
+          <div className="container">
+            <UpcomingReleasesSidebar itemsByMonth={itemsByMonth} />
+            <main>
+              <div className="col-sm-12">
+                <h1 className="large-heading">Featured Releases</h1>
+                <p className="intro-text">
+                  <span>essential new releases</span> we put at the top of the list.
+                </p>
+              </div>
+              <div className="col-sm-12">
+                <FeaturedReleases isLoading={isLoading} hasMore={hasMore} {...this.props} />
+              </div>
+            </main>
+          </div>
         </div>
 
         <div className="container-fluid">

@@ -791,20 +791,24 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 }
 
 .featured-releases-container {
-  display: flex;
-  flex-direction: row;
   padding: 100px 0;
   background: #fff;
 
-  @include media("<md") {
-    flex-wrap: wrap;
+
+  > .container {
+    display: flex;
+    flex-direction: row;
+
+    @include media("<lg") {
+      flex-wrap: wrap;
+    }
   }
 
   aside {
     width: 33%;
     padding: 0 30px;
 
-    @include media("<md") {
+    @include media("<lg") {
       width: 100%;
     }
   }
@@ -812,7 +816,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   main {
     width: 66%;
 
-    @include media("<md") {
+    @include media("<lg") {
       width: 100%;
     }
   }
@@ -857,6 +861,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   text-transform: lowercase;
   font-size: 60px;
   font-weight: 900;
+  line-height: 1;
 }
 
 .sub-heading {
@@ -919,6 +924,10 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
       flex: 1;
       padding: 10px;
       color: $gray-800;
+
+      span {
+        flex: 1;
+      }
 
       &:hover {
         background: $gray-100;
