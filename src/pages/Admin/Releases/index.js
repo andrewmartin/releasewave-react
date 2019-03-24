@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import ConfirmButton from 'react-confirm-button';
 import Router from 'next/router';
+import { FaCheckCircle, FaCircle } from 'react-icons/fa';
 
 import ActiveLink from 'components/ActiveLink';
 import { withAdmin } from 'pages/layouts/withAdminDashboard';
@@ -52,6 +53,13 @@ class Releases extends Component {
           if (artists && artists.length) {
             return artists.map(artist => artist.name).join(',');
           }
+        },
+      },
+      {
+        id: 'featured',
+        Header: 'Featured',
+        accessor: ({ featured }) => {
+          return featured && <FaCheckCircle />;
         },
       },
       {

@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import NextHead from 'next/head';
 import { string } from 'prop-types';
 
+const defaultTitle = 'Release Wave - Curated New Music Releases';
+const defaultDescription =
+  "Release Wave is the best way to discover what's coming next in the world of music, curated by a team of music enthusiasts.";
 const defaultOGImage = '/static/ogImage.png';
 
 class Head extends Component {
   static defaultProps = {
-    title: 'Release Wave | Discover The Next Sound Wave',
-    description:
-      "Release Wave is the best way to see what's coming next in the world of music.",
+    title: null,
+    description: defaultDescription,
     ogImage: defaultOGImage,
     url: process.env.SITE_ROOT,
     ogImageWidth: 1200,
@@ -19,24 +21,14 @@ class Head extends Component {
     const { title } = this.props;
 
     if (title) {
-      return `${title} - Release Wave - Discover the Next & Best Wave of Music`;
+      return `${title} - ${defaultTitle}`;
     }
 
-    return 'Release Wave - Discover the Next & Best Wave of Music';
-  };
-
-  description = () => {
-    const { description } = this.props;
-
-    if (description) {
-      return `${description} - Release Wave`;
-    }
-
-    return 'Release Wave - Discover the Next & Best Wave of Music';
+    return defaultTitle;
   };
 
   render() {
-    const { url, ogImage, ogImageWidth, ogImageHeight } = this.props;
+    const { url, description, ogImage, ogImageWidth, ogImageHeight } = this.props;
     return (
       <NextHead>
         <meta charSet="UTF-8" />
@@ -88,10 +80,10 @@ class Head extends Component {
         <meta name="msapplication-wide310x150logo" content="/static/widetile.png" />
         <meta name="msapplication-square310x310logo" content="/static/largetile.png" />
 
-        <meta key="description" name="description" content={this.description()} />
+        <meta key="description" name="description" content={description} />
         <meta key="og:url" property="og:url" content={url} />
         <meta key="og:title" property="og:title" content={this.title()} />
-        <meta key="og:description" property="og:description" content={this.description()} />
+        <meta key="og:description" property="og:description" content={description} />
         <meta key="twitter:site" name="twitter:site" content={url} />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <meta key="twitter:image" name="twitter:image" content={ogImage} />

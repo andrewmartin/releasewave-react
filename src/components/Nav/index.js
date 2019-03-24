@@ -19,7 +19,9 @@ const Nav = ({ pages, className, toggleMenu, hideMenu }) => {
           {mainPages.map(id => (
             <li
               onClick={hideMenu}
-              className={`navigation-item navigation-item--${slugify(pages[id].title.toLowerCase())}`}
+              className={`navigation-item navigation-item--${slugify(
+                pages[id].title.toLowerCase()
+              )}`}
               key={pages[id].slug}>
               <ActiveLink href={pages[id].slug}>
                 <span>{pages[id].title}</span>

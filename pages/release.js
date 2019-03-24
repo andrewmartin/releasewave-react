@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindAllActions } from 'store/actions/helpers';
 import { CreateReviewModal, EditReviewModal } from 'components/Modal';
-import ReleasePage from 'pages/Release';
+import ReleasePage from 'pages/Release/ReleasePage';
 import track from 'analytics';
 
 class Release extends React.Component {
@@ -28,6 +28,7 @@ class Release extends React.Component {
 
   render() {
     const {
+      user,
       modal: { modalData },
       release,
       review,
@@ -38,14 +39,15 @@ class Release extends React.Component {
       <>
         <CreateReviewModal actions={actions} release={release} />
         <EditReviewModal actions={actions} release={release} review={modalData} />
-        <ReleasePage actions={actions} {...release} review={review} />
+        <ReleasePage user={user} actions={actions} review={review} {...release} />
       </>
     );
   }
 }
 
-const mapStateToProps = ({ modal, client, release, review }) => {
+const mapStateToProps = ({ user, modal, client, release, review }) => {
   return {
+    user,
     modal,
     review,
     release,

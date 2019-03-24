@@ -20,10 +20,11 @@ export default class InfiniteScroll extends Component {
   }
 
   handleScroll = () => {
-    const { onScroll, offset, isLoading, hasMore } = this.props;
+    const { offset, onScroll, isLoading, hasMore } = this.props;
     const { current } = this.content;
 
-    const hasScrolled = current.scrollTop + current.clientHeight + offset >= current.scrollHeight;
+    const hasScrolled =
+      current.scrollTop + current.clientHeight + offset >= current.scrollHeight;
 
     if (hasScrolled && !isLoading && hasMore) {
       onScroll();
@@ -33,6 +34,8 @@ export default class InfiniteScroll extends Component {
   componentDidMount() {
     document.addEventListener('scroll', this.handleScroll);
     this.handleScroll();
+
+    this.props.onScroll();
   }
 
   componentWillUnmount() {

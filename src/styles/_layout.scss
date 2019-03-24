@@ -33,6 +33,10 @@ button {
   outline: none !important;
 }
 
+a {
+  transition: all .2s ease-out;
+}
+
 // mixins
 
 $album-box-shadow: 5px 5px 0 0 rgba(0,0,0,.1);
@@ -77,6 +81,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
   h3 {
     margin: 0;
+    letter-spacing: -1px;
     color: $gray-300;
     line-height: 1;
   }
@@ -157,6 +162,8 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   transition: all .2s ease-out;
   text-align: center;
   vertical-align: middle;
+  letter-spacing: 0px;
+  text-transform: lowercase;
   border: 0;
   background: $gray-100;
   box-shadow: 3px 3px 0 rgba(0,0,0,.1);
@@ -405,8 +412,9 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
 .release-page {
   position: relative;
+  overflow: hidden;
   margin: 0;
-  padding: 100px 0 0 ;
+  padding: 100px 0 0;
 
   &__bg {
     position: absolute;
@@ -417,6 +425,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     height: 100%;
     margin: 0;
     content: "";
+    transform: scale(1.2);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center center;
@@ -429,6 +438,10 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   .discussion {
     position: relative;
     z-index: 1;
+  }
+
+  .container {
+    margin-bottom: 100px;
   }
 
   &__header {
@@ -455,6 +468,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
       cite {
         display: block;
+        width: 100%;
         color: $gray-500;
         font-size: 30px;
         font-weight: 200;
@@ -512,12 +526,12 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   position: relative;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   margin: 15px 0 5px;
   font-size: 30px;
   line-height: 1;
 
   &__social {
-    margin-left: 10px;
     opacity: .5;
   }
 
@@ -529,8 +543,9 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 }
 
 .social {
-  @include align-center();
-  margin: 0 0 0 20px;
+  display: flex;
+  flex-direction: row;
+  margin: 25px 0 0 0;
 
   @extend .list-unstyled;
 
@@ -540,6 +555,10 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     margin: 0 8px;
     transition: all .2s ease-out;
     opacity: .4;
+
+    &:first-child {
+      margin-left: 0;
+    }
 
     &:hover {
       transform: scale(1.2);
@@ -555,7 +574,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
 .discussion {
   flex: 1;
-  margin: 100px 0 0;
+  margin: 0;
   padding: 50px 0;
   border-top: 3px solid $gray-200;
   background: $gray-300;
@@ -563,7 +582,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   h3 {
     margin: 0;
     letter-spacing: -1px;
-    font-size: 40px;
+    font-size: 35px;
     line-height: 1.2;
   }
 
@@ -595,7 +614,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   &__img {
     align-self: flex-start;
     order: 2;
-    width: 25%;
+    width: 15%;
     margin-left: 50px;
     text-align: center;
 
@@ -640,11 +659,6 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
       }
     }
 
-    p {
-      font-size: 18px;
-      line-height: 24px;
-    }
-
     > div {
       @include media("<lg") {
         margin-bottom: 30px;
@@ -660,10 +674,8 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   grid-template-columns: repeat(auto-fill, minmax(50%,1fr));
 }
 
-.upcoming-releases {
-  // display: flex;
-  // flex-direction: row;
-  // flex-wrap: wrap;
+.upcoming-releases,
+.featured-releases {
   @extend .list-unstyled;
 
   li {
@@ -722,7 +734,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
       flex-direction: row;
       width: 100%;
       height: 100%;
-      padding: 30px;
+      padding: 20px;
       color: $gray-800;
       background: #fff;
 
@@ -779,7 +791,54 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   }
 }
 
+.featured-releases-container {
+  display: flex;
+  flex-direction: row;
+  padding: 100px 0;
+  background: #fff;
+
+  @include media("<md") {
+    flex-wrap: wrap;
+  }
+
+  aside {
+    width: 33%;
+    padding: 0 30px;
+
+    @include media("<md") {
+      width: 100%;
+    }
+  }
+
+  main {
+    width: 66%;
+
+    @include media("<md") {
+      width: 100%;
+    }
+  }
+}
+
+.featured-releases {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+
+  li {
+    width: 100%;
+  }
+}
+
+
 // atoms
+
+.large-heading {
+  margin: 0 0 10px;
+  letter-spacing: -2px;
+  text-transform: lowercase;
+  font-size: 60px;
+  font-weight: 900;
+}
 
 .sub-heading {
   margin: 0 0 20px;
@@ -791,7 +850,7 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 }
 
 .intro {
-  margin: 100px 0;
+  margin: 100px 0 0;
 
   > div {
     @include make-row;
@@ -801,30 +860,109 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
       @include make-col(6);
     }
   }
+}
 
-  h1 {
-    margin: 0 0 10px;
-    letter-spacing: -2px;
+.intro-text {
+  margin: 0 0 100px;
+  font-size: 18px;
+  line-height: 24px;
+
+  span {
+    letter-spacing: 1px;
     text-transform: uppercase;
-    text-transform: lowercase;
-    font-size: 60px;
-    font-style: 900;
+    color: $gray-500;
+  }
+}
+
+.upcoming-releases-sidebar {
+  h3 {
+    margin: 0 0 30px;
+    text-transform: uppercase;
+    color: $gray-500;
+    font-family: $font-family-sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.2;
   }
 
-  p {
+  ul {
     margin: 0;
-    font-size: 18px;
-    line-height: 24px;
 
-    span {
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: $gray-500;
+    @extend .list-unstyled;
+
+    li {
+      margin: 0 0 20px;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      padding: 10px;
+      color: $gray-800;
+
+      &:hover {
+        background: $gray-100;
+
+        cite {
+          color: color("pink");
+        }
+      }
+
+      cite {
+        @include date-format;
+        font-size: 12px;
+      }
+
+      figure {
+        width: 75px;
+        height: 75px;
+        margin: 0 15px 0 0;
+        background-size: cover;
+      }
+
+      h4 {
+        margin: 0 0 5px;
+        font-size: 18px;
+        line-height: 1.2;
+
+        small {
+          display: block;
+          margin: 5px 0 10px;
+          color: $gray-600;
+          font-family: $font-family-sans-serif;
+        }
+      }
     }
   }
 }
 
+.upcoming-releases-sidebar-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 0 30px;
+  padding: 30px 0;
+  border-bottom: 2px solid $gray-100;
 
+  &:last-child {
+    border-bottom: 2px solid $gray-100;
+  }
+
+  h3 {
+    margin: 0 0 15px;
+    padding: 0 0 15px;
+    text-align: center;
+    text-transform: uppercase;
+    color: color("pink");
+    font-family: $headings-font-family;
+    font-weight: bold;
+  }
+
+  button {
+    box-shadow: none;
+  }
+}
 
 .embeds {
   margin: 30px 0;

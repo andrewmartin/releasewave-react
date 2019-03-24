@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindAllActions } from 'store/actions/helpers';
-import HomePage from 'pages/Home';
+import HomePage from 'pages/Home/HomePage';
 import track from 'analytics';
 
 class Home extends React.Component {
@@ -10,12 +10,8 @@ class Home extends React.Component {
 
     const { getReleases, clearReleases } = actions;
 
-    try {
-      clearReleases();
-      await getReleases();
-    } catch (err) {
-      console.log('err', err);
-    }
+    clearReleases();
+    await getReleases();
 
     return {
       actions,
@@ -28,13 +24,14 @@ class Home extends React.Component {
   };
 
   render() {
-    const { actions, release } = this.props;
-    return <HomePage actions={actions} release={release} />;
+    const { actions, release, user } = this.props;
+    return <HomePage actions={actions} release={release} user={user} />;
   }
 }
 
-const mapStateToProps = ({ client, release }) => {
+const mapStateToProps = ({ user, client, release }) => {
   return {
+    user,
     release,
     client,
   };

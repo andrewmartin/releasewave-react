@@ -5,3 +5,4 @@ export { default as TextField } from './TextField';
 export { default as DateField } from './DateField';
 export { default as EmbedField } from './EmbedField';
 export { default as RichTextField } from './RichTextField';
+export { default as CheckboxField } from './CheckboxField';

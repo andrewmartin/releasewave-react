@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import Head from 'components/head';
 
 import { FullLoading } from 'components/Loader';
 
 import UpcomingReleases from './components/UpcomingReleases';
+import UpcomingReleasesSidebar from './components/UpcomingReleasesSidebar';
+import FeaturedReleases from './components/FeaturedReleases';
 
 export default class HomePage extends Component {
   state = {
@@ -23,15 +24,29 @@ export default class HomePage extends Component {
 
   render() {
     const {
-      release: { isLoading, items, total_entries },
+      release: { itemsByMonth, isLoading, items, total_entries },
     } = this.props;
 
-    const hasMore = items <= total_entries;
+    const hasMore = items.length < total_entries;
 
     return (
       <div className="home-page">
         {isLoading && <FullLoading />}
-        <Head title="Home" />
+        <div className="container-fluid featured-releases-container">
+          <UpcomingReleasesSidebar itemsByMonth={itemsByMonth} />
+          <main>
+            <div className="col-sm-12">
+              <h1 className="large-heading">Featured</h1>
+              <p className="intro-text">
+                <span>essential new releases</span> we put at the top of the list.
+              </p>
+            </div>
+            <div className="col-sm-12">
+              <FeaturedReleases isLoading={isLoading} hasMore={hasMore} {...this.props} />
+            </div>
+          </main>
+        </div>
+
         <div className="container-fluid">
           <div>
             <main>
@@ -39,7 +54,7 @@ export default class HomePage extends Component {
                 <div>
                   <div>
                     <h1 className="large-heading">The Wave</h1>
-                    <p>
+                    <p className="intro-text">
                       <span>The Wave</span> is our curated list of essential upcoming music
                       releases.
                     </p>

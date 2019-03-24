@@ -1,5 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { LOCATION_CHANGE } from 'connected-next-router';
+import moment from 'moment';
+
 import { sendNotification } from 'store/actions/notifications';
 import { fetchAction } from 'store/actions/fetch';
 import { parseServerError } from 'store/helpers';
@@ -155,7 +157,8 @@ export const actions = {
 
 const appendItem = (stateKey, payload) => stateKey.concat(payload);
 
-const removeItem = (stateKey, payload) => stateKey.filter(i => i.id !== payload).filter(n => n);
+const removeItem = (stateKey, payload) =>
+  stateKey.filter(i => i.id !== payload).filter(n => n);
 
 const replaceItem = (stateKey, payload) => {
   const newState = stateKey.slice(0).filter(item => item.id !== payload.id);
@@ -164,10 +167,56 @@ const replaceItem = (stateKey, payload) => {
   return newState.filter(n => n);
 };
 
-const defaultState = {
+const buildItems = (stateItems, newItems) => {
+  const newState = [];
+  stateItems.forEach(item => newState.push(item));
+  newItems.forEach(item => {
+    if (newState.find(i => i.id === item.id)) return;
+    newState.push(item);
+  });
+
+  return newState;
+};
+
+const itemsByMonth = items => {
+  const itemsByDate = {};
+
+  items.forEach(item => {
+    const { release_date } = item;
+
+    const date = moment(release_date).format('MM');
+    if (itemsByDate[date]) {
+      const itemFound = itemsByDate[date].filter(i => i.id === item.id).filter(n => n).length;
+
+      if (!itemFound) {
+        itemsByDate[date].push(item);
+      }
+    } else {
+      itemsByDate[date] = [item];
+    }
+  });
+
+  return itemsByDate;
+};
+
+export const defaultState = {
   isLoading: false,
   serverError: null,
   items: [],
+  itemsByMonth: {
+    '01': [],
+    '02': [],
+    '03': [],
+    '04': [],
+    '05': [],
+    '06': [],
+    '07': [],
+    '08': [],
+    '09': [],
+    '10': [],
+    '11': [],
+    '12': [],
+  },
 };
 
 export default handleActions(
@@ -232,7 +281,8 @@ export default handleActions(
         return {
           ...state,
           ...payload,
-          items: state.items.concat(payload.items),
+          items: buildItems(state.items, payload.items),
+          itemsByMonth: itemsByMonth(buildItems(state.items, payload.items)),
           isLoading: false,
           serverError: null,
         };

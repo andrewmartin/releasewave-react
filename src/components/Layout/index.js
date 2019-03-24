@@ -24,7 +24,7 @@ class Layout extends React.Component {
         <LoginModal actions={actions} user={user} />
         <EditUserModal actions={actions} user={user} />
         <div className="app">
-          <Head title="Release Wave" />
+          <Head />
           <div className="layout">
             <Header burgerMenu={burgerMenu} user={user} actions={actions} />
             <Component {...restProps} />

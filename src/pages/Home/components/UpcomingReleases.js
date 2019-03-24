@@ -1,54 +1,9 @@
 import React, { Component } from 'react';
-import ActiveLink from 'components/ActiveLink';
-import { formatDate } from 'components/helpers';
 import InfiniteScroll from 'components/InfiniteScroll';
 import Masonry from 'react-masonry-component';
 import Spinner from 'components/Spinner';
-import striptags from 'striptags';
 
-class UpcomingReleasesItem extends Component {
-  static defaultProps = {
-    image: {
-      square: null,
-    },
-  };
-
-  trim = description => {
-    const content = striptags(description);
-    return `<p>${content.substr(0, 100)}...</p>`;
-  };
-
-  render() {
-    const {
-      slug,
-      name,
-      artists,
-      release_date,
-      description,
-      short_description,
-      image: { full },
-    } = this.props;
-
-    return (
-      <li className="upcoming-release">
-        <ActiveLink href={`/releases/${slug}`}>
-          <figure>
-            <img src={full} alt={name} />
-          </figure>
-          <span>
-            <strong>{name}</strong>
-            <em>{artists.map(a => a.name).join(',')}</em>
-            <div
-              className="upcoming-release__description"
-              dangerouslySetInnerHTML={{ __html: this.trim(description) }}
-            />
-            {release_date && <cite>{formatDate(release_date)}</cite>}
-          </span>
-        </ActiveLink>
-      </li>
-    );
-  }
-}
+import UpcomingReleasesItem from './UpcomingReleasesItem';
 
 export default class UpcomingReleases extends Component {
   state = {

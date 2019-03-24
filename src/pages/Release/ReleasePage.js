@@ -11,6 +11,13 @@ import Head from 'components/head';
 import { FullLoading } from 'components/Loader';
 
 export default class ReleasePage extends Component {
+  static defaultProps = {
+    artists: [],
+    review: {
+      items: [],
+    },
+  };
+
   showCreateReview = () => {
     const {
       actions: { showModal },
@@ -30,7 +37,7 @@ export default class ReleasePage extends Component {
   renderReviews() {
     const { review } = this.props;
 
-    if (!review.items || !review.items.length) {
+    if (!review.items.length) {
       return null;
     }
 
@@ -64,6 +71,8 @@ export default class ReleasePage extends Component {
 
   render() {
     const {
+      user,
+      review,
       isLoading,
       embeds,
       description,
@@ -75,13 +84,12 @@ export default class ReleasePage extends Component {
       buy,
     } = this.props;
 
-    const artistNames = artists.map(artist => artist.name).join(',');
-    const bgImage = artists && artists[0].image ? artists[0].image.full : null;
+    const bgImage = artists.length && artists[0].image ? artists[0].image.full : null;
 
     return (
       <div className="release-page">
         <Head
-          title={`${name} - ${artistNames}`}
+          title={name}
           description={striptags(description)}
           url={`${process.env.SITE_ROOT}/releases/${slug}`}
           ogImage={image.full}
@@ -119,20 +127,21 @@ export default class ReleasePage extends Component {
             </figure>
           </header>
         </div>
-
-        <div className="discussion">
-          <div className="container">
-            <div className="discussion__header">
-              <h3>Discussion</h3>
-              <WithUser>
-                <button onClick={this.showCreateReview} className="btn btn-sm btn-primary">
-                  Create
-                </button>
-              </WithUser>
+        {(!!review.items.length || user.is_admin) && (
+          <div className="discussion">
+            <div className="container">
+              <div className="discussion__header">
+                <h3>Discussion</h3>
+                <WithUser>
+                  <button onClick={this.showCreateReview} className="btn btn-sm btn-primary">
+                    Create
+                  </button>
+                </WithUser>
+              </div>
+              {this.renderReviews()}
             </div>
-            {this.renderReviews()}
           </div>
-        </div>
+        )}
       </div>
     );
   }

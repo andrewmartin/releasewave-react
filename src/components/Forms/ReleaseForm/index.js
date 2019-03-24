@@ -8,6 +8,7 @@ import {
   TextField,
   EmbedField,
   RichTextField,
+  CheckboxField,
 } from 'components/Forms/components';
 import Errors from 'components/Errors/Errors';
 
@@ -51,6 +52,7 @@ class ReleaseForm extends Component {
       release_date,
       buy,
       short_description,
+      featured,
     } = this.props.release;
 
     const initialValues = {
@@ -63,6 +65,7 @@ class ReleaseForm extends Component {
       embed_code: embeds ? embeds.map(embed => embed.content) : [],
       buy: buy || '',
       short_description: short_description || '',
+      featured: Boolean(featured),
     };
 
     this.setState({
@@ -100,6 +103,11 @@ class ReleaseForm extends Component {
         <div className="form-group">
           <SelectField name="artist_ids" label="Artist(s)" {...props} />
         </div>
+        <CheckboxField
+          label="Check this box to feature this release"
+          name="featured"
+          {...props}
+        />
         <EmbedField
           placeholder="Paste embed code here"
           name="embed_code"
