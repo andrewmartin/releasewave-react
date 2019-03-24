@@ -25,9 +25,12 @@ export default class UpcomingReleases extends Component {
     } = this.props;
     if (!items) return null;
 
-    const childElements = items.map(item => {
-      return <UpcomingReleasesItem key={item.id + item.slug} {...item} />;
-    });
+    const childElements = items
+      .filter(i => !i.featured)
+      .filter(n => n)
+      .map(item => {
+        return <UpcomingReleasesItem key={item.id + item.slug} {...item} />;
+      });
 
     if (isLoading) {
       childElements.push(
