@@ -68,6 +68,8 @@ export const fetchMiddleware = ({ instance: fetch }) => store => next => action 
           return fetch(path, reqOptions).then(parseResponse);
         })
         .catch(() => {
+          store.dispatch(logoutUser());
+
           return fetch(path, reqOptions).then(parseResponse);
         });
     }

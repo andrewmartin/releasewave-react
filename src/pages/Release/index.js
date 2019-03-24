@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import striptags from 'striptags';
+
 import ArtistLink from 'components/ArtistLink';
 import BuyLink from 'components/BuyLink';
 import { formatDate } from 'components/helpers';
@@ -6,7 +8,7 @@ import { WithOwnUser } from 'components/connect';
 import { TYPES } from 'store/reducers/modal';
 import { WithUser } from 'components/connect';
 import Head from 'components/head';
-import striptags from 'striptags';
+import { FullLoading } from 'components/Loader';
 
 export default class ReleasePage extends Component {
   showCreateReview = () => {
@@ -61,7 +63,17 @@ export default class ReleasePage extends Component {
   }
 
   render() {
-    const { embeds, description, name, image, artists, release_date, slug, buy } = this.props;
+    const {
+      isLoading,
+      embeds,
+      description,
+      name,
+      image,
+      artists,
+      release_date,
+      slug,
+      buy,
+    } = this.props;
 
     const artistNames = artists.map(artist => artist.name).join(',');
     const bgImage = artists && artists[0].image ? artists[0].image.full : null;
@@ -76,6 +88,7 @@ export default class ReleasePage extends Component {
           ogImageWidth={500}
           ogImageHeight={500}
         />
+        {isLoading && <FullLoading />}
         <div className="release-page__bg" style={{ backgroundImage: `url(${bgImage})` }} />
 
         <div className="container">

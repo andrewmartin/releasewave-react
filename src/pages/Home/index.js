@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Head from 'components/head';
 
+import { FullLoading } from 'components/Loader';
+
 import UpcomingReleases from './components/UpcomingReleases';
 
 export default class HomePage extends Component {
@@ -21,15 +23,14 @@ export default class HomePage extends Component {
 
   render() {
     const {
-      release,
-      release: { items },
+      release: { isLoading, items, total_entries },
     } = this.props;
 
-    const { total_entries, isLoading } = release;
     const hasMore = items <= total_entries;
 
     return (
       <div className="home-page">
+        {isLoading && <FullLoading />}
         <Head title="Home" />
         <div className="container-fluid">
           <div>
@@ -39,8 +40,8 @@ export default class HomePage extends Component {
                   <div>
                     <h1 className="large-heading">The Wave</h1>
                     <p>
-                      <span>The Wave</span> is our curated list of essential upcoming releases
-                      and essential listening.
+                      <span>The Wave</span> is our curated list of essential upcoming music
+                      releases.
                     </p>
                   </div>
                 </div>

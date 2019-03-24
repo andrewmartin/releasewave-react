@@ -90,14 +90,14 @@ class ReleaseForm extends Component {
         <div className="form-group">
           <RichTextField name="description" {...props} />
         </div>
-        <div className="field-group">
+        <div className="form-group">
           <DateField label="Release Date" name="release_date" {...props} />
         </div>
-        <div className="field-group">
+        <div className="form-group">
           <FileField name="image" label="Image" {...props} />
           {values.image && <img src={values.image.thumb} alt="" />}
         </div>
-        <div className="field-group">
+        <div className="form-group">
           <SelectField name="artist_ids" label="Artist(s)" {...props} />
         </div>
         <EmbedField

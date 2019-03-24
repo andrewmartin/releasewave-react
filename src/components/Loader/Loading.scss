@@ -1,6 +1,6 @@
 @import "../../styles/bootstrap";
 $primary-color: color("pink");
-@import "~loaders.css/src/animations/ball-scale-ripple.scss";
+@import "~loaders.css/src/animations/line-scale-pulse-out.scss";
 
 .loader {
   display: flex;
@@ -19,12 +19,14 @@ $primary-color: color("pink");
 
 .page-loader {
   position: fixed;
+  z-index: 100;
   top: 0;
   left: 0;
   display: flex;
+  overflow: hidden;
   align-content: center;
   justify-content: center;
   width: 100%;
   height: 100%;
-  background: rgba(255,255,255,.1);
+  background: rgba(255,255,255,.3);
 }

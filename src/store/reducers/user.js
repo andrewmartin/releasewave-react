@@ -21,7 +21,10 @@ export const actions = {
     dispatch(fetchUserStart());
 
     try {
-      const response = await ApiService.api.instance('/auth', { data: payload, method: 'POST' });
+      const response = await ApiService.api.instance('/auth', {
+        data: payload,
+        method: 'POST',
+      });
       dispatch(sendNotification('Registered!'));
       return dispatch(registerUserSuccess(response));
     } catch (error) {
@@ -37,7 +40,10 @@ export const actions = {
     dispatch(fetchUserStart());
 
     try {
-      const response = await ApiService.api.instance('/auth/sign_in', { data: payload, method: 'POST' });
+      const response = await ApiService.api.instance('/auth/sign_in', {
+        data: payload,
+        method: 'POST',
+      });
       dispatch(sendNotification('Logged in!'));
       return dispatch(loginUserSuccess(response));
     } catch (error) {

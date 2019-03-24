@@ -1,21 +1,24 @@
 import React from 'react';
-const { Loader } = require('react-loaders');
+import { Loader } from 'react-loaders';
+import { Portal } from 'react-portal';
 
 import './Loading.scss';
 
 const Loading = ({ config }) => {
   return (
     <div className="loader">
-      <Loader type="ball-scale-ripple" color="#ac1e8c" />
+      <Loader type="line-scale-pulse-out" color="#ac1e8c" />
     </div>
   );
 };
 
 export const FullLoading = ({ config }) => {
   return (
-    <div className="page-loader">
-      <Loading config={config} />
-    </div>
+    <Portal>
+      <div className="page-loader">
+        <Loading config={config} />
+      </div>
+    </Portal>
   );
 };
 

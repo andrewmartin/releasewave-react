@@ -837,9 +837,9 @@ $modal-xl: 1140px !default;
 $modal-lg: 1000px !default;
 $modal-md: 800px !default;
 $modal-sm: 330px !default;
-$modal-fade-transform: translate(0, -500px) !default;
+$modal-fade-transform: scale(0);
 $modal-show-transform: none;
-$modal-transition: transform .3s ease-out;
+$modal-transition: transform .1s ease-out;
 
 
 // Alerts

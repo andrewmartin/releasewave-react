@@ -4,12 +4,18 @@ import { formatDate } from 'components/helpers';
 import InfiniteScroll from 'components/InfiniteScroll';
 import Masonry from 'react-masonry-component';
 import Spinner from 'components/Spinner';
+import striptags from 'striptags';
 
 class UpcomingReleasesItem extends Component {
   static defaultProps = {
     image: {
       square: null,
     },
+  };
+
+  trim = description => {
+    const content = striptags(description);
+    return `<p>${content.substr(0, 100)}...</p>`;
   };
 
   render() {
@@ -34,7 +40,7 @@ class UpcomingReleasesItem extends Component {
             <em>{artists.map(a => a.name).join(',')}</em>
             <div
               className="upcoming-release__description"
-              dangerouslySetInnerHTML={{ __html: short_description || description }}
+              dangerouslySetInnerHTML={{ __html: this.trim(description) }}
             />
             {release_date && <cite>{formatDate(release_date)}</cite>}
           </span>
