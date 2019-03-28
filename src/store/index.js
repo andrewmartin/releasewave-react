@@ -32,6 +32,8 @@ export default function configureStore(initialState = {}, options) {
   return createStore(
     reducer,
     initialState,
-    composeWithDevTools(applyMiddleware(routerMiddleware, thunkMiddleware, fetchMiddleware(ApiService.api)))
+    composeWithDevTools(
+      applyMiddleware(routerMiddleware, thunkMiddleware, fetchMiddleware(ApiService.api))
+    )
   );
 }
