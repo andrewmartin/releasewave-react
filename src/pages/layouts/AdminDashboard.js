@@ -20,7 +20,7 @@ class AdminDashboard extends Component {
   };
 
   render() {
-    const { user, release, artist, actions, children, rehydrated } = this.props;
+    const { release, artist, actions, children, rehydrated } = this.props;
 
     if (!rehydrated) return null;
 

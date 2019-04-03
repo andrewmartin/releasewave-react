@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import InfiniteCalendar from 'react-infinite-calendar';
 
 class DateField extends Component {
   constructor(props) {

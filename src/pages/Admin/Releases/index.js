@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import ConfirmButton from 'react-confirm-button';
 import Router from 'next/router';
-import { FaCheckCircle, FaCircle } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 
 import ActiveLink from 'components/ActiveLink';
 import { withAdmin } from 'pages/layouts/withAdminDashboard';

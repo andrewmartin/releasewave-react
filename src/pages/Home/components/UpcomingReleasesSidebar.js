@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import cx from 'classnames';
 
 import { formatDate } from 'components/helpers';
 import { defaultState } from 'store/reducers/release';

@@ -22,7 +22,7 @@ export default class ArtistsPage extends Component {
 
   render() {
     const {
-      artist: { isLoading, items, total_entries },
+      artist: { isLoading, items },
     } = this.props;
 
     return (

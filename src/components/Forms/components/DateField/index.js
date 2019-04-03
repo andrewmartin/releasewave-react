@@ -44,7 +44,12 @@ class DateField extends Component {
     return (
       <div className="form-group">
         <label htmlFor={name}>{label}</label>
-        <InfiniteCalendar onSelect={this.onChange} width={400} height={300} selected={values[name] || today} />
+        <InfiniteCalendar
+          onSelect={this.onChange}
+          width={400}
+          height={300}
+          selected={values[name] || today}
+        />
       </div>
     );
   }

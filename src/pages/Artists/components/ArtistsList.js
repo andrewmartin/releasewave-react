@@ -15,7 +15,7 @@ export default class ArtistsList extends Component {
   };
 
   render() {
-    const { isLoading, items } = this.props;
+    const { items } = this.props;
     if (!items) return null;
 
     return <ul className="artists-list">{items.map(this.renderItem)}</ul>;

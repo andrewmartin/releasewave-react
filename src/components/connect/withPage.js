@@ -3,6 +3,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
 const WithPage = Component => props => {
+  // eslint-disable-next-line no-unused-vars
   const { dispatch, ...restProps } = props;
   return <Component {...restProps} />;
 };

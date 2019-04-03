@@ -9,6 +9,8 @@ export default class FieldError extends Component {
 
     const nameFormatted = changeCase.sentenceCase(errors[name]);
 
-    return errors[name] && touched[name] && <div className="form-feedback">{nameFormatted}.</div>;
+    return (
+      errors[name] && touched[name] && <div className="form-feedback">{nameFormatted}.</div>
+    );
   }
 }

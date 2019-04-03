@@ -75,10 +75,11 @@ class Login extends Component {
 
   render() {
     const {
-      user: { serverError, isLoading },
+      user: { serverError },
     } = this.props;
 
-    const Errors = () => (serverError ? <div className="form-feedback">{serverError}</div> : null);
+    const Errors = () =>
+      serverError ? <div className="form-feedback">{serverError}</div> : null;
 
     return (
       <div className="webform-wrapper ">

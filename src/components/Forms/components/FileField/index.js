@@ -28,7 +28,9 @@ export default class FileField extends Component {
         <Dropzone onDrop={this.onDrop}>
           {({ getRootProps, getInputProps, isDragActive }) => {
             return (
-              <div {...getRootProps()} className={cx('dropzone', { 'dropzone--isActive': isDragActive })}>
+              <div
+                {...getRootProps()}
+                className={cx('dropzone', { 'dropzone--isActive': isDragActive })}>
                 <input {...getInputProps()} />
                 {isDragActive ? (
                   <p>Drop files here...</p>

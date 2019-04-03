@@ -57,7 +57,9 @@ class UserForm extends Component {
               value={values[field]}
               name={field}
             />
-            {errors[field] && touched[field] && <div className="form-feedback">{errors[field]}</div>}
+            {errors[field] && touched[field] && (
+              <div className="form-feedback">{errors[field]}</div>
+            )}
           </div>
         ))}
         <FileField name="image" label="Image" {...props} />

@@ -4,8 +4,6 @@ import { FaRss } from 'react-icons/fa';
 
 export default class Footer extends Component {
   render() {
-    const { burgerMenu } = this.props;
-
     return (
       <footer className="mastfoot">
         <div className="container">
@@ -13,7 +11,7 @@ export default class Footer extends Component {
           <a
             title="Release Wave RSS feed"
             className="mastfoot-icon"
-            href="https://api.releasewave.com/feed.rss">
+            href="https://www.releasewave.com/feed.rss">
             <FaRss />
           </a>
           <Navigation

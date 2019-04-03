@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import { connect } from 'react-redux';
-import artist, { actions } from 'store/reducers/artist';
+import { actions as artistActions } from 'store/reducers/artist';
 
 class SelectField extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class SelectField extends Component {
     const {
       payload: { items },
     } = await dispatch(
-      actions.getArtists({
+      artistActions.getArtists({
         search: inputValue,
       })
     );

@@ -4,7 +4,7 @@ import { Portal } from 'react-portal';
 
 import './Loading.scss';
 
-const Loading = ({ config }) => {
+const Loading = () => {
   return (
     <div className="loader">
       <Loader type="line-scale-pulse-out" color="#ac1e8c" />

@@ -62,7 +62,12 @@ export default class Navigation extends Component {
           <NavItems />
           {user && (
             <li>
-              <UserDropdown user={user} actions={actions} isOpen={dropdownOpen} toggle={this.toggle} />
+              <UserDropdown
+                user={user}
+                actions={actions}
+                isOpen={dropdownOpen}
+                toggle={this.toggle}
+              />
             </li>
           )}
         </ul>
