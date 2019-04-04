@@ -72,6 +72,10 @@ export default class UpcomingReleasesSidebar extends Component {
 
     const nextThreeMonths = [
       {
+        name: moment(new Date()).format('MMMM'),
+        key: moment(new Date()).format('MM'),
+      },
+      {
         name: moment(new Date())
           .add(1, 'M')
           .format('MMMM'),
@@ -85,14 +89,6 @@ export default class UpcomingReleasesSidebar extends Component {
           .format('MMMM'),
         key: moment(new Date())
           .add(2, 'M')
-          .format('MM'),
-      },
-      {
-        name: moment(new Date())
-          .add(3, 'M')
-          .format('MMMM'),
-        key: moment(new Date())
-          .add(3, 'M')
           .format('MM'),
       },
     ];
