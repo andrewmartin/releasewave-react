@@ -33,6 +33,10 @@ class Head extends Component {
       <NextHead>
         <meta charSet="UTF-8" />
         <title key="title">{this.title()}</title>
+        <meta
+          name="google-site-verification"
+          content="DlNzg6xPiFnLOPy_3EbQgOa1KJEla_PSzvJza1Wptdw"
+        />
 
         <script src="https://cdn.polyfill.io/v3/polyfill.min.js" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
