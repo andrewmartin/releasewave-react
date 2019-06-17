@@ -43,7 +43,12 @@ export default class HomePage extends Component {
                 </p>
               </div>
               <div className="col-sm-12">
-                <FeaturedReleases isLoading={isLoading} hasMore={hasMore} {...this.props} />
+                <FeaturedReleases
+                  itemsByMonth={itemsByMonth}
+                  isLoading={isLoading}
+                  hasMore={hasMore}
+                  {...this.props}
+                />
               </div>
             </main>
           </div>

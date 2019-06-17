@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import { formatDate } from 'components/helpers';
 import { defaultState } from 'store/reducers/release';
+import { nextThreeMonths } from 'helpers';
 import ActiveLink from 'components/ActiveLink';
 
 class UpcomingReleasesSidebarItems extends Component {
@@ -69,29 +70,6 @@ export default class UpcomingReleasesSidebar extends Component {
 
   render() {
     const { itemsByMonth } = this.props;
-
-    const nextThreeMonths = [
-      {
-        name: moment(new Date()).format('MMMM'),
-        key: moment(new Date()).format('MM'),
-      },
-      {
-        name: moment(new Date())
-          .add(1, 'M')
-          .format('MMMM'),
-        key: moment(new Date())
-          .add(1, 'M')
-          .format('MM'),
-      },
-      {
-        name: moment(new Date())
-          .add(2, 'M')
-          .format('MMMM'),
-        key: moment(new Date())
-          .add(2, 'M')
-          .format('MM'),
-      },
-    ];
 
     return (
       <aside className="upcoming-releases-sidebar">

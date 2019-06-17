@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Spinner from 'components/Spinner';
-
+import { nextThreeMonths } from 'helpers';
 import UpcomingReleasesItem from './UpcomingReleasesItem';
 
 export default class FeaturedReleases extends Component {
@@ -17,21 +17,30 @@ export default class FeaturedReleases extends Component {
   render() {
     const {
       isLoading,
+      itemsByMonth,
       release: { items },
     } = this.props;
     if (!items) return null;
 
-    const featuredItems = items.filter(n => n.featured).filter(n => n);
-
-    const childElements = featuredItems.slice(0, 8).map(item => {
-      return (
-        <UpcomingReleasesItem
-          className="featured-release"
-          key={item.id + item.slug}
-          isFeatured
-          {...item}
-        />
-      );
+    /**
+     * TODO: reduce the number of items that output here; right now it will output ALL of them.
+     */
+    const childElements = nextThreeMonths.map(({ key }) => {
+      if (itemsByMonth[key]) {
+        {
+          return itemsByMonth[key]
+            .filter(n => n.featured)
+            .filter(n => n)
+            .map(item => (
+              <UpcomingReleasesItem
+                className="featured-release"
+                key={items.id + items.slug}
+                isFeatured
+                {...item}
+              />
+            ));
+        }
+      }
     });
 
     if (isLoading) {
