@@ -69,7 +69,7 @@ export default class HomePage extends Component {
                 </div>
               </div>
               <UpcomingReleases
-                isLoading={isLoading}
+                isLoading={isLoading || this.state.isFetching}
                 hasMore={hasMore}
                 onFetchMore={this.fetchReleases}
                 {...this.props}

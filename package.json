@@ -4,7 +4,7 @@
     "dev": "next",
     "build": "next build",
     "start": "yarn develop",
-    "develop": "PORT=3002 nodemon ./server/index.js --watch ./server/ ./next.config.js",
+    "develop": "PORT=3002 nodemon --inspect ./server/index.js --watch ./server/ ./next.config.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --colors"

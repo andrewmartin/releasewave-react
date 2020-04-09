@@ -32,3 +32,11 @@ This project uses Next.js. [Original Next.js README here](doc/NEXT.md)
 ### Hotfixes
 
 - [ x ] Add 'Twitter', 'Website', and 'Wikipedia' as link options for artists
+
+### Launch With Debugger
+
+Open chrome in debugger mode on `9222`
+
+```sh
+$ /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+```

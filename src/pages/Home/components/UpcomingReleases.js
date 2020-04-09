@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import InfiniteScroll from 'components/InfiniteScroll';
 import Masonry from 'react-masonry-component';
 import Spinner from 'components/Spinner';
 
@@ -26,10 +25,13 @@ export default class UpcomingReleases extends Component {
     if (!items) return null;
 
     const childElements = items
-      .filter(i => !i.featured)
       .filter(n => n)
+      .filter(i => !i.featured)
+      .sort((a, b) => {
+        return a.release_date < b.release_date ? -1 : 1;
+      })
       .map(item => {
-        return <UpcomingReleasesItem key={item.id + item.slug} {...item} />;
+        return <UpcomingReleasesItem key={item.id + item.slug + item.updated_at} {...item} />;
       });
 
     if (isLoading) {
@@ -49,17 +51,17 @@ export default class UpcomingReleases extends Component {
     };
 
     return (
-      <InfiniteScroll hasMore={hasMore} isLoading={isLoading} onScroll={onFetchMore}>
+      <>
         <Masonry
           style={style}
           className="upcoming-releases"
           elementType="ul"
           options={masonryOptions}
-          disableImagesLoaded={true}
-          updateOnEachImageLoad={false}>
+          disableImagesLoaded={false}
+          updateOnEachImageLoad={true}>
           {childElements}
         </Masonry>
-      </InfiniteScroll>
+      </>
     );
   }
 }

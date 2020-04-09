@@ -5,6 +5,7 @@ import { formatDate } from 'components/helpers';
 import { defaultState } from 'store/reducers/release';
 import { nextThreeMonths } from 'helpers';
 import ActiveLink from 'components/ActiveLink';
+import ArtistsList from '../../Artists/components/ArtistsList';
 
 class UpcomingReleasesSidebarItems extends Component {
   state = {

@@ -7,7 +7,7 @@ const routes = require('./routes');
 const nextApp = next({ dev });
 
 // const SPACE_ID = process.env.CONTENTFUL_SPACE_ID;
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 
 const handler = routes.getRequestHandler(nextApp);
 

@@ -180,16 +180,16 @@ const buildItems = (stateItems, newItems) => {
 
 const itemsByMonth = items => {
   const itemsByDate = {};
-
   items.forEach(item => {
     const { release_date } = item;
-
     const date = moment(release_date).format('MM');
     if (itemsByDate[date]) {
       const itemFound = itemsByDate[date].filter(i => i.id === item.id).filter(n => n).length;
-
       if (!itemFound) {
         itemsByDate[date].push(item);
+        itemsByDate[date].sort((a, b) => {
+          return a.release_date < b.release_date ? -1 : 1;
+        });
       }
     } else {
       itemsByDate[date] = [item];
