@@ -23,7 +23,6 @@ export default class CustomSelect extends Component {
 
   handleChange = selectedOption => {
     this.setState({ selectedOption }, () => {
-      console.log(`Option selected:`, this.state.selectedOption);
       this.props.onChange && this.props.onChange(this.state.selectedOption);
     });
   };

@@ -28,8 +28,6 @@ export default class UpcomingReleasesItem extends Component {
       featured,
     } = this.props;
 
-    console.log('this.props', this.props);
-
     return (
       <li className={className}>
         <ActiveLink href={`/releases/${slug}`}>

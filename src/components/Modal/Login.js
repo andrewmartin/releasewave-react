@@ -12,7 +12,6 @@ export default class LoginModal extends Component {
     } = this.props;
 
     const { payload } = await loginUser(data);
-    console.log('payload', payload);
     if (!payload.error) {
       hideModal();
     }

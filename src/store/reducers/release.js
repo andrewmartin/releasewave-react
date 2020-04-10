@@ -332,7 +332,6 @@ export default handleActions(
             state.filters.start_date !== params.start_date ||
             state.filters.end_date !== params.end_date
           ) {
-            console.log('reset');
             filteredItems = items;
             filteredItemsByMonth = itemsByMonth(items);
           }

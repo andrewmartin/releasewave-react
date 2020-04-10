@@ -13,8 +13,6 @@ class SlideMenu extends Component {
       actions: { showModal },
     } = this.props;
     e.preventDefault();
-    console.log('type', type);
-
     showModal(type);
   };
 
