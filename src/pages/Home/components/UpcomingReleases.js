@@ -19,6 +19,7 @@ export default class UpcomingReleases extends Component {
     const {
       release: { filteredItems, isLoadingFiltered },
     } = this.props;
+    // return null if not present
     if (!filteredItems) return null;
 
     const childElements = filteredItems
