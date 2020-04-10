@@ -115,9 +115,8 @@
     }
   },
   "lint-staged": {
-    "./*.{js,jsx,ts,tsx,scss}": [
-      "npx prettier --write",
-      "eslint *.js --fix-dry-run"
+    "*.{js,jsx,ts,tsx,scss}": [
+      "npx prettier --write"
     ]
   }
 }
