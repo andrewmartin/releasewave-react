@@ -26,6 +26,8 @@ export default class UpcomingReleasesItem extends Component {
       image: { full },
       className,
       featured,
+      isFeatured,
+      description,
     } = this.props;
 
     return (
@@ -37,7 +39,13 @@ export default class UpcomingReleasesItem extends Component {
           <span>
             <strong>{artists.map(a => a.name).join(',')}</strong>
             <em>{name}</em>
-            {featured && <span className="featured-badge">featured</span>}
+            {featured && !isFeatured && <span className="featured-badge">featured</span>}
+            {isFeatured && (
+              <div
+                className="upcoming-release__description"
+                dangerouslySetInnerHTML={{ __html: this.trim(description) }}
+              />
+            )}
             {release_date && <cite>{formatDate(release_date)}</cite>}
           </span>
         </ActiveLink>
