@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Spinner from 'components/Spinner';
-import { nextThreeMonths } from 'helpers';
+import { sixWeekWindow } from 'helpers';
 import UpcomingReleasesItem from './UpcomingReleasesItem';
 
 export default class FeaturedReleases extends Component {
@@ -25,16 +25,17 @@ export default class FeaturedReleases extends Component {
     /**
      * TODO: reduce the number of items that output here; right now it will output ALL of them.
      */
-    const childElements = nextThreeMonths.map(({ key }) => {
+    const childElements = sixWeekWindow.map(({ key }) => {
       if (itemsByMonth[key]) {
         {
           return itemsByMonth[key]
             .filter(n => n.featured)
             .filter(n => n)
+            .slice(0, 10)
             .map(item => (
               <UpcomingReleasesItem
                 className="featured-release"
-                key={items.id + items.slug}
+                key={`${item.id}${item.slug}`}
                 isFeatured
                 {...item}
               />

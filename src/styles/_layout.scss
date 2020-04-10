@@ -104,6 +104,10 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     font-weight: 800;
     line-height: 1;
 
+    .headroom--scrolled & {
+        font-size: 25px;
+    }
+
     @include media("<md") {
       flex-wrap: wrap;
       font-size: 25px;
@@ -123,6 +127,12 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     margin: 0 15px 0 0;
     background: transparent url("/static/releasewave-logo.svg") no-repeat scroll top left;
     background-size: contain;
+
+    .headroom--scrolled & {
+        transform: scale(0);
+        width: 0px;
+        height: 0px;
+    }
 
     @include media("<md") {
       width: 175px * .25;
@@ -183,8 +193,13 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
 .primary-navigation,
 .secondary-navigation {
-  @include align-center;
-  margin-left: auto;
+    margin-left: auto;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    @include media(">md") {
+        @include align-center;
+  }
   ul {
     margin: 0;
 
@@ -676,6 +691,10 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
   grid-template-columns: repeat(auto-fill, minmax(50%,1fr));
 }
 
+.upcoming-releases {
+    min-height: 500px; // avoid flicker
+}
+
 .upcoming-releases,
 .featured-releases {
   @extend .list-unstyled;
@@ -686,6 +705,26 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
     flex-direction: row;
     width: 47%;
     margin: 0 1% 2%;
+    position: relative;
+
+    .featured-badge {
+        transition: all 0.5s ease-out;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        color: $gray-300;
+        border: 1px solid $gray-100;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 11px;
+        padding: 2px 5px;
+        line-height: 1;
+    }
+
+    &:hover .featured-badge {
+        color: color("pink");
+        border: 1px solid color("pink");
+    }
 
     @include media("<md") {
       width: 100%;
@@ -1157,4 +1196,82 @@ $album-box-shadow-hover: 2px 2px 0 0 rgba(0,0,0,.4);
 
 .purchase-link {
   margin-bottom: 15px;
+}
+
+// headroom
+
+.headroom {
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+
+.headroom--unfixed {
+    position: relative;
+    transform: translateY(0);
+}
+.headroom--scrolled {
+    transition: transform 200ms ease-in-out;
+}
+.headroom--unpinned {
+    position: fixed;
+    transform: translateY(-100%);
+}
+.headroom--pinned {
+    position: fixed;
+    transform: translateY(0%);
+}
+
+.select-container {
+    margin: 0 0 25px;
+    display: flex;
+    @include align-center();
+}
+
+.select-component {
+    width: 100%;
+
+    @include media(">md") {
+        width: 25%;
+      }
+}
+
+.select-component  {
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    .select-component {
+        &__control {
+            border-radius: 0;
+            min-height: 20px;
+            font-size: 25px;
+            font-family: $headings-font-family;
+            font-weight: bold;
+            &--is-focused {
+                border: 1px solid color("pink") !important;
+                box-shadow: none;
+            }
+        }
+        &__value-container {
+            padding: 5px 15px;
+        }
+
+        // css-z5z6cw select-component__option select-component__option--is-focused select-component__option--is-selected
+
+        &__option {
+            &--is-focused, &--is-selected {
+                color: #FFF;
+                background-color: color("pink");
+            }
+        }
+    }
+
+}
+
+.load-more-btn {
+    font-size: 16px;
+    padding: 10px 15px;
+    border: 1px solid $gray-300;
+    box-shadow: 3px 3px 0 rgba(0,0,0,.1);
+    background: #FFF;
+    letter-spacing: 1px;
 }

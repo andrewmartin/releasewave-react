@@ -8,6 +8,8 @@ import { parseServerError } from 'store/helpers';
 import { showModal } from 'store/reducers/modal';
 
 const fetchReleaseStart = createAction('release/FETCH_RELEASE_START');
+const fetchFilteredReleaseStart = createAction('release/FETCH_FILTERED_RELEASE_START');
+const getFilteredReleases = createAction('release/GET_FILTERED_RELEASES');
 const createRelease = createAction('release/CREATE_RELEASE');
 const clearReleases = createAction('release/CLEAR_RELEASES');
 const clearRelease = createAction('release/CLEAR_RELEASE');
@@ -109,6 +111,27 @@ export const actions = {
       );
     }
   },
+  getFilteredReleases: params => async dispatch => {
+    dispatch(fetchFilteredReleaseStart());
+
+    try {
+      const data = await dispatch(
+        fetchAction('releases', {
+          options: {
+            params,
+          },
+        })
+      );
+      return dispatch(getFilteredReleases({ ...data, params }));
+    } catch (error) {
+      console.error('error', error);
+      return dispatch(
+        releaseError({
+          error,
+        })
+      );
+    }
+  },
   getReleases: params => async dispatch => {
     dispatch(fetchReleaseStart());
 
@@ -169,7 +192,7 @@ const replaceItem = (stateKey, payload) => {
 
 const buildItems = (stateItems, newItems) => {
   const newState = [];
-  stateItems.forEach(item => newState.push(item));
+  stateItems && stateItems.length && stateItems.forEach(item => newState.push(item));
   newItems.forEach(item => {
     if (newState.find(i => i.id === item.id)) return;
     newState.push(item);
@@ -201,6 +224,7 @@ const itemsByMonth = items => {
 
 export const defaultState = {
   isLoading: false,
+  isLoadingFiltered: false,
   serverError: null,
   items: [],
   itemsByMonth: {
@@ -249,6 +273,15 @@ export default handleActions(
         };
       },
     },
+    [fetchFilteredReleaseStart]: {
+      next: state => {
+        return {
+          ...state,
+          isLoadingFiltered: true,
+          serverError: null,
+        };
+      },
+    },
     [LOCATION_CHANGE]: {
       next: state => {
         return {
@@ -284,6 +317,36 @@ export default handleActions(
           items: buildItems(state.items, payload.items),
           itemsByMonth: itemsByMonth(buildItems(state.items, payload.items)),
           isLoading: false,
+          serverError: null,
+        };
+      },
+    },
+    [getFilteredReleases]: {
+      next: (state, { payload }) => {
+        const { items, params, ...restPayload } = payload;
+        let filteredItems = buildItems(state.filteredItems, items);
+        let filteredItemsByMonth = itemsByMonth(buildItems(state.filteredItems, items));
+
+        if (state.filters && state.filters.start_date) {
+          if (
+            state.filters.start_date !== params.start_date ||
+            state.filters.end_date !== params.end_date
+          ) {
+            console.log('reset');
+            filteredItems = items;
+            filteredItemsByMonth = itemsByMonth(items);
+          }
+        }
+
+        return {
+          ...state,
+          filteredItems,
+          filteredItemsByMonth,
+          filters: {
+            ...params,
+          },
+          filteredMeta: restPayload,
+          isLoadingFiltered: false,
           serverError: null,
         };
       },

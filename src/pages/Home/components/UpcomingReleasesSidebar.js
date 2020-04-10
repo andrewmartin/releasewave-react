@@ -3,14 +3,13 @@ import moment from 'moment';
 
 import { formatDate } from 'components/helpers';
 import { defaultState } from 'store/reducers/release';
-import { nextThreeMonths } from 'helpers';
+import { sixWeekWindow } from 'helpers';
 import ActiveLink from 'components/ActiveLink';
-import ArtistsList from '../../Artists/components/ArtistsList';
 
 class UpcomingReleasesSidebarItems extends Component {
   state = {
     expanded: false,
-    toShow: 5,
+    toShow: 10,
   };
 
   renderItem = (month, item) => {
@@ -25,13 +24,13 @@ class UpcomingReleasesSidebarItems extends Component {
     }
 
     return (
-      <li key={id}>
+      <li key={slug}>
         <ActiveLink href={`/releases/${slug}`}>
           <figure style={{ backgroundImage: `url(${image.thumb})` }} />
           <span>
             <h4>
-              {name}
-              {artistNames && <small>{artistNames}</small>}
+              {artistNames && artistNames}
+              <small>{name}</small>
             </h4>
             <cite>{formatDate(release_date)}</cite>
           </span>
@@ -74,7 +73,7 @@ export default class UpcomingReleasesSidebar extends Component {
 
     return (
       <aside className="upcoming-releases-sidebar">
-        {nextThreeMonths.map(({ name, key }) => {
+        {sixWeekWindow.map(({ name, key }) => {
           if (itemsByMonth[key]) {
             return (
               <UpcomingReleasesSidebarItems

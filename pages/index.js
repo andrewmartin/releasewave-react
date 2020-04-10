@@ -3,15 +3,27 @@ import { connect } from 'react-redux';
 import { bindAllActions } from 'store/actions/helpers';
 import HomePage from 'pages/Home/HomePage';
 import track from 'analytics';
+import { sixWeekWindow } from 'helpers';
 
 class Home extends React.Component {
   static async getInitialProps(ctx, { actions }) {
     const { isServer } = ctx;
 
-    const { getReleases, clearReleases } = actions;
+    const { getReleases, clearReleases, getFilteredReleases } = actions;
+
+    const start_date = sixWeekWindow[0].value;
+    const end_date = sixWeekWindow[2].value;
 
     clearReleases();
-    await getReleases();
+    await getReleases({
+      start_date,
+      end_date,
+    });
+
+    await getFilteredReleases({
+      start_date,
+      end_date,
+    });
 
     return {
       actions,

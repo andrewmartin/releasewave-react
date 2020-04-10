@@ -17,30 +17,18 @@ export default class UpcomingReleases extends Component {
 
   render() {
     const {
-      hasMore,
-      isLoading,
-      onFetchMore,
-      release: { items },
+      release: { filteredItems, isLoadingFiltered },
     } = this.props;
-    if (!items) return null;
+    if (!filteredItems) return null;
 
-    const childElements = items
+    const childElements = filteredItems
       .filter(n => n)
-      .filter(i => !i.featured)
       .sort((a, b) => {
         return a.release_date < b.release_date ? -1 : 1;
       })
       .map(item => {
         return <UpcomingReleasesItem key={item.id + item.slug + item.updated_at} {...item} />;
       });
-
-    if (isLoading) {
-      childElements.push(
-        <li key="spinner">
-          <Spinner />
-        </li>
-      );
-    }
 
     const masonryOptions = {
       transitionDuration: 500,
@@ -52,15 +40,19 @@ export default class UpcomingReleases extends Component {
 
     return (
       <>
-        <Masonry
-          style={style}
-          className="upcoming-releases"
-          elementType="ul"
-          options={masonryOptions}
-          disableImagesLoaded={false}
-          updateOnEachImageLoad={true}>
-          {childElements}
-        </Masonry>
+        {isLoadingFiltered ? (
+          <Spinner />
+        ) : (
+          <Masonry
+            style={style}
+            className="upcoming-releases"
+            elementType="ul"
+            options={masonryOptions}
+            disableImagesLoaded={false}
+            updateOnEachImageLoad={true}>
+            {childElements}
+          </Masonry>
+        )}
       </>
     );
   }

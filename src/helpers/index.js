@@ -6,25 +6,34 @@ export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export const nextThreeMonths = [
+const currentDate = new Date();
+
+export const sixWeekWindow = [
   {
-    name: moment(new Date()).format('MMMM'),
-    key: moment(new Date()).format('MM'),
+    name: moment(currentDate)
+      .subtract(0.75, 'M')
+      .format('MMMM'),
+    key: moment(currentDate)
+      .subtract(0.75, 'M')
+      .format('MM'),
+    value: moment(currentDate)
+      .subtract(0.75, 'M')
+      .format('YYYY-MM-DD'),
   },
   {
-    name: moment(new Date())
-      .add(1, 'M')
-      .format('MMMM'),
-    key: moment(new Date())
-      .add(1, 'M')
-      .format('MM'),
+    name: moment(currentDate).format('MMMM'),
+    key: moment(currentDate).format('MM'),
+    value: moment(currentDate).format('YYYY-MM-DD'),
   },
   {
-    name: moment(new Date())
-      .add(2, 'M')
+    name: moment(currentDate)
+      .add(0.75, 'M')
       .format('MMMM'),
-    key: moment(new Date())
-      .add(2, 'M')
+    key: moment(currentDate)
+      .add(0.75, 'M')
       .format('MM'),
+    value: moment(currentDate)
+      .add(0.75, 'M')
+      .format('YYYY-MM-DD'),
   },
 ];
