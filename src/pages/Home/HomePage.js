@@ -32,8 +32,7 @@ export default class HomePage extends Component {
       await getFilteredReleases(params);
     };
 
-    const currentDate = new Date();
-    let start_date = moment(currentDate).format('YYYY-MM-DD');
+    let start_date = moment().format('YYYY-MM-DD');
     let end_date;
 
     switch (filterOptions.value) {

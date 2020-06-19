@@ -4,7 +4,7 @@ import moment from 'moment';
 export default class BuyLink extends Component {
   render() {
     const { href, date } = this.props;
-    const futureDate = moment(date).isAfter(new Date());
+    const futureDate = moment(date).isAfter(moment());
 
     if (!href) return null;
 

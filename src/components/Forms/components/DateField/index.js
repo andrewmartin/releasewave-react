@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import InfiniteCalendar from 'react-infinite-calendar';
+import moment from 'moment';
 
 class DateField extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class DateField extends Component {
   render() {
     const { label, name, values } = this.props;
 
-    var today = new Date();
+    var today = moment();
 
     return (
       <div className="form-group">
