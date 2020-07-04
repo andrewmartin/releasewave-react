@@ -192,7 +192,10 @@ const replaceItem = (stateKey, payload) => {
 
 const buildItems = (stateItems, newItems) => {
   const newState = [];
-  stateItems && stateItems.length && stateItems.forEach(item => newState.push(item));
+
+  if (stateItems && stateItems.length) {
+    stateItems.forEach(item => newState.push(item));
+  }
   newItems.forEach(item => {
     if (newState.find(i => i.id === item.id)) return;
     newState.push(item);

@@ -13,7 +13,7 @@ class UpcomingReleasesSidebarItems extends Component {
   };
 
   renderItem = (month, item) => {
-    const { artists, name, id, image, release_date, slug } = item;
+    const { artists, name, image, release_date, slug } = item;
     const date = moment(release_date).format('MM');
 
     if (date !== month) return null;

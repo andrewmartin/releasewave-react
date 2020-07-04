@@ -12,7 +12,7 @@ class Home extends React.Component {
     const { getReleases, clearReleases, getFilteredReleases } = actions;
 
     const start_date = sixWeekWindow[0].value;
-    const end_date = sixWeekWindow[2].value;
+    const end_date = sixWeekWindow[sixWeekWindow.length - 1].value;
 
     clearReleases();
     await getReleases({

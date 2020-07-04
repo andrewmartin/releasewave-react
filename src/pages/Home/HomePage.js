@@ -7,6 +7,8 @@ import UpcomingReleases from './components/UpcomingReleases';
 import UpcomingReleasesSidebar from './components/UpcomingReleasesSidebar';
 import FeaturedReleases from './components/FeaturedReleases';
 
+const currentDate = () => moment();
+
 export default class HomePage extends Component {
   state = {
     isFetching: false,
@@ -35,30 +37,32 @@ export default class HomePage extends Component {
     let start_date = moment().format('YYYY-MM-DD');
     let end_date;
 
+    const currDate = currentDate();
+
     switch (filterOptions.value) {
       case 'sixWeekWindow':
-        start_date = moment(currentDate)
-          .subtract(0.75, 'M')
+        start_date = moment(currDate)
+          .subtract(6, 'weeks')
           .format('YYYY-MM-DD');
-        end_date = moment(currentDate)
-          .add(0.75, 'M')
+        end_date = moment(currDate)
+          .add(6, 'weeks')
           .format('YYYY-MM-DD');
 
         break;
       case 'nextMonth':
-        end_date = moment(currentDate)
+        end_date = moment(currDate)
           .add(1, 'M')
           .format('YYYY-MM-DD');
 
         break;
       case 'next2Months':
-        end_date = moment(currentDate)
+        end_date = moment(currDate)
           .add(2, 'M')
           .format('YYYY-MM-DD');
 
         break;
       case 'next3Months':
-        end_date = moment(currentDate)
+        end_date = moment(currDate)
           .add(3, 'M')
           .format('YYYY-MM-DD');
         break;

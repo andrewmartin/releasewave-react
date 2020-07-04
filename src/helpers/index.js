@@ -11,13 +11,24 @@ const currentDate = () => moment();
 export const sixWeekWindow = [
   {
     name: moment(currentDate())
-      .subtract(0.75, 'M')
+      .subtract(6, 'weeks')
       .format('MMMM'),
     key: moment(currentDate())
-      .subtract(0.75, 'M')
+      .subtract(6, 'weeks')
       .format('MM'),
     value: moment(currentDate())
-      .subtract(0.75, 'M')
+      .subtract(6, 'weeks')
+      .format('YYYY-MM-DD'),
+  },
+  {
+    name: moment(currentDate())
+      .subtract(2, 'weeks')
+      .format('MMMM'),
+    key: moment(currentDate())
+      .subtract(2, 'weeks')
+      .format('MM'),
+    value: moment(currentDate())
+      .subtract(2, 'weeks')
       .format('YYYY-MM-DD'),
   },
   {
@@ -27,13 +38,13 @@ export const sixWeekWindow = [
   },
   {
     name: moment(currentDate())
-      .add(0.75, 'M')
+      .add(6, 'weeks')
       .format('MMMM'),
     key: moment(currentDate())
-      .add(0.75, 'M')
+      .add(6, 'weeks')
       .format('MM'),
     value: moment(currentDate())
-      .add(0.75, 'M')
+      .add(6, 'weeks')
       .format('YYYY-MM-DD'),
   },
 ];
