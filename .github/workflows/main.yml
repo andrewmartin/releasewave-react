@@ -6,9 +6,9 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -18,16 +18,22 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
+    strategy:
+      fail-fast: true
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
+      - name: add private keys
+        run: |
+          mkdir keys
+          echo "${{ secrets.PRIVATEKEY }}" >> keys/git
+          chmod 600 keys/git
 
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      - name: add app env
+        run: |
+          echo "${{ secrets.ENV }}" >> playbooks/frontend/config/production.env
+
+      # Runs a single command using the runners shell
+      - name: provision application code
+        run: ansible-playbook -i inventories/production/hosts.ini playbooks/frontend/deploy.yml

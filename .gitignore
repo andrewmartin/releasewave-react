@@ -17,3 +17,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+keys/**
+playbooks/backend/**
+playbooks/frontend/config/production.env

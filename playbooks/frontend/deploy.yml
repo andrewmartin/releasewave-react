@@ -1,0 +1,120 @@
+---
+- hosts: frontend
+  gather_facts: False
+
+  vars:
+    email: 'hello@andrewmart.in'
+    domain: 'releasewave.com'
+    node_env: production
+    git_url: 'git@github.com:andrewmartin/releasewave-react.git'
+    git_branch: "{{ frontend.git_branch | default('master') }}"
+    app_path: '/var/apps/releasewave-web'
+    releases_path: '{{app_path}}/releases'
+    current_release_path: '{{app_path}}/current'
+    keep_releases: 5
+    node_port: 3004
+    ufw_allow_ports:
+      - 22
+      - 80
+      - 443
+
+  tasks:
+    - set_fact: release_version="{{lookup('pipe', 'date +%Y%m%dT%H%M%S')}}"
+    - set_fact: release_path="{{releases_path}}/{{release_version}}"
+    - set_fact: clone_path="/tmp/{{release_version}}"
+
+    - name: Copy deploy key
+      copy: src=../../keys/git dest=/frontend/.ssh/id_rsa owner=frontend group=frontend mode=0600
+
+    - name: Create frontend user
+      user: name=frontend home=/frontend createhome=no shell=/bin/bash append=yes state=present
+
+    - name: Create /frontend directory
+      file: dest=/frontend state=directory owner=frontend group=frontend mode=2775
+
+    - name: Create /frontend/.ssh directory
+      file: dest=/frontend/.ssh/ state=directory owner=frontend group=frontend mode=0700
+
+    - name: Create releases directory
+      tags:
+        - deploy
+      file: dest={{releases_path}} state=directory owner=frontend group=frontend
+
+    - name: "Cloning '{{git_url}}' to {{clone_path}}"
+      tags:
+        - deploy
+      git: repo={{git_url}} dest={{clone_path}} version={{git_branch}} accept_hostkey=yes
+      become: true
+      become_user: frontend
+
+    - name: Configure NODE_ENV
+      lineinfile: dest=/etc/environment line="NODE_ENV={{node_env}}"
+
+    - name: Configure build environment
+      tags:
+        - deploy
+      copy: src="config/{{env}}.env" dest="{{clone_path}}/.env"
+      become: true
+      become_user: frontend
+
+    - name: yarn install
+      tags:
+        - deploy
+      shell: 'cd {{clone_path}} && yarn install --production=false'
+      become: true
+      become_user: frontend
+
+    - name: yarn build
+      tags:
+        - deploy
+      shell: 'cd {{clone_path}} && yarn build'
+      become: true
+      become_user: frontend
+
+    - name: Move static build to release directory
+      tags:
+        - deploy
+      shell: 'cp -r {{clone_path}} {{release_path}}'
+      become: true
+      become_user: frontend
+
+    - name: Symlink new release
+      tags:
+        - deploy
+      file: src={{release_path}} dest={{current_release_path}} state=link force=yes
+      become: true
+      become_user: frontend
+
+    - name: Clean up build artifacts
+      tags:
+        - deploy
+      file: path={{clone_path}} state=absent
+      become: true
+      become_user: frontend
+
+    - name: Clean up old releases
+      tags:
+        - deploy
+      shell: 'cd {{releases_path}} && ls -1t {{releases_path}} | tail -n +{{keep_releases + 1}} | xargs rm -rf'
+
+    # - include: ./tasks/certificate.yml
+
+    - name: Delete old app
+      tags:
+        - pm2
+        - deploy
+      shell: pm2 delete {{domain}}
+      ignore_errors: True
+      args:
+        chdir: '{{current_release_path}}'
+
+    - name: Start App
+      tags:
+        - pm2
+        - deploy
+      shell: PORT={{node_port}} pm2 start ./server/index.js --name {{domain}} --update-env
+      args:
+        chdir: '{{current_release_path}}'
+
+  handlers:
+    - include: ../handlers/main.yml
