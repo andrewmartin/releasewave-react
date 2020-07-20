@@ -37,6 +37,7 @@ jobs:
 
       - name: add app groupvars
         run: |
+          touch inventories/production/group_vars/all.yml
           echo "${{ secrets.GROUPVARS }}" >> inventories/production/group_vars/all.yml
 
       # Runs a single command using the runners shell
