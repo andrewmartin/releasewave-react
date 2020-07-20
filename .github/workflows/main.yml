@@ -27,6 +27,7 @@ jobs:
 
       - name: change perms
         run: |
+          mkdir keys
           echo "${{ secrets.PRIVATEKEY }}" >> keys/git
           chmod 600 keys/git
 

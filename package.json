@@ -97,7 +97,7 @@
     "babel-preset-react": "^6.24.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
-    "eslint": "^5.12.1",
+    "eslint": "^7.5.0",
     "eslint-config-prettier": "^3.6.0",
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-jsx-a11y": "^6.1.2",
