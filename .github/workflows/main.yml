@@ -37,7 +37,6 @@ jobs:
 
       - name: add app groupvars
         run: |
-          mkdir playbooks/frontend/config
           echo "${{ secrets.GROUPVARS }}" >> /inventories/production/group_vars/all.yml
 
       # Runs a single command using the runners shell
