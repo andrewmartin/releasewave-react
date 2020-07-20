@@ -21,3 +21,4 @@ yarn-error.log*
 keys/**
 playbooks/backend/**
 playbooks/frontend/config/production.env
+inventories/production/group_vars/all.yml

@@ -35,6 +35,11 @@ jobs:
           mkdir playbooks/frontend/config
           echo "${{ secrets.ENV }}" >> playbooks/frontend/config/production.env
 
+      - name: add app groupvars
+        run: |
+          mkdir playbooks/frontend/config
+          echo "${{ secrets.GROUPVARS }}" >> /inventories/production/group_vars/all.yml
+
       # Runs a single command using the runners shell
       - name: provision application code
         run: ansible-playbook -i inventories/production/hosts.ini playbooks/frontend/deploy.yml
