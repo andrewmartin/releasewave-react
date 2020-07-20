@@ -71,21 +71,24 @@ export default class UpcomingReleasesSidebar extends Component {
   render() {
     const { itemsByMonth } = this.props;
 
-    return (
-      <aside className="upcoming-releases-sidebar">
-        {sixWeekWindow.map(({ name, key }) => {
-          if (itemsByMonth[key]) {
-            return (
-              <UpcomingReleasesSidebarItems
-                key={name}
-                month={key}
-                monthName={name}
-                items={itemsByMonth[key]}
-              />
-            );
-          }
-        })}
-      </aside>
-    );
+    const set = new Set();
+    sixWeekWindow.forEach(({ key }) => set.add(key));
+    const items = [];
+
+    set.forEach(monthKey => {
+      if (itemsByMonth[monthKey]) {
+        const { name } = sixWeekWindow.find(item => item.key === monthKey);
+        items.push(
+          <UpcomingReleasesSidebarItems
+            key={name}
+            month={monthKey}
+            monthName={name}
+            items={itemsByMonth[monthKey]}
+          />
+        );
+      }
+    });
+
+    return <aside className="upcoming-releases-sidebar">{items}</aside>;
   }
 }
