@@ -1,0 +1,85 @@
+- name: Configure firewall for SSH
+  ufw: rule=allow port={{item}}
+  with_items: '{{ufw_allow_ports}}'
+
+- name: Enable firewall
+  ufw: state=enabled
+
+- name: Configure ufw
+  service:
+    name: '{{item}}'
+    enabled: yes
+  with_items:
+    - ufw
+
+- name: Configure ufw
+  command: '{{item}}'
+  with_items:
+    - systemctl enable ufw
+    - systemctl start ufw
+
+- name: make sites-available dir
+  file: path=/etc/nginx/sites-available state=directory
+  tags:
+    - nginx
+  notify:
+    - start nginx
+
+- name: create letsencrypt directory
+  tags:
+    - certificate
+  file: name=/var/www state=directory
+
+- name: Install system nginx config
+  tags:
+    - certificate
+  template:
+    src: ../../templates/nginx/nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+
+- name: Configure site
+  tags:
+    - certificate
+  template:
+    src: ../../templates/nginx/nginx-ssl.conf.j2
+    dest: /etc/nginx/sites-available/avante
+
+- name: Reload nginx to activate letsencrypt site
+  tags:
+    - certificate
+  service: name=nginx state=restarted
+
+- stat:
+    path: /etc/letsencrypt/dhparam.pem
+  tags:
+    - certificate
+  register: dhparam
+
+- name: Create dhparam
+  tags:
+    - certificate
+  command: openssl dhparam -out /etc/letsencrypt/dhparam.pem 2048
+  when: dhparam.stat.exists == false
+
+- name: Get certificate
+  tags:
+    - launch
+    - certificate
+  stat:
+    path: /etc/letsencrypt/live/{{domain}}/fullchain.pem
+  register: certificate
+
+- name: Create letsencrypt certificate
+  tags:
+    - certificate
+  shell: letsencrypt certonly -n --force-renewal --webroot -w /var/www -m {{ email }} --agree-tos -d {{ domain }}
+  args:
+    creates: /etc/letsencrypt/live/{{ domain }}
+
+- name: Add letsencrypt cronjob for cert renewal
+  tags:
+    - certificate
+  cron:
+    name: letsencrypt_renewal
+    special_time: weekly
+    job: letsencrypt renew && service nginx reload

@@ -1,0 +1,26 @@
+#############################
+# Managed by Ansible, do not edit! #
+#############################
+
+upstream {{domain}}_upstream {
+    server 127.0.0.1:{{node_port}};
+    keepalive 64;
+}
+
+server {
+    server_name {{domain}} {% if "www" not in domain %}www.{{domain}}{% endif %};
+
+    location / {
+        resolver 8.8.8.8;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header HOST $http_host;
+        proxy_set_header X-NginX-Proxy true;
+
+        proxy_pass http://{{domain}}_upstream;
+        proxy_redirect off;
+    }
+
+    location /.well-known {
+        alias /var/www/.well-known;
+    }
+}

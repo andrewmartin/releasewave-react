@@ -1,0 +1,23 @@
+---
+env: 'production'
+
+frontend:
+  git_branch: 'master'
+
+backend:
+  git_branch: 'master'
+
+ssh_users:
+  - user: 'andrew.martin'
+    github_username: 'andrewmartin'
+
+postgresql:
+  databases:
+    - 'releasewave_production'
+  users:
+    - username: 'backend'
+      password: 'ce821d4df303af0b0ae46216192f8e5b'
+      roles: 'CREATEDB,SUPERUSER'
+    - username: 'rwdbuser'
+      password: '7c4840ad2a34d19663e9efb747096616'
+      roles: 'SUPERUSER'

@@ -1,0 +1,191 @@
+---
+- hosts: backend
+  gather_facts: False
+
+  vars:
+    rails_port: 1338
+    email: 'hello@andrewmart.in'
+    domain: 'api.releasewave.com'
+    node_env: production
+    git_url: 'git@github.com:andrewmartin/releasewave-rails.git'
+    git_branch: "{{ frontend.git_branch | default('master') }}"
+    app_path: '/var/apps/releasewave-rails'
+    shared_path: '{{app_path}}/shared'
+    releases_path: '{{app_path}}/releases'
+    current_release_path: '{{app_path}}/current'
+    keep_releases: 5
+    linked_dirs:
+      - tmp/pids
+      - tmp/cache
+      - tmp/sockets
+      - tmp/log
+      - bundle
+      - storage
+      - vendor/bundle
+
+  post_tasks:
+
+    - name: Delete old app
+      tags:
+        - pm2
+        - deploy
+      shell: pm2 delete {{domain}}
+      ignore_errors: True
+      tags:
+        - release
+
+    - name: Start Backend
+      shell: RAILS_ENV=production pm2 start ./bin/rails --interpreter=ruby --name {{domain}} --update-env -- server
+      args:
+        chdir: '{{current_release_path}}'
+      tags:
+        - release
+
+  handlers:
+    - name: Restart Nginx
+      service: name=nginx state=reloaded
+
+  tasks:
+    - set_fact: release_version="{{lookup('pipe', 'date +%Y%m%dT%H%M%S')}}"
+    - set_fact: release_path="{{releases_path}}/{{release_version}}"
+    - set_fact: clone_path="/tmp/{{release_version}}"
+
+    - name: Create backend user
+      user: name=backend home=/backend createhome=no shell=/bin/bash append=yes state=present
+
+    - name: Create /backend directory
+      file: dest=/backend state=directory owner=backend group=backend mode=2775
+
+    - name: Create /backend/.ssh directory
+      file: dest=/backend/.ssh/ state=directory owner=backend group=backend mode=0700
+
+    - name: Copy deploy key
+      copy: src=../../keys/git dest=/backend/.ssh/id_rsa owner=backend group=backend mode=0600
+
+    - name: Create releases directory
+      file: dest={{releases_path}} state=directory owner=backend group=backend
+
+    - name: "Cloning '{{git_url}}' to {{clone_path}}"
+      git: repo={{git_url}} dest={{clone_path}} version={{git_branch}} accept_hostkey=yes
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Configure RAILS_ENV
+      lineinfile: "dest=/etc/environment state=present regexp='^RAILS_ENV=' line='RAILS_ENV={{env}}'"
+
+    - name: Configure RACK_ENV
+      lineinfile: "dest=/etc/environment state=present regexp='^RACK_ENV=' line='RACK_ENV={{env}}'"
+
+    # - name: Copy backend Nginx config
+    #   copy: src=config/backend.nginx.conf dest="/etc/nginx/conf.d/backend.conf" owner="root" group="root" mode=0644
+    #   notify: Restart Nginx
+
+    # - name: Configure site
+    #   template:
+    #     src: site.nginx.conf.j2
+    #     dest: /etc/nginx/sites-available/{{domain}}
+
+    - name: Copy backend Upstart config
+      copy: src=config/backend.init.conf dest="/etc/init/backend.conf" owner="root" group="root" mode=0644
+      notify: Restart Nginx
+
+    - name: Clone repository
+      git: repo={{git_url}} dest={{clone_path}} version={{git_branch}} accept_hostkey=yes
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Move static build to release directory
+      tags:
+        - deploy
+      shell: 'cp -r {{clone_path}} {{release_path}}'
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Symlink new release
+      file: src={{release_path}} dest={{current_release_path}} state=link force=yes
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Ensure shared directory exists
+      file: dest={{shared_path}} state=directory
+      become: true
+      become_user: backend
+
+    - name: Ensure shared src directories exist
+      file: dest={{shared_path}}/{{item}} state=directory
+      with_items: '{{linked_dirs}}'
+      become: true
+      become_user: backend
+
+    - name: Ensure shared dest directories exist
+      file: dest={{release_path}}/{{item}} state=directory
+      with_items: '{{linked_dirs}}'
+      become: true
+      become_user: backend
+
+    - name: Link shared directories
+      file: src={{shared_path}}/{{item}} dest={{release_path}}/{{item}} state=link force=yes
+      with_items: '{{linked_dirs}}'
+      become: true
+      become_user: backend
+
+    - name: Configure environment
+      copy: src="config/application.yml" dest="{{release_path}}/config/application.yml"
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Bundle install
+      command: bundle install --deployment --without development test --path {{shared_path}}/bundle chdir={{release_path}}
+      environment:
+        RAILS_ENV: '{{env}}'
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Migrate database
+      command: bundle exec rake db:migrate chdir={{release_path}}
+      environment:
+        RAILS_ENV: '{{env}}'
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Precompile assets
+      command: bundle exec rake assets:precompile chdir={{release_path}}
+      environment:
+        RAILS_ENV: '{{env}}'
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Symlink new release
+      file: src={{release_path}} dest={{current_release_path}} state=link force=yes
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Clean up build artifacts
+      file: path={{clone_path}} state=absent
+      become: true
+      become_user: backend
+      tags:
+        - deploy
+
+    - name: Clean up old releases
+      shell: 'cd {{releases_path}} && ls -1t {{releases_path}} | tail -n +{{keep_releases + 1}} | xargs rm -rf'
+      tags:
+        - deploy
