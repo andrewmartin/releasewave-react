@@ -32,6 +32,7 @@ jobs:
 
       - name: add app env
         run: |
+          mkdir playbooks/frontend/config
           echo "${{ secrets.ENV }}" >> playbooks/frontend/config/production.env
 
       # Runs a single command using the runners shell
