@@ -22,6 +22,17 @@ export const sixWeekWindow = [
   },
   {
     name: moment(currentDate())
+      .subtract(4, 'weeks')
+      .format('MMMM'),
+    key: moment(currentDate())
+      .subtract(4, 'weeks')
+      .format('MM'),
+    value: moment(currentDate())
+      .subtract(4, 'weeks')
+      .format('YYYY-MM-DD'),
+  },
+  {
+    name: moment(currentDate())
       .subtract(2, 'weeks')
       .format('MMMM'),
     key: moment(currentDate())
@@ -35,6 +46,17 @@ export const sixWeekWindow = [
     name: moment(currentDate()).format('MMMM'),
     key: moment(currentDate()).format('MM'),
     value: moment(currentDate()).format('YYYY-MM-DD'),
+  },
+  {
+    name: moment(currentDate())
+      .add(4, 'weeks')
+      .format('MMMM'),
+    key: moment(currentDate())
+      .add(4, 'weeks')
+      .format('MM'),
+    value: moment(currentDate())
+      .add(4, 'weeks')
+      .format('YYYY-MM-DD'),
   },
   {
     name: moment(currentDate())

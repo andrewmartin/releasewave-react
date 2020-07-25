@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { range } from 'lodash';
 
 import { formatDate } from 'components/helpers';
 import { defaultState } from 'store/reducers/release';
@@ -70,20 +71,33 @@ export default class UpcomingReleasesSidebar extends Component {
 
   render() {
     const { itemsByMonth } = this.props;
+    const keys = [];
 
-    const set = new Set();
-    sixWeekWindow.forEach(({ key }) => set.add(key));
+    console.log('sixWeekWindow', sixWeekWindow);
+
+    sixWeekWindow.forEach(({ key }) => {
+      if (!keys.find(i => i === key)) {
+        keys.push(key);
+      }
+    });
+
     const items = [];
+    const monthsRange = range(keys[0], keys[keys.length - 1]);
 
-    set.forEach(monthKey => {
-      if (itemsByMonth[monthKey]) {
-        const { name } = sixWeekWindow.find(item => item.key === monthKey);
+    monthsRange.forEach(monthKey => {
+      let key = `${monthKey}`;
+      if (key.length === 1) {
+        key = `0${monthKey}`;
+      }
+
+      if (itemsByMonth[key]) {
+        const { name } = sixWeekWindow.find(item => item.key === key);
         items.push(
           <UpcomingReleasesSidebarItems
             key={name}
-            month={monthKey}
+            month={key}
             monthName={name}
-            items={itemsByMonth[monthKey]}
+            items={itemsByMonth[key]}
           />
         );
       }
