@@ -73,8 +73,6 @@ export default class UpcomingReleasesSidebar extends Component {
     const { itemsByMonth } = this.props;
     const keys = [];
 
-    console.log('sixWeekWindow', sixWeekWindow);
-
     sixWeekWindow.forEach(({ key }) => {
       if (!keys.find(i => i === key)) {
         keys.push(key);

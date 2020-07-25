@@ -8,7 +8,7 @@ export function capitalizeFirstLetter(string) {
 
 const currentDate = () => moment();
 
-export const sixWeekWindow = [
+const sixWeeks = [
   {
     name: moment(currentDate())
       .subtract(6, 'weeks')
@@ -70,3 +70,16 @@ export const sixWeekWindow = [
       .format('YYYY-MM-DD'),
   },
 ];
+
+export let sixWeekWindow = [];
+
+sixWeeks.forEach(originalItem => {
+  const itemFound =
+    sixWeekWindow.length &&
+    sixWeekWindow.find(item => {
+      return item.key === originalItem.key;
+    });
+  if (!itemFound) {
+    sixWeekWindow.push(originalItem);
+  }
+});
