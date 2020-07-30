@@ -80,7 +80,9 @@ export default class UpcomingReleasesSidebar extends Component {
     });
 
     const items = [];
-    const monthsRange = range(keys[0], keys[keys.length - 1]);
+    const firstMonth = parseFloat(keys[0]);
+    const lastMonth = parseFloat(keys[keys.length - 1]) + 1;
+    const monthsRange = range(firstMonth, lastMonth);
 
     monthsRange.forEach(monthKey => {
       let key = `${monthKey}`;
