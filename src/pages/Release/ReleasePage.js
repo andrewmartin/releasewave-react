@@ -85,11 +85,12 @@ export default class ReleasePage extends Component {
     } = this.props;
 
     const bgImage = artists.length && artists[0].image ? artists[0].image.full : null;
+    const title = artists.length ? `${artists[0].name} - ${name}` : name;
 
     return (
       <div className="release-page">
         <Head
-          title={name}
+          title={title}
           description={striptags(description)}
           url={`${process.env.SITE_ROOT}/releases/${slug}`}
           ogImage={image.full}
