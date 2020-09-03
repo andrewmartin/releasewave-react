@@ -6,9 +6,9 @@ export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const currentDate = () => moment();
+const currentDate = () => moment().clone();
 
-const sixWeeks = [
+export const sixWeekWindow = [
   {
     name: moment(currentDate())
       .subtract(6, 'weeks')
@@ -60,26 +60,26 @@ const sixWeeks = [
   },
   {
     name: moment(currentDate())
-      .add(6, 'weeks')
+      .add(42, 'days')
       .format('MMMM'),
     key: moment(currentDate())
-      .add(6, 'weeks')
+      .add(42, 'days')
       .format('MM'),
     value: moment(currentDate())
-      .add(6, 'weeks')
+      .add(42, 'days')
       .format('YYYY-MM-DD'),
   },
 ];
 
-export let sixWeekWindow = [];
+// export let sixWeekWindow = [];
 
-sixWeeks.forEach(originalItem => {
-  const itemFound =
-    sixWeekWindow.length &&
-    sixWeekWindow.find(item => {
-      return item.key === originalItem.key;
-    });
-  if (!itemFound) {
-    sixWeekWindow.push(originalItem);
-  }
-});
+// sixWeeks.forEach(originalItem => {
+//   const itemFound =
+//     sixWeekWindow.length &&
+//     sixWeekWindow.find(item => {
+//       return item.key === originalItem.key;
+//     });
+//   if (!itemFound) {
+//     sixWeekWindow.push(originalItem);
+//   }
+// });
