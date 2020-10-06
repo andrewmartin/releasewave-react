@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Spinner from 'components/Spinner';
 import { sixWeekWindow } from 'helpers';
+import { uniq } from 'lodash';
 import UpcomingReleasesItem from './UpcomingReleasesItem';
 
 export default class FeaturedReleases extends Component {
@@ -22,10 +23,12 @@ export default class FeaturedReleases extends Component {
     } = this.props;
     if (!items) return null;
 
+    const unique = uniq(sixWeekWindow.map(i => i.key));
+
     /**
      * TODO: reduce the number of items that output here; right now it will output ALL of them.
      */
-    const childElements = sixWeekWindow.map(({ key }) => {
+    const childElements = unique.map(key => {
       if (itemsByMonth[key]) {
         {
           return itemsByMonth[key]
