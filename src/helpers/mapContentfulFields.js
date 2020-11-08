@@ -4,7 +4,7 @@ import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 // an array of fields to pull out of it,
 // and a remapping of new field names, if desired.
 
-export default (contentfulObject, fieldsToMap, newFieldNames = []) =>
+const mapContentfulFieldsArray = (contentfulObject, fieldsToMap, newFieldNames = []) =>
   contentfulObject.map(item => {
     const obj = {};
     fieldsToMap.forEach((key, index) => {
@@ -21,3 +21,5 @@ export default (contentfulObject, fieldsToMap, newFieldNames = []) =>
 
     return obj;
   });
+
+export default mapContentfulFieldsArray;

@@ -1,3 +1,5 @@
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 
-export default content => documentToHtmlString(content);
+const buildContent = content => documentToHtmlString(content);
+
+export default buildContent;
