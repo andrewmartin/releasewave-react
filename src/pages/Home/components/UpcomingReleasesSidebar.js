@@ -94,7 +94,7 @@ export default class UpcomingReleasesSidebar extends Component {
         const { name } = sixWeekWindow.find(item => item.key === key);
         items.push(
           <UpcomingReleasesSidebarItems
-            key={name}
+            key={key}
             month={key}
             monthName={name}
             items={itemsByMonth[key]}

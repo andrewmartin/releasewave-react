@@ -196,6 +196,7 @@ const buildItems = (stateItems, newItems) => {
   if (stateItems && stateItems.length) {
     stateItems.forEach(item => newState.push(item));
   }
+
   newItems.forEach(item => {
     if (newState.find(i => i.id === item.id)) return;
     newState.push(item);
