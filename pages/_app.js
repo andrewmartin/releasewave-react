@@ -1,4 +1,4 @@
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import React from 'react';
 import withRedux from 'next-redux-wrapper';
 import { bindAllActions } from 'store/actions/helpers';
@@ -59,14 +59,12 @@ class Application extends App {
   render() {
     const { Component, pageProps, store } = this.props;
     return (
-      <Container>
-        <Provider store={store}>
-          <Notifs store={store} />
-          <ConnectedRouter>
-            <Layout Component={Component} {...pageProps} />
-          </ConnectedRouter>
-        </Provider>
-      </Container>
+      <Provider store={store}>
+        <Notifs store={store} />
+        <ConnectedRouter>
+          <Layout Component={Component} {...pageProps} />
+        </ConnectedRouter>
+      </Provider>
     );
   }
 }
