@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { range } from 'lodash';
 
 import { formatDate } from 'components/helpers';
 import { defaultState } from 'store/reducers/release';
 import { sixWeekWindow } from 'helpers';
+import { uniq } from 'lodash';
 import ActiveLink from 'components/ActiveLink';
 
 class UpcomingReleasesSidebarItems extends Component {
@@ -80,11 +80,7 @@ export default class UpcomingReleasesSidebar extends Component {
     });
 
     const items = [];
-    const firstMonth = parseFloat(keys[0]);
-    const lastMonth = parseFloat(keys[keys.length - 1]) + 1;
-    const monthsRange = range(firstMonth, lastMonth);
-
-    monthsRange.forEach(monthKey => {
+    uniq(keys).forEach(monthKey => {
       let key = `${monthKey}`;
       if (key.length === 1) {
         key = `0${monthKey}`;

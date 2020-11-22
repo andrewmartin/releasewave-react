@@ -73,6 +73,8 @@ export const sixWeekWindow = [
   },
 ];
 
+console.log('sixWeekWindow', sixWeekWindow);
+
 // export let sixWeekWindow = [];
 
 // sixWeeks.forEach(originalItem => {
