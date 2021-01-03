@@ -112,7 +112,7 @@
       tags:
         - pm2
         - deploy
-      shell: PORT={{node_port}} pm2 start ./server/index.js --name {{domain}} --update-env
+      shell: PORT={{node_port}} NODE_ENV=production pm2 start ./server/index.js --name {{domain}} --update-env
       args:
         chdir: '{{current_release_path}}'
 
