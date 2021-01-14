@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { sendNotification } from 'store/actions/notifications';
 import { fetchAction } from 'store/actions/fetch';
-import { parseServerError } from 'store/helpers';
+import { parseServerError, releaseSort } from 'store/helpers';
 import { showModal } from 'store/reducers/modal';
 
 const fetchReleaseStart = createAction('release/FETCH_RELEASE_START');
@@ -202,7 +202,7 @@ const buildItems = (stateItems, newItems) => {
     newState.push(item);
   });
 
-  return newState;
+  return newState.sort(releaseSort);
 };
 
 const itemsByMonth = items => {
@@ -214,9 +214,7 @@ const itemsByMonth = items => {
       const itemFound = itemsByDate[date].filter(i => i.id === item.id).filter(n => n).length;
       if (!itemFound) {
         itemsByDate[date].push(item);
-        itemsByDate[date].sort((a, b) => {
-          return a.release_date < b.release_date ? -1 : 1;
-        });
+        itemsByDate[date].sort(releaseSort);
       }
     } else {
       itemsByDate[date] = [item];
