@@ -17,14 +17,15 @@ export const releaseSort = (a, b) => {
 
   // same date!
   if (moment(a.release_date, 'YYYY-MM-DD').isSame(b.release_date, 'YYYY-MM-DD')) {
-    const artistsa = a.artists[0].name;
-    const artistsb = b.artists[0].name;
-    if (artistsa < artistsb) {
-      //   console.log('name sort before', artistsa, 'is before', artistsb);
+    const createdDateA = moment(a.created_at);
+    const createdDateB = moment(b.created_at);
+
+    if (createdDateA < createdDateB) {
+      //   console.log('created at before', a.name, 'is before', b.name);
       return -1;
     }
 
-    // console.log('name sort after', artistsa, 'is after', artistsb);
+    // console.log('created at after', a.name, 'is after', b.name);
     return 1;
   }
 
