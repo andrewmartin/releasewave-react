@@ -105,7 +105,7 @@ export default class HomePage extends Component {
         {isLoading && <FullLoading />}
         <div className="featured-releases-container">
           <div className="container">
-            <UpcomingReleasesSidebar itemsByMonth={itemsByMonth} />
+            <UpcomingReleasesSidebar itemsByMonth={itemsByMonth} allItems={items} />
             <main>
               <div className="col-sm-12">
                 <h1 className="large-heading">Featured Releases</h1>

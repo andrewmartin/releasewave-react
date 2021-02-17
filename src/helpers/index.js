@@ -8,8 +8,6 @@ export function capitalizeFirstLetter(string) {
 
 const currentDate = () => moment().clone();
 
-console.log('currentDate', currentDate());
-
 export const sixWeekWindow = [
   {
     name: moment(currentDate())
@@ -72,8 +70,6 @@ export const sixWeekWindow = [
       .format('YYYY-MM-DD'),
   },
 ];
-
-console.log('sixWeekWindow', sixWeekWindow);
 
 // export let sixWeekWindow = [];
 

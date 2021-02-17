@@ -33,7 +33,6 @@ class Home extends React.Component {
 
   componentDidMount() {
     track(window.location.pathname + window.location.search);
-    console.log('componentDidMount: Home Component', this);
   }
 
   render() {

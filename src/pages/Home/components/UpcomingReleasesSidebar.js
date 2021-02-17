@@ -1,61 +1,60 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 
 import { formatDate } from 'components/helpers';
 import { defaultState } from 'store/reducers/release';
-import { sixWeekWindow } from 'helpers';
-import { uniq } from 'lodash';
 import ActiveLink from 'components/ActiveLink';
+
+const Item = props => {
+  const { item } = props;
+  const { artists, name, image, release_date, slug } = item;
+
+  let artistNames = null;
+  if (artists && artists.length) {
+    artistNames = artists.map(artist => artist.name).join(',');
+  }
+
+  return (
+    <li key={slug}>
+      <ActiveLink href={`/releases/${slug}`}>
+        <figure style={{ backgroundImage: `url(${image.thumb})` }} />
+        <span>
+          <h4>
+            {artistNames && artistNames}
+            <small>{name}</small>
+          </h4>
+          <cite>{formatDate(release_date)}</cite>
+        </span>
+      </ActiveLink>
+    </li>
+  );
+};
 
 class UpcomingReleasesSidebarItems extends Component {
   state = {
     expanded: false,
-    toShow: 10,
-  };
-
-  renderItem = (month, item) => {
-    const { artists, name, image, release_date, slug } = item;
-    const date = moment(release_date).format('MM');
-
-    if (date !== month) return null;
-
-    let artistNames = null;
-    if (artists && artists.length) {
-      artistNames = artists.map(artist => artist.name).join(',');
-    }
-
-    return (
-      <li key={slug}>
-        <ActiveLink href={`/releases/${slug}`}>
-          <figure style={{ backgroundImage: `url(${image.thumb})` }} />
-          <span>
-            <h4>
-              {artistNames && artistNames}
-              <small>{name}</small>
-            </h4>
-            <cite>{formatDate(release_date)}</cite>
-          </span>
-        </ActiveLink>
-      </li>
-    );
+    toShow: 15,
   };
 
   expandItems = () => {
     this.setState(prevState => ({
-      toShow: prevState.toShow + 5,
+      toShow: prevState.toShow + 15,
     }));
   };
 
   render() {
-    const { items, month, monthName } = this.props;
+    const { items, month } = this.props;
     const { toShow } = this.state;
+
     const hasAll = toShow >= items.length;
     if (!items || !items.length) return null;
 
     return (
       <div className="upcoming-releases-sidebar-section">
-        <h3>{monthName}</h3>
-        <ul key={month}>{items.slice(0, toShow).map(item => this.renderItem(month, item))}</ul>
+        <ul key={month}>
+          {items.slice(0, toShow).map((item, k) => (
+            <Item key={k} item={item} />
+          ))}
+        </ul>
         <button className={'btn btn-link btn-sm'} hidden={hasAll} onClick={this.expandItems}>
           Show More
         </button>
@@ -70,35 +69,12 @@ export default class UpcomingReleasesSidebar extends Component {
   };
 
   render() {
-    const { itemsByMonth } = this.props;
-    const keys = [];
+    const { allItems } = this.props;
 
-    sixWeekWindow.forEach(({ key }) => {
-      if (!keys.find(i => i === key)) {
-        keys.push(key);
-      }
-    });
-
-    const items = [];
-    uniq(keys).forEach(monthKey => {
-      let key = `${monthKey}`;
-      if (key.length === 1) {
-        key = `0${monthKey}`;
-      }
-
-      if (itemsByMonth[key]) {
-        const { name } = sixWeekWindow.find(item => item.key === key);
-        items.push(
-          <UpcomingReleasesSidebarItems
-            key={key}
-            month={key}
-            monthName={name}
-            items={itemsByMonth[key]}
-          />
-        );
-      }
-    });
-
-    return <aside className="upcoming-releases-sidebar">{items}</aside>;
+    return (
+      <aside className="upcoming-releases-sidebar">
+        <UpcomingReleasesSidebarItems items={allItems} />
+      </aside>
+    );
   }
 }
