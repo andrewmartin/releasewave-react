@@ -11,13 +11,13 @@ const currentDate = () => moment().clone();
 export const sixWeekWindow = [
   {
     name: moment(currentDate())
-      .subtract(6, 'weeks')
+      .subtract(4, 'weeks')
       .format('MMMM'),
     key: moment(currentDate())
-      .subtract(6, 'weeks')
+      .subtract(4, 'weeks')
       .format('MM'),
     value: moment(currentDate())
-      .subtract(6, 'weeks')
+      .subtract(4, 'weeks')
       .format('YYYY-MM-DD'),
   },
   {
@@ -60,13 +60,13 @@ export const sixWeekWindow = [
   },
   {
     name: moment(currentDate())
-      .add(42, 'days')
+      .add(90, 'days')
       .format('MMMM'),
     key: moment(currentDate())
-      .add(42, 'days')
+      .add(90, 'days')
       .format('MM'),
     value: moment(currentDate())
-      .add(42, 'days')
+      .add(90, 'days')
       .format('YYYY-MM-DD'),
   },
 ];
