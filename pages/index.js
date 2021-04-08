@@ -18,7 +18,9 @@ class Home extends React.Component {
     await getReleases({
       start_date,
       end_date,
+      page: 1,
     });
+    console.log(`getting`, start_date);
 
     await getFilteredReleases({
       start_date,
