@@ -13,6 +13,7 @@ const deleteArtist = createAction('artist/DELETE_ARTIST');
 const getArtists = createAction('artist/GET_ARTISTS');
 const getArtistsReplace = createAction('artist/GET_ARTISTS_REPLACE');
 const getArtist = createAction('artist/GET_ARTIST');
+const searchLinkArtists = createAction('artist/SEARCH_ARTIST_LINKS');
 const artistError = createAction('artist/ERROR');
 
 export const actions = {
@@ -122,6 +123,22 @@ export const actions = {
           error,
         })
       );
+    }
+  },
+  searchLinkArtists: searchTerm => async dispatch => {
+    if (!searchTerm) {
+      return;
+    }
+
+    try {
+      const data = await dispatch(fetchAction(`artist-search/${searchTerm || 'armor'}`));
+      return dispatch(searchLinkArtists(data));
+    } catch (error) {
+      //   return dispatch(
+      //     artistError({
+      //       error,
+      //     })
+      //   );
     }
   },
 };
@@ -242,6 +259,14 @@ export default handleActions(
           items: removeItem(state.items, id),
           isLoading: false,
           serverError: null,
+        };
+      },
+    },
+    [searchLinkArtists]: {
+      next: (state, { payload }) => {
+        return {
+          ...state,
+          searchLinkItems: payload,
         };
       },
     },

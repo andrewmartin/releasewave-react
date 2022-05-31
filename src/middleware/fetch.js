@@ -1,4 +1,4 @@
-import { logoutUser } from 'store/reducers/user';
+// import { logoutUser } from 'store/reducers/user';
 
 const parseResponse = ({ headers, data }) => {
   return {
@@ -39,9 +39,9 @@ export const fetchMiddleware = ({ instance: fetch }) => store => next => action 
         .then(() => {
           return fetch(path, reqOptions).then(parseResponse);
         })
-        .catch(() => {
-          store.dispatch(logoutUser());
-
+        .catch(error => {
+          console.log('error in global fetch', error);
+          //   store.dispatch(logoutUser());
           return fetch(path, reqOptions).then(parseResponse);
         });
     }

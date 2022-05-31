@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Select from 'react-select';
 import cx from 'classnames';
 import { Formik } from 'formik';
 import { FileField } from 'components/Forms/components';
 import Errors from 'components/Errors/Errors';
+import { actions as artistActions } from 'store/reducers/artist';
 
 const fields = [
-  'name',
   'bandcamp',
   'facebook',
   'spotify',
@@ -14,6 +16,7 @@ const fields = [
   'youtube',
   'itunes',
   'twitter',
+  'instagram',
 ];
 
 class ArtistForm extends Component {
@@ -25,20 +28,30 @@ class ArtistForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { fields, initialValues: {}, submitted: false };
+    this.state = {
+      fields,
+      initialValues: {},
+      submitted: false,
+      artistName: '',
+    };
   }
 
   componentWillMount = () => {
     this.setInitialValues();
   };
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps, prevState) {
     const {
       artist: { slug },
     } = this.props;
+    const { artistName } = this.state;
 
     if (slug !== prevProps.artist.slug) {
       this.setInitialValues();
+    }
+
+    if (artistName !== prevState.artistName) {
+      await this.searchLinkArtists();
     }
   }
 
@@ -55,6 +68,7 @@ class ArtistForm extends Component {
       youtube,
       itunes,
       twitter,
+      instagram,
     } = this.props.artist;
 
     const initialValues = {
@@ -69,17 +83,53 @@ class ArtistForm extends Component {
       youtube: youtube || '',
       itunes: itunes || '',
       twitter: twitter || '',
+      instagram: instagram || '',
     };
 
     this.setState({
       initialValues,
+      artistName: initialValues.name,
     });
   }
+
+  searchLinkArtists = async () => {
+    const { dispatch } = this.props;
+    const { artistName } = this.state;
+    await dispatch(artistActions.searchLinkArtists(artistName));
+  };
+
+  buildOptions = () => {
+    const {
+      artist: { searchLinkItems },
+    } = this.props;
+
+    if (searchLinkItems && searchLinkItems.items) {
+      const { items } = searchLinkItems;
+
+      return items.map(item => {
+        return {
+          value: item.link,
+          label: `${item.title} - ${item.displayLink}`,
+        };
+      });
+    }
+
+    return [];
+  };
 
   renderForm = props => {
     const { isLoading } = this.props;
 
-    const { values, errors, handleChange, handleSubmit, handleBlur, isValid, touched } = props;
+    const {
+      values,
+      errors,
+      handleChange,
+      handleSubmit,
+      handleBlur,
+      isValid,
+      touched,
+      setFieldValue,
+    } = props;
 
     const classes = cx('webform webform--flex', {
       webform__error: !isValid && this.state.submitted,
@@ -88,6 +138,27 @@ class ArtistForm extends Component {
 
     return (
       <form className={classes} onSubmit={handleSubmit}>
+        <div className="row">
+          <div key={'name'} className="form-group col-sm-6">
+            <label htmlFor={'name'}>{'name'}</label>
+            <input
+              onBlur={e => {
+                this.setState({
+                  artistName: e.target.value,
+                });
+                handleBlur(e);
+              }}
+              className="form-control"
+              type="text"
+              value={values['name']}
+              onChange={handleChange}
+              name={'name'}
+            />
+            {errors['name'] && touched['name'] && (
+              <div className="form-feedback">{errors['name']}</div>
+            )}
+          </div>
+        </div>
         <div className="row">
           {fields.map(field => (
             <div key={field} className="form-group col-sm-6">
@@ -100,6 +171,16 @@ class ArtistForm extends Component {
                 value={values[field]}
                 name={field}
               />
+              <div className="form-group my-2">
+                <Select
+                  onChange={({ label, value }) => {
+                    console.log('using label', label);
+                    console.log('using value', value);
+                    setFieldValue(field, value);
+                  }}
+                  options={this.buildOptions()}
+                />
+              </div>
               {errors[field] && touched[field] && (
                 <div className="form-feedback">{errors[field]}</div>
               )}
@@ -170,4 +251,10 @@ class ArtistForm extends Component {
   }
 }
 
-export default ArtistForm;
+const mapStateToProps = ({ artist }) => {
+  return {
+    artist,
+  };
+};
+
+export default connect(mapStateToProps)(ArtistForm);
