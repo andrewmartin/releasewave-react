@@ -2,8 +2,6 @@ import React from 'react';
 import { Loader } from 'react-loaders';
 import { Portal } from 'react-portal';
 
-import './Loading.scss';
-
 const Loading = () => {
   return (
     <div className="loader">

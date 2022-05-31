@@ -8,6 +8,7 @@ import {
   FaExternalLinkSquareAlt,
   FaTwitter,
   FaItunes,
+  FaInstagram,
 } from 'react-icons/fa';
 const Social = {
   bandcamp: {
@@ -30,6 +31,9 @@ const Social = {
   },
   itunes: {
     Icon: FaItunes,
+  },
+  instagram: {
+    Icon: FaInstagram,
   },
 };
 
