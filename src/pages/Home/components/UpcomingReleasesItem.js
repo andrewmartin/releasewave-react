@@ -23,7 +23,7 @@ export default class UpcomingReleasesItem extends Component {
       name,
       artists,
       release_date,
-      image: { full },
+      image: { large },
       className,
       featured,
       isFeatured,
@@ -34,7 +34,7 @@ export default class UpcomingReleasesItem extends Component {
       <li className={className}>
         <ActiveLink href={`/releases/${slug}`}>
           <figure>
-            <img src={full} alt={name} />
+            <img src={large} alt={name} />
           </figure>
           <span>
             <strong>{artists.map(a => a.name).join(',')}</strong>
