@@ -1,0 +1,8 @@
+.BoxLink {
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+  @apply font-semibold opacity-75 bg-slate-50 transition-all border-gray-200 border-solid border;
+}
+
+.BoxLink:hover {
+  @apply shadow-none border-transparent opacity-100;
+}

@@ -1,0 +1,62 @@
+.logo {
+  margin: 0;
+  line-height: 1;
+
+  a {
+    display: flex;
+    align-items: center;
+    letter-spacing: -2px;
+    text-transform: lowercase;
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1;
+
+    .headroom--scrolled & {
+      font-size: 25px;
+    }
+
+    @include media('<md') {
+      flex-wrap: wrap;
+      font-size: 25px;
+    }
+
+    &:hover {
+      text-decoration: none;
+      span {
+        color: #333;
+      }
+    }
+  }
+  figure {
+    display: block;
+    width: 175px * 0.75;
+    height: 97px * 0.75;
+    margin: 0 15px 0 0;
+    background: transparent url('/static/releasewave-logo.svg') no-repeat scroll top left;
+    background-size: contain;
+
+    .headroom--scrolled & {
+      transform: scale(0);
+      width: 0px;
+      height: 0px;
+    }
+
+    @include media('<md') {
+      width: 175px * 0.25;
+      height: 97px * 0.25;
+      margin: 0 5px 0 0;
+    }
+  }
+
+  span {
+    display: flex;
+    justify-content: center;
+    color: #000;
+    line-height: 1;
+  }
+
+  strong {
+    display: block;
+    color: color('pink');
+  }
+}

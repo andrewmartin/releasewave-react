@@ -1,0 +1,31 @@
+.logo {
+  margin: 0;
+  line-height: 1;
+}
+
+.logo h1 {
+  @apply flex items-center text-4xl tracking-tighter;
+}
+
+.logo figure {
+  display: block;
+  width: 131.25px;
+  height: 72.75px;
+  margin: 0 15px 0 0;
+  background: transparent url('/static/releasewave-logo.svg') no-repeat scroll
+    top left;
+  background-size: contain;
+}
+
+.logo span {
+  display: flex;
+  justify-content: center;
+  color: #000;
+  line-height: 1;
+  @apply lowercase;
+}
+
+.logo strong {
+  display: block;
+  @apply text-pink;
+}

@@ -1,0 +1,19 @@
+.Header {
+  @apply flex items-center flex-1;
+}
+
+.Header ul {
+  @apply list-none text-lg;
+}
+
+ul.NavList {
+  @apply flex w-full;
+}
+
+.NavList li {
+  @apply mr-6;
+}
+
+.NavList li > * {
+  @apply px-4 py-2;
+}
