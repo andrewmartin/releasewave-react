@@ -2,6 +2,7 @@ import React from 'react';
 import { Logo } from '../Logo';
 import styles from '@/styles/Header.module.css';
 import boxLinkStyles from '@/styles/Atoms.module.css';
+import { LogInOrOut } from '../User/atoms';
 
 export const Header = () => {
   return (
@@ -25,8 +26,8 @@ export const Header = () => {
               <button className={boxLinkStyles.BoxLink}>Contact</button>
             </li>
           </ul>
+          {<LogInOrOut />}
         </div>
-        <div>Login</div>
       </div>
     </div>
   );

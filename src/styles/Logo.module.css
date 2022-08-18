@@ -18,11 +18,10 @@
 }
 
 .logo span {
-  display: flex;
   justify-content: center;
   color: #000;
   line-height: 1;
-  @apply lowercase;
+  @apply lowercase flex;
 }
 
 .logo strong {
