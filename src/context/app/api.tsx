@@ -3,6 +3,7 @@ import { RailsResponse } from '@/types/Data';
 import { User } from '@/types/User';
 import { Dispatch } from 'react';
 import { AppAction } from '.';
+import { closeModal } from './actions';
 
 export type ISignupFormValues = {
   email: string;
@@ -34,7 +35,7 @@ export const onSubmitLogin =
         fetchType: `user`,
       });
 
-      console.log(`data`, data);
+      closeModal(dispatch)();
     } catch (error) {
       dispatch({
         type: `error`,

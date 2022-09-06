@@ -1,24 +1,25 @@
-import { FeaturedRelease } from '@/components/Release/featured';
 import { RailsCollectionResponse, Release } from '@/types/Data';
 import { assertUnreachable } from '@/util/unreachable';
 import {
   createContext,
   Dispatch,
-  PropsWithChildren,
+  ReactNode,
   useContext,
   useMemo,
   useReducer,
 } from 'react';
 
-type FetchType = 'releases' | 'releases';
+type FetchType = 'release' | 'releases';
 
 export type ReleaseAction =
   | { type: 'error'; fetchType: FetchType; message: string }
   | { type: 'start'; fetchType: FetchType; isFetching: boolean }
+  | { type: 'successEditOrCreate'; fetchType: FetchType; data: Release }
   | { type: 'done'; fetchType: FetchType };
 
 interface ReleaseState {
   releases?: RailsCollectionResponse<Release>;
+  release?: Release;
   fetching: Map<FetchType, boolean>;
   errors: Map<FetchType, string | undefined>;
 }
@@ -40,7 +41,7 @@ const initialState = {
   releases: undefined,
 };
 
-function appReducer(prevState: ReleaseState, action: ReleaseAction) {
+function releaseReducer(prevState: ReleaseState, action: ReleaseAction) {
   switch (action.type) {
     case `start`: {
       return {
@@ -61,6 +62,16 @@ function appReducer(prevState: ReleaseState, action: ReleaseAction) {
         fetching: prevState.fetching.set(action.fetchType, false),
       };
     }
+    case `successEditOrCreate`: {
+      return {
+        ...prevState,
+        fetching: prevState.fetching.set(action.fetchType, false),
+        release: {
+          ...prevState.release,
+          ...action.data,
+        },
+      };
+    }
 
     default: {
       return assertUnreachable(action);
@@ -77,26 +88,29 @@ const ReleaseContext = createContext<AppContext>({
 
 export const useReleaseContext = () => useContext(ReleaseContext);
 
-interface ReleaseWrapper {
-  releases: RailsCollectionResponse<Release>;
+interface ReleaseWrapperChildren {
+  releases?: RailsCollectionResponse<Release>;
+  release?: Release;
 }
 
-export function ReleaseWrapper(props: PropsWithChildren<ReleaseWrapper>) {
-  const { children, releases } = props;
-  const [reducerState, reducerDispatch] = useReducer(appReducer, {
+interface ReleaseWrapper {
+  releases?: RailsCollectionResponse<Release>;
+  release?: Release;
+  children: (props: ReleaseWrapperChildren) => ReactNode;
+}
+
+export function ReleaseWrapper(props: ReleaseWrapper) {
+  const { children, releases, release } = props;
+  const [reducerState, reducerDispatch] = useReducer(releaseReducer, {
     ...initialState,
     releases,
+    release,
   });
 
-  console.log(`props.releases`, props.releases);
-
-  // memoize store
   const [state, dispatch] = useMemo(
     () => [reducerState, reducerDispatch],
     [reducerState],
   );
-
-  console.log(`reducerState`, reducerState);
 
   return (
     <ReleaseContext.Provider
@@ -105,14 +119,7 @@ export function ReleaseWrapper(props: PropsWithChildren<ReleaseWrapper>) {
         dispatch,
       }}
     >
-      {children}
-      <div className="grid grid-cols-2 gap-2">
-        {/* move to render prop
-         */}
-        {releases?.items?.map((release) => (
-          <FeaturedRelease {...release} key={release.id} />
-        ))}
-      </div>
+      {children({ releases, release })}
     </ReleaseContext.Provider>
   );
 }

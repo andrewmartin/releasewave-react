@@ -1,4 +1,5 @@
 import { User } from '@/types/User';
+import { clearBrowserCookies } from '@/util/cookie';
 import { assertUnreachable } from '@/util/unreachable';
 import {
   createContext,
@@ -10,24 +11,30 @@ import {
 } from 'react';
 
 type FetchType = 'user';
+type ModalType = 'login' | 'debug';
 
 export type AppAction =
   | { type: 'logout' }
   | { type: 'login'; fetchType: FetchType; user: User }
   | { type: 'error'; fetchType: FetchType; message: string }
   | { type: 'start'; fetchType: FetchType; isFetching: boolean }
+  | { type: 'modal:show'; modal: ModalType }
+  | { type: 'modal:close' }
   | { type: 'done'; fetchType: FetchType };
 
 interface AppState {
   user?: User;
   fetching: Map<FetchType, boolean>;
   errors: Map<FetchType, string | undefined>;
+  activeModal?: ModalType;
 }
 
 interface AppContext {
   state: AppState;
   dispatch: Dispatch<AppAction>;
 }
+
+export type AppDispatch = Dispatch<AppAction>;
 
 const initialState = {
   fetching: new Map([[`user` as FetchType, false]]),
@@ -44,20 +51,24 @@ function appReducer(prevState: AppState, action: AppAction) {
   switch (action.type) {
     case `logout`: {
       delete prevState.user;
+      clearBrowserCookies();
       return prevState;
     }
     case `login`: {
       return {
         ...prevState,
         user: action.user,
-        fetching: prevState.fetching.set(action.fetchType, false),
+        fetching: new Map(prevState.fetching).set(action.fetchType, false),
       };
     }
     case `start`: {
       return {
         ...prevState,
         errors: prevState.errors.set(action.fetchType, undefined),
-        fetching: prevState.fetching.set(action.fetchType, action.isFetching),
+        fetching: new Map(prevState.fetching).set(
+          action.fetchType,
+          action.isFetching,
+        ),
       };
     }
     case `done`: {
@@ -69,7 +80,19 @@ function appReducer(prevState: AppState, action: AppAction) {
       return {
         ...prevState,
         errors: prevState.errors.set(action.fetchType, action.message),
-        fetching: prevState.fetching.set(action.fetchType, false),
+        fetching: new Map(prevState.fetching).set(action.fetchType, false),
+      };
+    }
+    case `modal:show`: {
+      return {
+        ...prevState,
+        activeModal: action.modal,
+      };
+    }
+    case `modal:close`: {
+      return {
+        ...prevState,
+        activeModal: undefined,
       };
     }
 
@@ -95,7 +118,6 @@ export function AppWrapper(props: AppWrapperProps) {
     user,
   });
 
-  // memoize store
   const [state, dispatch] = useMemo(
     () => [reducerState, reducerDispatch],
     [reducerState],

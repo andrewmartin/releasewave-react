@@ -1,5 +1,7 @@
-import { useAppContext } from '@/context/app';
-import { FC, ReactNode } from 'react';
+import { AppDispatch, useAppContext } from '@/context/app';
+import { FC, MouseEventHandler, ReactNode } from 'react';
+import atomStyles from '@/styles/Atoms.module.css';
+import { showLoginModal, closeModal } from '@/context/app/actions';
 
 interface WithUser {
   children: ReactNode;
@@ -18,12 +20,37 @@ export const CurrentUser: FC<WithUser> = (props) => {
 };
 
 const Logout = () => {
-  return <button>Logout</button>;
+  const { dispatch } = useAppContext();
+
+  return (
+    <button
+      onClick={(event) => {
+        dispatch({
+          type: `logout`,
+        });
+        closeModal(dispatch)(event);
+      }}
+      className={atomStyles.NavLinkButton}
+    >
+      Logout
+    </button>
+  );
 };
 
 export const LogInOrOut = () => {
+  const { dispatch } = useAppContext();
+
   return (
-    <CurrentUser Fallback={() => <div>Login</div>}>
+    <CurrentUser
+      Fallback={() => (
+        <button
+          onClick={showLoginModal(dispatch)}
+          className={atomStyles.NavLinkButton}
+        >
+          Login
+        </button>
+      )}
+    >
       <Logout />
     </CurrentUser>
   );

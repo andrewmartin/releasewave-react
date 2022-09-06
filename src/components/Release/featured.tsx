@@ -1,25 +1,31 @@
 import { Release } from '@/types/Data';
 import React from 'react';
 import Image from 'next/image';
-import { ReleaseArtistLink } from '../Atoms/ArtistLink';
+import { FirstArtistForRelease } from '../Atoms/FirstArtistForRelease';
 import styles from './Release.module.css';
+import Link from 'next/link';
+import { appendHostToImage } from '@/util/image';
 
 export const FeaturedRelease = (release: Release) => {
-  console.log(`release`, release);
+  const linkHref = `/releases/${release.slug}`;
 
   return (
-    <div className={styles.release} key={release.id}>
-      <div className={styles.image}>
-        <Image
-          src={release.image.large}
-          alt={`${release.name}`}
-          width={500}
-          height={500}
-        />
+    <div className={styles.FeaturedRelease} key={release.id}>
+      <div className={styles.FeaturedReleaseImage}>
+        <Link href={linkHref}>
+          <Image
+            src={appendHostToImage(release.image.large)}
+            alt={`${release.name}`}
+            width={400}
+            height={400}
+          />
+        </Link>
       </div>
-      <div className={styles.content}>
+      <div className={styles.FeaturedReleaseContent}>
         <h2>{release.name}</h2>
-        <ReleaseArtistLink {...release} />
+        <span>
+          <FirstArtistForRelease {...release} />
+        </span>
         <div
           dangerouslySetInnerHTML={{
             __html:
@@ -28,6 +34,7 @@ export const FeaturedRelease = (release: Release) => {
               ``,
           }}
         ></div>
+        <cite>By Jason Gordon</cite>
       </div>
     </div>
   );

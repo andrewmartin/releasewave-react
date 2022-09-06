@@ -19,6 +19,7 @@ declare namespace schema {
     facebook: string | null;
     spotify: string | null;
     soundcloud: string | null;
+    instagram: string | null;
     createdAt: string;
     updatedAt: string;
     imageFileName: string | null;

@@ -30,7 +30,7 @@ export const browserRequestHeaders = (): IRequestHeaders => {
     }
   });
 
-  console.log(`browserRequestHeaders built:`, additionalHeaders);
+  // console.log(`browserRequestHeaders built:`, additionalHeaders);
 
   return {
     additionalHeaders,
@@ -41,9 +41,21 @@ export const browserRequestHeaders = (): IRequestHeaders => {
 export const setBrowserCookies = (args: AxiosResponseHeaders) => {
   return HEADERS.map((headerName) => {
     const cookieValue = args[headerName];
-    console.log(`setBrowserCookies for ${headerName}: ${cookieValue}`);
+    // console.log(`setBrowserCookies for ${headerName}: ${cookieValue}`);
     if (cookieValue) {
       jsCookie.set(`${COOKIE_PREFIX}_${headerName}`, cookieValue);
+    }
+  });
+};
+
+export const clearBrowserCookies = () => {
+  return HEADERS.map((headerName) => {
+    const cookieId = `${COOKIE_PREFIX}_${headerName}`;
+    const cookieValue = jsCookie.get(cookieId);
+    console.log(`cookieValueFound`, cookieValue);
+    // console.log(`setBrowserCookies for ${headerName}: ${cookieValue}`);
+    if (cookieValue) {
+      jsCookie.remove(`${COOKIE_PREFIX}_${headerName}`);
     }
   });
 };
@@ -51,7 +63,7 @@ export const setBrowserCookies = (args: AxiosResponseHeaders) => {
 export const serverRequestHeaders = (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
 ): IRequestHeaders => {
-  console.log(`context.req.cookies`, context.req.cookies);
+  // console.log(`context.req.cookies`, context.req.cookies);
   const additionalHeaders: Partial<IRequestHeaders['additionalHeaders']> = {};
 
   HEADERS.map((headerName) => {
@@ -61,7 +73,7 @@ export const serverRequestHeaders = (
     }
   });
 
-  console.log(`serverRequestHeaders built:`, additionalHeaders);
+  // console.log(`serverRequestHeaders built:`, additionalHeaders);
 
   return {
     additionalHeaders,

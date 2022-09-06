@@ -7,8 +7,23 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Almarai', Helvetica Neue, system-ui, sans-serif;
-  /* font-family: Helvetica Neue, system-ui, sans-serif; */
+  /* font-family: 'acta-display', 'Helvetica Neue', system-ui, sans-serif; */
+  /* font-family: 'Helvetica Neue', system-ui, sans-serif;
+  font-family: 'source-sans-pro', 'Helvetica Neue', system-ui, sans-serif; */
+  /* font-family: 'ff-tisa-web-pro', 'Helvetica Neue', system-ui, sans-serif; */
+  /* font-family: 'droid-sans-mono', 'Helvetica Neue', system-ui, sans-serif; */
+  /* font-family: 'jubilat', 'Helvetica Neue', system-ui, sans-serif; */
+  font-weight: normal;
+  font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  /* font-family: 'futura-pt', 'Helvetica Neue', system-ui, sans-serif; */
 }
 
 a {
@@ -18,4 +33,71 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.btn {
+  @apply py-2 px-6 transition-all text-sm font-semibold uppercase;
+}
+.btn-primary {
+  @apply bg-pink text-white;
+}
+.btn-blue:hover {
+  /* @apply bg-blue-700; */
+}
+
+@layer base {
+
+  [type='text'],
+  [type='email'],
+  [type='url'],
+  [type='password'],
+  [type='number'],
+  [type='date'],
+  [type='datetime-local'],
+  [type='month'],
+  [type='search'],
+  [type='tel'],
+  [type='time'],
+  [type='week'],
+  [multiple],
+  textarea,
+  select {
+      @apply transition-shadow;
+  }
+
+  [type='text']:focus,
+  [type='email']:focus,
+  [type='url']:focus,
+  [type='password']:focus,
+  [type='number']:focus,
+  [type='date']:focus,
+  [type='datetime-local']:focus,
+  [type='month']:focus,
+  [type='search']:focus,
+  [type='tel']:focus,
+  [type='time']:focus,
+  [type='week']:focus,
+  [multiple]:focus,
+  textarea:focus,
+  select:focus {
+      --tw-ring-color: #AC1E8C;
+      border-color: var(--tw-ring-color);
+  }
+
+  [type="checkbox"],
+  [type="radio"] {
+      color: #AC1E8C;
+  }
+
+  [type="checkbox"]:focus,
+  [type="radio"]:focus {
+      --tw-ring-color: #E361C6;
+  }
+
+  button:focus,
+  a:focus {
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+      border-color: #E361C6;
+      outline: none;
+  }
 }

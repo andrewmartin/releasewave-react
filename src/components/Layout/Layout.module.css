@@ -1,0 +1,7 @@
+.LayoutWrapper {
+  @apply z-10 relative;
+}
+
+.LayoutContent {
+  @apply flex items-center justify-center;
+}

@@ -3,10 +3,10 @@ import { GetServerSideProps } from 'next';
 import { globalServerSideProps } from './global';
 import { AXIOS } from '@/api/axios';
 import moment from 'moment';
-import { RailsCollectionResponse } from '@/types/Data';
-interface IHomeServerSideProps extends IServerSideProps {
-  featuredReleases?: RailsCollectionResponse<schema.Release>;
-  releases?: RailsCollectionResponse<schema.Release>;
+import { RailsCollectionResponse, Release } from '@/types/Data';
+export interface IHomeServerSideProps extends IServerSideProps {
+  featuredReleases?: RailsCollectionResponse<Release>;
+  releases?: RailsCollectionResponse<Release>;
 }
 
 export const homeServerSideProps: GetServerSideProps<
@@ -21,7 +21,7 @@ export const homeServerSideProps: GetServerSideProps<
   console.log(`globalProps`, serverGlobalProps);
 
   const getFeaturedReleases = (params: Record<string, string>) => {
-    return AXIOS(context).instance.get<RailsCollectionResponse<schema.Release>>(
+    return AXIOS(context).instance.get<RailsCollectionResponse<Release>>(
       `releases`,
       {
         params,
@@ -30,7 +30,7 @@ export const homeServerSideProps: GetServerSideProps<
   };
 
   const getAllReleases = (params?: Record<string, string>) => {
-    return AXIOS(context).instance.get<RailsCollectionResponse<schema.Release>>(
+    return AXIOS(context).instance.get<RailsCollectionResponse<Release>>(
       `releases`,
       {
         params,

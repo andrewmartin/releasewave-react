@@ -1,33 +1,33 @@
 import React from 'react';
 import { Logo } from '../Logo';
 import styles from '@/styles/Header.module.css';
-import boxLinkStyles from '@/styles/Atoms.module.css';
+import atomStyles from '@/styles/Atoms.module.css';
 import { LogInOrOut } from '../User/atoms';
 
 export const Header = () => {
   return (
-    <div className="container mx-auto px-4 py-4">
-      <div className="flex items-center">
-        <div className="flex-1">
-          <Logo />
-        </div>
-        <div className={styles.Header}>
-          <ul className={styles.NavList}>
-            <li>
-              <button className={boxLinkStyles.BoxLink}>Home</button>
-            </li>
-            <li>
-              <button className={boxLinkStyles.BoxLink}>Releases</button>
-            </li>
-            <li>
-              <button className={boxLinkStyles.BoxLink}>Artists</button>
-            </li>
-            <li>
-              <button className={boxLinkStyles.BoxLink}>Contact</button>
-            </li>
-          </ul>
-          {<LogInOrOut />}
-        </div>
+    <div>
+      <div className={styles.Header}>
+        <Logo />
+      </div>
+      <div className={styles.Nav}>
+        <ul className={styles.NavList}>
+          <li>
+            <button className={atomStyles.NavLinkButton}>Home</button>
+          </li>
+          <li>
+            <button className={atomStyles.NavLinkButton}>Releases</button>
+          </li>
+          <li>
+            <button className={atomStyles.NavLinkButton}>Artists</button>
+          </li>
+          <li>
+            <button className={atomStyles.NavLinkButton}>Contact</button>
+          </li>
+          <li>
+            <LogInOrOut />
+          </li>
+        </ul>
       </div>
     </div>
   );

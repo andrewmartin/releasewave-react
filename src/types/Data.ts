@@ -12,12 +12,18 @@ export type RailsCollectionResponse<T> = {
   items: T[];
 };
 
+interface PaperClipImage {
+  full: string;
+  large: string;
+  square: string;
+  thumb: string;
+}
+
+export interface Artist extends schema.Artist {
+  image: PaperClipImage;
+}
+
 export interface Release extends schema.Release {
-  artists: schema.Artist[];
-  image: {
-    full: string;
-    large: string;
-    square: string;
-    thumb: string;
-  };
+  artists: Artist[];
+  image: PaperClipImage;
 }

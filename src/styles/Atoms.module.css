@@ -6,3 +6,7 @@
 .BoxLink:hover {
   @apply shadow-none border-transparent opacity-100;
 }
+
+.NavLinkButton {
+  @apply text-sm uppercase font-semibold;
+}

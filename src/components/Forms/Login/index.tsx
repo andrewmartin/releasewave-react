@@ -1,17 +1,15 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { useAppContext } from '@/context/app';
-
-import { Audio } from 'react-loader-spinner';
 import { ISignupFormValues, onSubmitLogin } from '@/context/app/api';
 
 export const LoginForm = () => {
   const {
     dispatch,
-    state: { fetching, errors },
+    state: { errors },
   } = useAppContext();
 
-  const formik = useFormik<ISignupFormValues>({
+  const { handleSubmit, handleChange, values } = useFormik<ISignupFormValues>({
     initialValues: {
       email: ``,
       password: ``,
@@ -20,22 +18,9 @@ export const LoginForm = () => {
   });
 
   return (
-    <div className="w-full max-w-xs">
-      {fetching.get(`user`) && (
-        <div className="flex items-center justify-center">
-          <Audio
-            height="50"
-            width="50"
-            color={`#AC1E8C`}
-            ariaLabel="audio-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
-        </div>
-      )}
+    <div>
       <form
-        onSubmit={formik.handleSubmit}
+        onSubmit={handleSubmit}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
         <div className="mb-4">
@@ -46,13 +31,13 @@ export const LoginForm = () => {
             Username
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-full"
             type="text"
             placeholder="Email Address"
             id="email"
             name="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
+            onChange={handleChange}
+            value={values.email}
           />
         </div>
         <div className="mb-6">
@@ -63,13 +48,13 @@ export const LoginForm = () => {
             Password
           </label>
           <input
-            className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="w-full"
             id="password"
             type="password"
             placeholder="******************"
             name="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
+            onChange={handleChange}
+            value={values.password}
           />
         </div>
 

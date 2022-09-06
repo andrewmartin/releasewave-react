@@ -1,24 +1,73 @@
-.release {
-  @apply w-full my-5;
+.FeaturedRelease {
+  @apply w-full my-5 mb-16 prose lg:prose-xl;
 }
 
-.image {
-  @apply w-full flex items-center justify-center;
+.FeaturedReleaseImage {
+  @apply w-full flex items-center justify-center relative mb-8;
 }
 
-.image img {
-  @apply w-1/2 px-5;
+.FeaturedReleaseImage img {
+  @apply w-1/2 px-7;
 }
 
-.content {
-  @apply w-3/4;
+.FeaturedReleaseContent {
 }
 
-.release h2 {
-  @apply font-extrabold tracking-tight text-3xl w-full mb-4;
-  line-height: 3.8rem;
+.FeaturedReleaseContent h2 {
+  @apply font-extrabold tracking-tighter text-3xl w-full mb-8;
 }
 
-.release p {
-  @apply text-lg;
+.FeaturedReleaseContent span {
+  @apply block italic text-2xl;
+}
+
+.FeaturedReleaseContent cite {
+  @apply block italic text-lg text-right;
+}
+
+.UpcomingRelease {
+  @apply w-full my-5 mb-0 prose;
+}
+
+.UpcomingReleaseImage {
+  @apply w-full flex items-center justify-center relative mb-8;
+}
+
+.UpcomingReleaseImage img {
+  @apply w-1/2 px-7;
+}
+
+.UpcomingReleaseContent {
+}
+
+.UpcomingReleaseContent h2 {
+  @apply font-extrabold tracking-tighter text-2xl w-full mb-3 mt-0;
+}
+
+.UpcomingReleaseContent span {
+  @apply block italic text-lg;
+}
+
+/* release page */
+.ReleasePage {
+  @apply px-6 flex w-full py-12 flex-wrap;
+}
+
+.ReleasePageContent {
+  @apply py-8 prose prose-2xl;
+}
+.ReleasePageHeader {
+  @apply flex w-full flex-wrap;
+}
+.ReleasePageTitle {
+  @apply lg:w-2/3 pr-8;
+}
+.ReleasePageTitle span {
+  @apply block italic text-2xl;
+}
+.ReleasePageTitle h2 {
+  @apply text-[6em] font-bold tracking-tighter leading-[0.9] mb-12;
+}
+.ReleasePageArt {
+  @apply w-full lg:w-1/3 justify-center lg:justify-end lg:pr-0 flex items-end lg:items-start lg:mt-0 my-8 lg:my-0 md:pr-16 lg:order-1;
 }
