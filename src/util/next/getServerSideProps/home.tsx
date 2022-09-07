@@ -69,7 +69,7 @@ export const homeServerSideProps: GetServerSideProps<
         releases,
       },
     };
-  } catch (error) {
+  } catch (error: any) {
     console.log(`error`, error.toString());
 
     return {

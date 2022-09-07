@@ -1,0 +1,24 @@
+.ReviewItemContent {
+  @apply w-full prose-2xl mb-12 p-12 border-b-2 border-gray-300;
+}
+.ReviewItemHeadline {
+  @apply flex items-center;
+}
+.ReviewItemHeadline > h2 {
+  @apply text-[2em] leading-[1.2] font-bold tracking-tighter m-0 w-full;
+}
+.ReviewItemHeadline > span {
+  @apply flex text-2xl font-semibold border-3 rounded-full p-4 border-gray-200 w-[80px] h-[80px] items-center justify-center transition-all;
+}
+
+.ReviewItemHeadline > span.ReviewItemHighScore {
+  @apply border-pink font-bold;
+}
+
+.ReviewItemByline {
+  @apply flex items-end w-full justify-end;
+}
+
+.ReviewItemByline cite {
+  @apply text-xl mr-4 text-gray-500;
+}

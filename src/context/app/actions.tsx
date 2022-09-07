@@ -1,5 +1,6 @@
+import { CONFIRM } from '@/util/constants';
 import { MouseEventHandler } from 'react';
-import { AppDispatch } from '.';
+import { AppDispatch, ModalType } from '.';
 
 type Event = Parameters<MouseEventHandler<HTMLButtonElement>>[number];
 type MaybeMouseEvent = (event?: Event) => void;
@@ -15,9 +16,13 @@ export const showLoginModal =
   };
 
 export const closeModal =
-  (dispatch: AppDispatch): MaybeMouseEvent =>
+  (dispatch: AppDispatch, currentModal?: ModalType): MaybeMouseEvent =>
   (event) => {
     event && event.preventDefault();
+    if (currentModal === `createReview`) {
+      if (!CONFIRM()) return;
+    }
+
     dispatch({
       type: `modal:close`,
     });

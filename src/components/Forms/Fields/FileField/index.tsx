@@ -15,7 +15,7 @@ interface FileFieldProps {
 
 export const FileField = (props: FileFieldProps) => {
   const { name, onChange, src, width, height } = props;
-  const [imageSrc, setImageSrc] = useState(props.src || ``);
+  const [imageSrc, setImageSrc] = useState(src || ``);
 
   const onDrop = (acceptedFiles: File[]) => {
     acceptedFiles.forEach((file) => {
@@ -51,21 +51,19 @@ export const FileField = (props: FileFieldProps) => {
       <Dropzone onDrop={onDrop}>
         {({ getRootProps, getInputProps, isDragActive }) => {
           return (
-            <>
-              <div
-                {...getRootProps()}
-                className={cx(styles.Dropzone, {
-                  'dropzone--isActive': isDragActive,
-                })}
-              >
-                <input {...getInputProps()} />
-                {isDragActive ? (
-                  <p>Drop files here...</p>
-                ) : (
-                  <p>Drop a file here or click to select a file to upload.</p>
-                )}
-              </div>
-            </>
+            <div
+              {...getRootProps()}
+              className={cx(styles.Dropzone, {
+                'dropzone--isActive': isDragActive,
+              })}
+            >
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop files here...</p>
+              ) : (
+                <p>Drop a file here or click to select a file to upload.</p>
+              )}
+            </div>
           );
         }}
       </Dropzone>

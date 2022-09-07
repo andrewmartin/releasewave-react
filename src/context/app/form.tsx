@@ -10,6 +10,8 @@ import {
   useState,
 } from 'react';
 import { sentenceCase } from 'change-case';
+import classNames from 'classnames';
+import { FormikErrors } from '@/components/Atoms/Errors';
 interface FormContext {
   isEditing: boolean;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
@@ -26,18 +28,36 @@ const FormContext = createContext<FormContext>({
 
 export const useFormContext = () => useContext(FormContext);
 
-export const FormSubmitButton = () => {
-  const { isEditing, setIsEditing } = useFormContext();
+interface FormFooterProps {
+  actionName: string;
+  AdditionalActions?: JSX.Element;
+}
 
-  const Wrapper: FC<PropsWithChildren> = ({ children }) => (
-    <div className="w-full p-6 text-right">{children}</div>
-  );
+const Wrapper: FC<PropsWithChildren> = ({ children }) => (
+  <div className="w-full p-6 text-right flex items-end justify-end space-x-2">
+    {children}
+  </div>
+);
+
+export const FormFooter = ({
+  AdditionalActions,
+  actionName,
+}: FormFooterProps) => {
+  const { isEditing, setIsEditing } = useFormContext();
 
   if (!isEditing) {
     return (
       <Wrapper>
-        <button onClick={() => setIsEditing(true)} className="btn btn-primary">
-          Edit
+        {AdditionalActions}
+        <button
+          type="button"
+          onClick={(event) => {
+            event.preventDefault();
+            setIsEditing(true);
+          }}
+          className="btn btn-primary"
+        >
+          {actionName}
         </button>
       </Wrapper>
     );
@@ -49,7 +69,9 @@ export const FormSubmitButton = () => {
         Submit
       </button>
       <button
-        onClick={() => setIsEditing(false)}
+        onClick={() => {
+          setIsEditing(false);
+        }}
         type="submit"
         className="btn btn-secondary"
       >
@@ -82,27 +104,41 @@ interface MaybeField<Values extends FormikValues = FormikValues> {
   formik: ReturnType<typeof useFormik<Values>>;
   children: ReactNode;
   element: JSX.Element | null;
+  className?: string;
 }
 
 export function MaybeField<T extends FormikValues = FormikValues>(
   props: MaybeField<T>,
 ) {
-  const {
-    children,
-    formik: { values },
-    element,
-    name,
-  } = props;
+  const { children, element, name, className } = props;
   const { isEditing } = useFormContext();
+
   if (isEditing) {
     return (
-      <div className="flex flex-wrap w-full mb-4">
-        <label className="uppercase text-sm w-full not-italic">
+      <div
+        className={classNames({
+          [`flex flex-wrap w-full mb-4`]: !className,
+          [`${className}`]: className,
+        })}
+      >
+        <label className="uppercase text-sm w-full not-italic font-semibold">
           {sentenceCase(name)}
         </label>
-        <div className="w-full">{children}</div>
+        <div
+          className={classNames({
+            'w-full': !className,
+            [`${className}`]: className,
+          })}
+        >
+          {children}
+        </div>
+        <FormikErrors formik={props.formik} name={name} />
       </div>
     );
+  }
+
+  if (className) {
+    return <div className={className}>{element}</div>;
   }
 
   return element;
@@ -110,17 +146,19 @@ export function MaybeField<T extends FormikValues = FormikValues>(
 
 interface MaybeForm {
   handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
+  Footer: JSX.Element;
+  className?: string;
 }
 
 export const MaybeForm: FC<PropsWithChildren<MaybeForm>> = (props) => {
-  const { handleSubmit, children } = props;
+  const { handleSubmit, children, Footer, className } = props;
   const isLoggedIn = useIsLoggedIn();
 
   if (isLoggedIn) {
     return (
-      <form onSubmit={handleSubmit}>
+      <form className={className} onSubmit={handleSubmit}>
         {children}
-        <FormSubmitButton />
+        {Footer}
       </form>
     );
   }

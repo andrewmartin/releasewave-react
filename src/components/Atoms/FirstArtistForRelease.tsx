@@ -1,4 +1,5 @@
 import { Release } from '@/types/Data';
+import Link from 'next/link';
 import React from 'react';
 
 export const getFirstArtist = (release: Release) => {
@@ -9,9 +10,13 @@ export const getFirstArtist = (release: Release) => {
 };
 
 const ArtistLink = (props: schema.Artist) => {
-  const { name } = props;
+  const { name, slug } = props;
 
-  return <span>{name}</span>;
+  return (
+    <Link href={`/artists/${slug}`}>
+      <span>{name}</span>
+    </Link>
+  );
 };
 
 export const FirstArtistForRelease = (props: Release) => {

@@ -60,7 +60,7 @@ const SocialIconLi = ({ type, link, name }: IconProps) => {
         href={link}
         target="_blank"
         rel="noreferrer"
-        className={`w-[${SIZE}px] h-[${SIZE}px] block transition-all opacity-70 hover:opacity-100 hover:scale-110`}
+        className={`w-[50px] h-[50px] block transition-all opacity-70 hover:opacity-100 hover:scale-110`}
       >
         <Icon
           color="#AC1E8C"
@@ -72,6 +72,18 @@ const SocialIconLi = ({ type, link, name }: IconProps) => {
     </li>
   );
 };
+
+type ArtistKeys = keyof Partial<Omit<Artist, 'image'>>;
+export const SOCIALS: ArtistKeys[] = [
+  `spotify`,
+  `facebook`,
+  `twitter`,
+  `bandcamp`,
+  `itunes`,
+  `soundcloud`,
+  `website`,
+  `instagram`,
+];
 
 export const SocialLinks = (props: Artist) => {
   const {

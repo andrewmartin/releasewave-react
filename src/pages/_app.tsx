@@ -3,8 +3,9 @@ import '@/styles/global.css';
 import { AppWrapper } from '@/context/app';
 import { Layout } from '@/components/Layout';
 import Head from 'next/head';
+import { ModalContainer } from '@/components/Modal';
 
-export default function MyApp(props: AppProps) {
+export default function App(props: AppProps) {
   const { Component, pageProps } = props;
 
   return (
@@ -16,12 +17,13 @@ export default function MyApp(props: AppProps) {
           content="Release Wave: Curating the best new music releases."
         />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
       </Head>
       <AppWrapper {...pageProps}>
         <Layout {...pageProps}>
-          <Component {...pageProps} />
+          <Component
+            {...pageProps}
+            ModalContainer={<ModalContainer layoutProps={pageProps} />}
+          />
         </Layout>
       </AppWrapper>
     </>

@@ -1,4 +1,10 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, {
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
 import cx from 'classnames';
 import { useAppContext } from '@/context/app';
 import { LoginForm } from '../Forms/Login';
@@ -45,38 +51,55 @@ interface ModalContainerProps {
   layoutProps: LayoutProps;
 }
 
+const Wrapper: FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      {children}
+    </div>
+  );
+};
+
 export const ModalContainer = ({ layoutProps }: ModalContainerProps) => {
   const { state, dispatch } = useAppContext();
-  const [currentModal, setCurrentModal] = useState(state.activeModal);
 
   useEffect(() => {
-    setCurrentModal(state.activeModal);
-    document.addEventListener(`keydown`, ({ key }) => {
+    function listener(event: DocumentEventMap['keyup']) {
+      const { key } = event;
       if (key === `~`) {
-        setCurrentModal(`debug`);
+        dispatch({
+          type: `modal:show`,
+          modal: `debug`,
+        });
       }
       if (key === `Escape`) {
-        setCurrentModal(undefined);
+        closeModal(dispatch, state.activeModal)();
+        document.removeEventListener(`keyup`, listener);
       }
-    });
-  }, [state.activeModal]);
+    }
+
+    document.addEventListener(`keyup`, listener);
+  }, [dispatch, state.activeModal]);
 
   const Element = () => {
-    switch (currentModal) {
+    switch (state.activeModal) {
       case `login`:
         return <LoginForm />;
       case `debug`:
         return <Debug layoutProps={layoutProps} />;
-
       default:
         return null;
     }
   };
 
   return (
-    <ModalWrapper isActive={Boolean(currentModal)}>
-      <OutsideClick onClick={closeModal(dispatch)} show={Boolean(currentModal)}>
-        <Element />
+    <ModalWrapper isActive={Boolean(state.activeModal)}>
+      <OutsideClick
+        onClick={closeModal(dispatch, state.activeModal)}
+        show={Boolean(state.activeModal)}
+      >
+        <Wrapper>
+          <Element />
+        </Wrapper>
       </OutsideClick>
     </ModalWrapper>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { useAppContext } from '@/context/app';
 import { ISignupFormValues, onSubmitLogin } from '@/context/app/api';
+import { Input } from '@/components/Atoms/InputField';
 
 export const LoginForm = () => {
   const {
@@ -19,10 +20,7 @@ export const LoginForm = () => {
 
   return (
     <div>
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-      >
+      <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -30,8 +28,7 @@ export const LoginForm = () => {
           >
             Username
           </label>
-          <input
-            className="w-full"
+          <Input
             type="text"
             placeholder="Email Address"
             id="email"
@@ -47,8 +44,7 @@ export const LoginForm = () => {
           >
             Password
           </label>
-          <input
-            className="w-full"
+          <Input
             id="password"
             type="password"
             placeholder="******************"

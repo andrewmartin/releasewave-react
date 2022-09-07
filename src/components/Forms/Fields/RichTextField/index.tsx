@@ -72,6 +72,8 @@ const serialize = (node: any) => {
     }
   });
 
+  console.log(`str`, str);
+
   return str;
 };
 
@@ -107,7 +109,7 @@ interface Props {
 
 export const RichTextField = (props: Props) => {
   const { value, onChange } = props;
-  const document = new DOMParser().parseFromString(value, `text/html`);
+  const document = new DOMParser().parseFromString(value || ``, `text/html`);
   const slateValues = deserialize(document.body);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 

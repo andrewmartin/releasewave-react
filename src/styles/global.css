@@ -41,12 +41,17 @@ a {
 .btn-primary {
   @apply bg-pink text-white;
 }
+.btn-secondary {
+  @apply transition-all bg-gray-200 text-gray-700;
+}
+.btn-secondary:hover {
+  @apply bg-gray-500 text-white;
+}
 .btn-blue:hover {
   /* @apply bg-blue-700; */
 }
 
 @layer base {
-
   [type='text'],
   [type='email'],
   [type='url'],
@@ -62,7 +67,7 @@ a {
   [multiple],
   textarea,
   select {
-      @apply transition-shadow;
+    @apply transition-shadow;
   }
 
   [type='text']:focus,
@@ -80,24 +85,24 @@ a {
   [multiple]:focus,
   textarea:focus,
   select:focus {
-      --tw-ring-color: #AC1E8C;
-      border-color: var(--tw-ring-color);
+    --tw-ring-color: #ac1e8c;
+    border-color: var(--tw-ring-color);
   }
 
-  [type="checkbox"],
-  [type="radio"] {
-      color: #AC1E8C;
+  [type='checkbox'],
+  [type='radio'] {
+    color: #ac1e8c;
   }
 
-  [type="checkbox"]:focus,
-  [type="radio"]:focus {
-      --tw-ring-color: #E361C6;
+  [type='checkbox']:focus,
+  [type='radio']:focus {
+    --tw-ring-color: #e361c6;
   }
 
   button:focus,
   a:focus {
-      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
-      border-color: #E361C6;
-      outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+    border-color: #e361c6;
+    outline: none;
   }
 }

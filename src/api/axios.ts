@@ -75,10 +75,10 @@ export class Axios {
           headersToAdd = additionalHeaders;
         }
 
-        console.log(
-          `setting additional headers in request interceptor:`,
-          headersToAdd,
-        );
+        // console.log(
+        //   `setting additional headers in request interceptor:`,
+        //   headersToAdd,
+        // );
 
         config.headers = {
           ...config.headers,

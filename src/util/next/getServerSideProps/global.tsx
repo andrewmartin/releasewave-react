@@ -1,7 +1,7 @@
-import { User } from '@/types/User';
 import { GetServerSideProps, GetServerSidePropsResult } from 'next';
 import { AXIOS } from '@/api/axios';
 import { IServerSideProps } from '@/types/App';
+import { User } from '@/types/Data';
 
 export const globalServerSideProps: GetServerSideProps<
   IServerSideProps
@@ -16,11 +16,15 @@ export const globalServerSideProps: GetServerSideProps<
         user: data,
       },
     };
-  } catch (error) {
+  } catch (error: any) {
     console.log(`error`, error.toString());
 
     return {
       props: {},
     };
   }
+};
+
+export type WithModal<T> = T & {
+  ModalContainer: JSX.Element;
 };

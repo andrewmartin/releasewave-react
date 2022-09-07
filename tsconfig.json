@@ -21,10 +21,5 @@
     "incremental": true
   },
   "exclude": ["node_modules"],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/components/Atoms/FullBgImage"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

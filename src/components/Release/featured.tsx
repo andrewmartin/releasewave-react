@@ -1,10 +1,11 @@
 import { Release } from '@/types/Data';
-import React from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import Image from 'next/image';
 import { FirstArtistForRelease } from '../Atoms/FirstArtistForRelease';
 import styles from './Release.module.css';
 import Link from 'next/link';
 import { appendHostToImage } from '@/util/image';
+import { useReleaseContext } from '@/context/release';
 
 export const FeaturedRelease = (release: Release) => {
   const linkHref = `/releases/${release.slug}`;
@@ -28,14 +29,24 @@ export const FeaturedRelease = (release: Release) => {
         </span>
         <div
           dangerouslySetInnerHTML={{
-            __html:
-              release.description +
-                `<p>Phony, the creative indie/emo/gaze bedroom pop project of Neil Berthier, formerly of Donovan Wolfington and current touring guitarist in Joyce Manor, is gearing up to release his upcomign full length titled "At Some Point You Stop" via his own label, Phony Industries on July 29th, 2022. </p>` ||
-              ``,
+            __html: release.description ? `${release.description}` : ``,
           }}
         ></div>
-        <cite>By Jason Gordon</cite>
       </div>
     </div>
+  );
+};
+
+export const FeaturedReleaseContainer: FC<PropsWithChildren> = () => {
+  const {
+    state: { releases },
+  } = useReleaseContext();
+
+  return (
+    <>
+      {releases?.items?.map((release) => (
+        <FeaturedRelease {...release} key={release.id} />
+      ))}
+    </>
   );
 };

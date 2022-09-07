@@ -2,7 +2,6 @@ import { IServerSideProps } from '@/types/App';
 import React, { FC, ReactNode } from 'react';
 import Header from '../Header';
 import { LoadingContainer } from '../Loading';
-import { ModalContainer } from '../Modal';
 import styles from './Layout.module.css';
 
 export interface LayoutProps extends IServerSideProps {
@@ -18,8 +17,6 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         <Header />
         <div className={styles.LayoutContent}>{children}</div>
       </div>
-
-      <ModalContainer layoutProps={props} />
       <LoadingContainer />
     </>
   );

@@ -1,6 +1,5 @@
 import { AXIOS } from '@/api/axios';
-import { RailsResponse } from '@/types/Data';
-import { User } from '@/types/User';
+import { RailsResponse, User } from '@/types/Data';
 import { Dispatch } from 'react';
 import { AppAction } from '.';
 import { closeModal } from './actions';
@@ -36,7 +35,7 @@ export const onSubmitLogin =
       });
 
       closeModal(dispatch)();
-    } catch (error) {
+    } catch (error: any) {
       dispatch({
         type: `error`,
         fetchType: `user`,

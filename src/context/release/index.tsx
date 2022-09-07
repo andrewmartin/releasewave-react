@@ -1,24 +1,32 @@
-import { RailsCollectionResponse, Release } from '@/types/Data';
+import { RailsCollectionResponse, Release, Review } from '@/types/Data';
 import { assertUnreachable } from '@/util/unreachable';
 import {
   createContext,
   Dispatch,
-  ReactNode,
+  PropsWithChildren,
   useContext,
   useMemo,
   useReducer,
 } from 'react';
 
-type FetchType = 'release' | 'releases';
+type FetchType = 'release' | 'releases' | 'review';
 
 export type ReleaseAction =
   | { type: 'error'; fetchType: FetchType; message: string }
   | { type: 'start'; fetchType: FetchType; isFetching: boolean }
   | { type: 'successEditOrCreate'; fetchType: FetchType; data: Release }
-  | { type: 'done'; fetchType: FetchType };
+  | { type: 'successCreateReview'; fetchType: FetchType; data: Review }
+  | { type: 'successDeleteReview'; fetchType: FetchType; data: Review }
+  | { type: 'done'; fetchType: FetchType }
+  | {
+      type: 'successGetReleases';
+      fetchType: FetchType;
+      data?: RailsCollectionResponse<Release>;
+    };
 
 interface ReleaseState {
   releases?: RailsCollectionResponse<Release>;
+  reviews?: RailsCollectionResponse<Review>;
   release?: Release;
   fetching: Map<FetchType, boolean>;
   errors: Map<FetchType, string | undefined>;
@@ -41,7 +49,10 @@ const initialState = {
   releases: undefined,
 };
 
-function releaseReducer(prevState: ReleaseState, action: ReleaseAction) {
+function releaseReducer(
+  prevState: ReleaseState,
+  action: ReleaseAction,
+): ReleaseState {
   switch (action.type) {
     case `start`: {
       return {
@@ -72,6 +83,52 @@ function releaseReducer(prevState: ReleaseState, action: ReleaseAction) {
         },
       };
     }
+    case `successCreateReview`: {
+      return {
+        ...prevState,
+        fetching: prevState.fetching.set(action.fetchType, false),
+        reviews: {
+          ...prevState.reviews,
+          per_page: prevState.reviews?.per_page || 10,
+          current_page: prevState.reviews?.current_page || 1,
+          total_entries: prevState.reviews?.total_entries || 1,
+          items: prevState.reviews?.items
+            ? prevState.reviews?.items.concat(action.data)
+            : [action.data],
+        },
+      };
+    }
+    case `successDeleteReview`: {
+      return {
+        ...prevState,
+        fetching: prevState.fetching.set(action.fetchType, false),
+        reviews: {
+          ...prevState.reviews,
+          per_page: prevState.reviews?.per_page || 10,
+          current_page: prevState.reviews?.current_page || 1,
+          total_entries: prevState.reviews?.total_entries || 1,
+          items: prevState.reviews?.items
+            ? prevState.reviews?.items
+                .concat()
+                .filter((r) => r.id !== action.data.id)
+            : [action.data],
+        },
+      };
+    }
+
+    case `successGetReleases`: {
+      if (action.data) {
+        return {
+          ...prevState,
+          fetching: prevState.fetching.set(action.fetchType, false),
+          releases: {
+            ...prevState.releases,
+            ...action.data,
+          },
+        };
+      }
+      return prevState;
+    }
 
     default: {
       return assertUnreachable(action);
@@ -88,23 +145,19 @@ const ReleaseContext = createContext<AppContext>({
 
 export const useReleaseContext = () => useContext(ReleaseContext);
 
-interface ReleaseWrapperChildren {
+interface ReleaseWrapper extends PropsWithChildren {
   releases?: RailsCollectionResponse<Release>;
+  reviews?: RailsCollectionResponse<Review>;
   release?: Release;
 }
 
-interface ReleaseWrapper {
-  releases?: RailsCollectionResponse<Release>;
-  release?: Release;
-  children: (props: ReleaseWrapperChildren) => ReactNode;
-}
-
-export function ReleaseWrapper(props: ReleaseWrapper) {
-  const { children, releases, release } = props;
+export function ReleaseContextContainer(props: ReleaseWrapper) {
+  const { children, releases, release, reviews } = props;
   const [reducerState, reducerDispatch] = useReducer(releaseReducer, {
     ...initialState,
     releases,
     release,
+    reviews,
   });
 
   const [state, dispatch] = useMemo(
@@ -119,7 +172,7 @@ export function ReleaseWrapper(props: ReleaseWrapper) {
         dispatch,
       }}
     >
-      {children({ releases, release })}
+      {children}
     </ReleaseContext.Provider>
   );
 }

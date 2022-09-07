@@ -2,10 +2,11 @@ import { IServerSideProps } from '@/types/App';
 import { GetServerSideProps } from 'next';
 import { globalServerSideProps } from './global';
 import { AXIOS } from '@/api/axios';
-import { Release } from '@/types/Data';
+import { RailsCollectionResponse, Release, Review } from '@/types/Data';
 import { ParsedUrlQuery } from 'querystring';
 export interface IReleaseServerSideProps extends IServerSideProps {
   release?: Release;
+  reviews?: RailsCollectionResponse<Review>;
 }
 
 interface IParams extends ParsedUrlQuery {
@@ -29,17 +30,30 @@ export const releaseServerSideProps: GetServerSideProps<
     });
   };
 
+  const getReleaseReviews = (params: IParams) => {
+    const { slug } = params;
+    return AXIOS(context).instance.get<RailsCollectionResponse<Review>>(
+      `releases/${slug}/reviews`,
+      {
+        params,
+      },
+    );
+  };
+
   try {
-    const [{ data: release }] = await Promise.all([
+    const [{ data: release }, { data: reviews }] = await Promise.all([
       getRelease(context.params as IParams),
+      getReleaseReviews(context.params as IParams),
     ]);
 
     console.log(`releaseServerSideProps release:`, release.name);
+    console.log(`releaseServerSideProps reviews:`, reviews);
 
     return {
       props: {
         ...globalProps,
         release,
+        reviews,
       },
     };
   } catch (error: any) {

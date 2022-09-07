@@ -31,7 +31,7 @@ declare namespace schema {
     youtube: string | null;
     itunes: string | null;
     twitter: string | null;
-    shortDescription: string | null;
+    short_description: string | null;
   };
 
   type ArtistsRelease = {
@@ -90,7 +90,8 @@ declare namespace schema {
     createdAt: string;
     updatedAt: string;
     slug: string | null;
-    userId: number | null;
+    user_id: number | null;
+    score: string | null;
   };
 
   // unused, we do not expose all of these strings

@@ -1,4 +1,4 @@
-import { User } from '@/types/User';
+import { User } from '@/types/Data';
 import { clearBrowserCookies } from '@/util/cookie';
 import { assertUnreachable } from '@/util/unreachable';
 import {
@@ -11,7 +11,7 @@ import {
 } from 'react';
 
 type FetchType = 'user';
-type ModalType = 'login' | 'debug';
+export type ModalType = 'login' | 'debug';
 
 export type AppAction =
   | { type: 'logout' }

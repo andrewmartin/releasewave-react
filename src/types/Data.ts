@@ -27,3 +27,15 @@ export interface Release extends schema.Release {
   artists: Artist[];
   image: PaperClipImage;
 }
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  image: string;
+  is_admin: boolean;
+}
+
+export interface Review extends schema.Review {
+  user: User;
+}
