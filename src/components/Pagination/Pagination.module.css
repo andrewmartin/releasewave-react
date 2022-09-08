@@ -1,0 +1,29 @@
+.Pagination {
+  @apply w-full p-6 flex space-x-2;
+}
+
+.Pagination ul {
+  @apply text-base w-full space-x-2 flex items-center justify-center font-bold;
+}
+
+.Pagination li {
+}
+.Pagination li a {
+  @apply block p-4 transition-all outline-none;
+}
+
+.Pagination li a:focus,
+.Pagination li button:focus {
+  @apply outline-none border-transparent shadow-none;
+}
+
+.Pagination li:not(.PaginationDisabled) a:hover {
+  @apply bg-pink text-white;
+}
+.PaginationActive {
+  @apply text-pink;
+}
+
+.PaginationDisabled {
+  @apply opacity-20;
+}

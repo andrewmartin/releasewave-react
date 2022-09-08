@@ -14,8 +14,8 @@ type Link = [name: string, href: string];
 
 const NAV_PAGES: Link[] = [
   [`Home`, `/`],
-  // [`Releases`, `/releases`],
-  // [`Artists`, `/artists`],
+  [`Releases`, `/releases`],
+  [`Artists`, `/artists`],
   [`Contact`, `/contact`],
 ];
 

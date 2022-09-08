@@ -1,5 +1,5 @@
 import { AXIOS } from '@/api/axios';
-import { Release, Review } from '@/types/Data';
+import { RailsCollectionResponse, Release, Review } from '@/types/Data';
 import { CONFIRM } from '@/util/constants';
 import { Dispatch } from 'react';
 import toast from 'react-hot-toast';
@@ -207,3 +207,26 @@ export const onDeleteRelease: OnDeleteRelease<
     });
   }
 };
+
+type onGetReleases<Action> = (
+  dispatch: Dispatch<Action>,
+  params: Record<string, any>,
+) => (onSuccess: () => void) => Promise<void>;
+
+export const getReleases: onGetReleases<ReleaseAction> =
+  (dispatch, params = {}) =>
+  async (onSuccess) => {
+    try {
+      const { data } = await AXIOS().instance.get<
+        RailsCollectionResponse<Release>
+      >(`releases`, {
+        params,
+      });
+      dispatch({
+        type: `successGetReleases`,
+        fetchType: `release`,
+        data,
+      });
+      onSuccess();
+    } catch (error) {}
+  };

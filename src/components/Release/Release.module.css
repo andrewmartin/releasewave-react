@@ -48,6 +48,29 @@
   @apply block italic text-lg;
 }
 
+.ReleaseCollectionItem {
+  @apply w-full my-5 mb-0 prose;
+}
+
+.ReleaseCollectionItemImage {
+  @apply w-full flex items-center justify-center relative mb-8;
+}
+
+.ReleaseCollectionItemImage img {
+  @apply w-1/2 px-7;
+}
+
+.ReleaseCollectionItemContent {
+}
+
+.ReleaseCollectionItemContent h2 {
+  @apply font-extrabold tracking-tighter text-[2.5em] w-full mb-3 mt-0;
+}
+
+.ReleaseCollectionItemContent span {
+  @apply block italic text-lg;
+}
+
 /* release page */
 .ReleasePage {
   @apply md:px-12 py-20 flex w-full flex-wrap justify-center;

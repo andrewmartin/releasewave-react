@@ -1,5 +1,5 @@
 import { AXIOS } from '@/api/axios';
-import { Artist, Review } from '@/types/Data';
+import { Artist, RailsCollectionResponse, Review } from '@/types/Data';
 import { Dispatch } from 'react';
 import toast from 'react-hot-toast';
 import { ArtistAction, FetchType } from '.';
@@ -112,6 +112,29 @@ export const onCreateArtist: OnCreateArtist<
         );
       });
     }
+  };
+
+type onGetArtists<Action> = (
+  dispatch: Dispatch<Action>,
+  params: Record<string, any>,
+) => (onSuccess: () => void) => Promise<void>;
+
+export const getArtists: onGetArtists<ArtistAction> =
+  (dispatch, params = {}) =>
+  async (onSuccess) => {
+    try {
+      const { data } = await AXIOS().instance.get<
+        RailsCollectionResponse<Artist>
+      >(`releases`, {
+        params,
+      });
+      dispatch({
+        type: `successGetArtists`,
+        fetchType: `artist`,
+        data,
+      });
+      onSuccess();
+    } catch (error) {}
   };
 
 // type OnDeleteArtist<Action, Values> = (
