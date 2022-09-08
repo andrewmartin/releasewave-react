@@ -3,22 +3,30 @@ import React, { FC, PropsWithChildren } from 'react';
 import Image from 'next/image';
 import { FirstArtistForRelease } from '../Atoms/FirstArtistForRelease';
 import styles from './Release.module.css';
+import atomStyles from '@/styles/Atoms.module.css';
 import { appendHostToImage } from '@/util/image';
 import { useReleaseContext } from '@/context/release';
+import Link from 'next/link';
 
 const UpcomingRelease = (release: Release) => {
+  const linkHref = `/releases/${release.slug}`;
+
   return (
     <div className={styles.UpcomingRelease} key={release.id}>
       <div className={styles.UpcomingReleaseImage}>
-        <Image
-          src={appendHostToImage(release.image.large)}
-          alt={`${release.name}`}
-          width={500}
-          height={500}
-        />
+        <Link href={linkHref}>
+          <Image
+            src={appendHostToImage(release.image.large)}
+            alt={`${release.name}`}
+            width={500}
+            height={500}
+          />
+        </Link>
       </div>
       <div className={styles.UpcomingReleaseContent}>
-        <h2>{release.name}</h2>
+        <Link href={linkHref}>
+          <h2 className={atomStyles.Link}>{release.name}</h2>
+        </Link>
         <FirstArtistForRelease {...release} />
         <div
           dangerouslySetInnerHTML={{

@@ -14,11 +14,11 @@ export interface SearchResults {
 export interface ISearchServerSideProps
   extends IServerSideProps,
     SearchResults {
-  searchQuery: string;
+  searchQuery: string | null;
 }
 
 interface IParams extends ParsedUrlQuery {
-  query: string;
+  query?: string;
 }
 
 export const searchServerSideProps: GetServerSideProps<
@@ -48,7 +48,9 @@ export const searchServerSideProps: GetServerSideProps<
         ...globalProps,
         releases: data.releases,
         artists: data.artists,
-        searchQuery: context.params?.query as string,
+        searchQuery: context?.params?.query
+          ? `${context?.params?.query}`
+          : null,
       },
     };
   } catch (error: any) {
@@ -57,7 +59,9 @@ export const searchServerSideProps: GetServerSideProps<
     return {
       props: {
         ...globalProps,
-        searchQuery: context.params?.query as string,
+        searchQuery: context?.params?.query
+          ? `${context?.params?.query}`
+          : null,
       },
     };
   }

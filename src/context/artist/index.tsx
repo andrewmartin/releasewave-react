@@ -9,7 +9,7 @@ import {
   useReducer,
 } from 'react';
 
-type FetchType = 'artist' | 'artists' | 'review';
+export type FetchType = 'artist' | 'artists' | 'review';
 
 export type ArtistAction =
   | { type: 'error'; fetchType: FetchType; message: string }

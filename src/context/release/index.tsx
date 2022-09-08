@@ -9,7 +9,7 @@ import {
   useReducer,
 } from 'react';
 
-type FetchType = 'release' | 'releases' | 'review';
+export type FetchType = 'release' | 'releases' | 'review';
 
 export type ReleaseAction =
   | { type: 'error'; fetchType: FetchType; message: string }

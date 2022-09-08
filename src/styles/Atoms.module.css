@@ -7,6 +7,6 @@
   @apply shadow-none border-transparent opacity-100;
 }
 
-.NavLinkButton {
-  @apply text-sm uppercase font-semibold;
+.Link {
+  @apply hover:text-pink transition-all hover:underline hover:bg-gray-50 hover:cursor-pointer hover:scale-105;
 }

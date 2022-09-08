@@ -26,6 +26,10 @@ export interface Artist extends schema.Artist {
 export interface Release extends schema.Release {
   artists: Artist[];
   image: PaperClipImage;
+  embeds: schema.Embed[];
+  embed_code?: string[];
+  release_date: string;
+  buy: string;
 }
 
 export interface User {

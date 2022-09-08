@@ -51,6 +51,18 @@ a {
   /* @apply bg-blue-700; */
 }
 
+/* burger menu */
+.bm-menu {
+  @apply bg-white;
+}
+
+.bm-menu-list {
+}
+
+.bm-item.menu-item {
+  @apply block;
+}
+
 @layer base {
   [type='text'],
   [type='email'],

@@ -10,7 +10,7 @@ import {
   useReducer,
 } from 'react';
 
-type FetchType = 'user';
+export type FetchType = 'user';
 export type ModalType = 'login' | 'debug';
 
 export type AppAction =
@@ -18,8 +18,11 @@ export type AppAction =
   | { type: 'login'; fetchType: FetchType; user: User }
   | { type: 'error'; fetchType: FetchType; message: string }
   | { type: 'start'; fetchType: FetchType; isFetching: boolean }
-  | { type: 'modal:show'; modal: ModalType }
+  | { type: 'modal:show'; modal: ModalType; message?: string }
   | { type: 'modal:close' }
+  | { type: 'search'; searchTerm: string }
+  | { type: 'search:show' }
+  | { type: 'search:close' }
   | { type: 'done'; fetchType: FetchType };
 
 interface AppState {
@@ -27,6 +30,9 @@ interface AppState {
   fetching: Map<FetchType, boolean>;
   errors: Map<FetchType, string | undefined>;
   activeModal?: ModalType;
+  modalMessage?: string;
+  searchActive: boolean;
+  searchTerm: string;
 }
 
 interface AppContext {
@@ -36,10 +42,12 @@ interface AppContext {
 
 export type AppDispatch = Dispatch<AppAction>;
 
-const initialState = {
+const initialState: AppState = {
   fetching: new Map([[`user` as FetchType, false]]),
   errors: new Map([[`user` as FetchType, undefined]]),
   user: undefined,
+  searchTerm: ``,
+  searchActive: false,
 };
 
 interface AppWrapperProps {
@@ -47,7 +55,7 @@ interface AppWrapperProps {
   user?: User;
 }
 
-function appReducer(prevState: AppState, action: AppAction) {
+function appReducer(prevState: AppState, action: AppAction): AppState {
   switch (action.type) {
     case `logout`: {
       delete prevState.user;
@@ -87,12 +95,31 @@ function appReducer(prevState: AppState, action: AppAction) {
       return {
         ...prevState,
         activeModal: action.modal,
+        modalMessage: action.message || undefined,
       };
     }
     case `modal:close`: {
       return {
         ...prevState,
         activeModal: undefined,
+      };
+    }
+    case `search`: {
+      return {
+        ...prevState,
+        searchTerm: action.searchTerm,
+      };
+    }
+    case `search:show`: {
+      return {
+        ...prevState,
+        searchActive: true,
+      };
+    }
+    case `search:close`: {
+      return {
+        ...prevState,
+        searchActive: false,
       };
     }
 

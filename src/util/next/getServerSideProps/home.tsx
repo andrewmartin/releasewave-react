@@ -48,8 +48,8 @@ export const homeServerSideProps: GetServerSideProps<
     .subtract(1, `weeks`)
     .format(`YYYY-MM-DD`);
   const end_date = moment(currentDate()).add(5, `days`).format(`YYYY-MM-DD`);
-  console.log(`getting releases for start_date:`, start_date);
-  console.log(`getting releases for end_date`, end_date);
+  // console.log(`getting releases for start_date:`, start_date);
+  // console.log(`getting releases for end_date`, end_date);
 
   try {
     const [{ data: featuredReleases }, { data: releases }] = await Promise.all([
@@ -60,7 +60,7 @@ export const homeServerSideProps: GetServerSideProps<
       getAllReleases(),
     ]);
 
-    console.log(`featured releases fetched in global`, releases);
+    // console.log(`featured releases fetched in global`, releases);
 
     return {
       props: {

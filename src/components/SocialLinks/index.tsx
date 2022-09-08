@@ -73,7 +73,7 @@ const SocialIconLi = ({ type, link, name }: IconProps) => {
   );
 };
 
-type ArtistKeys = keyof Partial<Omit<Artist, 'image'>>;
+type ArtistKeys = keyof Partial<Artist>;
 export const SOCIALS: ArtistKeys[] = [
   `spotify`,
   `facebook`,

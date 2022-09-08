@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { RichTextField } from '../Fields/RichTextField';
 import {
@@ -12,20 +12,34 @@ import { CreateReviewFormValues, onCreateReview } from '@/context/release/api';
 import { Input } from '@/components/Atoms/InputField';
 import { ReviewItemContent } from '@/components/Release/Reviews';
 import { VALIDATIONS, DEFAULT_RICH_TEXT_EDITOR_COPY } from '@/util/constants';
-import { FormikErrors } from '@/components/Atoms/Errors';
+import { FormikErrors, ServerErrors } from '@/components/Atoms/Errors';
 import { modifyScore } from '@/util/forms';
 import { useAppContext } from '@/context/app';
+import { usePrevious } from 'react-use';
 
 export const CreateReviewForm = () => {
   const { isEditing, setIsEditing } = useFormContext();
+  const previousEditing = usePrevious(isEditing);
   const {
+    state: { errors: serverErrors },
+  } = useReleaseContext();
+  const {
+    dispatch: appDispatch,
     state: { user },
   } = useAppContext();
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (titleRef.current && previousEditing !== isEditing && isEditing) {
+      titleRef.current.scrollIntoView({ behavior: `smooth` });
+    }
+  }, [isEditing, previousEditing]);
 
   const {
     dispatch,
     state: { release },
   } = useReleaseContext();
+
   const formik = useFormik<CreateReviewFormValues>({
     initialValues: {
       id: ``,
@@ -34,9 +48,13 @@ export const CreateReviewForm = () => {
       score: `0`,
     },
     onSubmit: async (values) => {
-      await onCreateReview(dispatch)(values, release?.slug as string, () => {
-        setIsEditing(false);
-      });
+      await onCreateReview(dispatch, appDispatch)(
+        values,
+        release?.slug as string,
+        () => {
+          setIsEditing(false);
+        },
+      );
     },
     validate: (values) => {
       const errors: Record<string, string> = {};
@@ -63,7 +81,7 @@ export const CreateReviewForm = () => {
 
   if (!isEditing) {
     return (
-      <div className="w-full p-6">
+      <div className="text-center w-full p-12 flex items-end justify-center">
         <button
           onClick={() => setIsEditing(true)}
           type="button"
@@ -94,7 +112,9 @@ export const CreateReviewForm = () => {
           />
         </div>
 
-        <h2 className="text-2xl tracking-tighter font-bold">Create Review</h2>
+        <h2 ref={titleRef} className="text-2xl tracking-tighter font-bold">
+          Create Review
+        </h2>
         <div className="mb-4">
           <label className="uppercase text-sm w-full not-italic font-semibold">
             Headline
@@ -106,6 +126,7 @@ export const CreateReviewForm = () => {
             name="name"
             onChange={formik.handleChange}
             value={formik.values.name}
+            autoFocus
           />
           <FormikErrors formik={formik} name={`name`} />
         </div>
@@ -136,6 +157,7 @@ export const CreateReviewForm = () => {
         />
         <FormikErrors formik={formik} name={`content`} />
       </MaybeForm>
+      <ServerErrors errors={serverErrors} />
     </>
   );
 };

@@ -72,7 +72,7 @@ export const ModalContainer = ({ layoutProps }: ModalContainerProps) => {
         });
       }
       if (key === `Escape`) {
-        closeModal(dispatch, state.activeModal)();
+        closeModal(dispatch)();
         document.removeEventListener(`keyup`, listener);
       }
     }
@@ -94,7 +94,7 @@ export const ModalContainer = ({ layoutProps }: ModalContainerProps) => {
   return (
     <ModalWrapper isActive={Boolean(state.activeModal)}>
       <OutsideClick
-        onClick={closeModal(dispatch, state.activeModal)}
+        onClick={closeModal(dispatch)}
         show={Boolean(state.activeModal)}
       >
         <Wrapper>

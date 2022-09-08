@@ -1,5 +1,6 @@
 import { AppProps } from 'next/app';
 import '@/styles/global.css';
+import 'react-infinite-calendar/styles.css';
 import { AppWrapper } from '@/context/app';
 import { Layout } from '@/components/Layout';
 import Head from 'next/head';
@@ -20,10 +21,8 @@ export default function App(props: AppProps) {
       </Head>
       <AppWrapper {...pageProps}>
         <Layout {...pageProps}>
-          <Component
-            {...pageProps}
-            ModalContainer={<ModalContainer layoutProps={pageProps} />}
-          />
+          <Component {...pageProps} />
+          <ModalContainer layoutProps={pageProps} />
         </Layout>
       </AppWrapper>
     </>

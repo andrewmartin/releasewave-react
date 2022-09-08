@@ -10,15 +10,15 @@ import { UpcomingReleaseContainer } from '@/components/Release/upcoming';
 export default function Home(props: IHomeServerSideProps) {
   return (
     <div className={styles.container}>
-      <div className="flex mx-5">
-        <section className="p-8 w-2/3">
+      <div>
+        <section>
           {props.featuredReleases && (
             <ReleaseContextContainer releases={props.featuredReleases}>
               <FeaturedReleaseContainer />
             </ReleaseContextContainer>
           )}
         </section>
-        <aside className="p-8 w-1/3 bg-gray-50 text-gray-800">
+        <aside>
           {props.releases && (
             <ReleaseContextContainer releases={props.releases}>
               <UpcomingReleaseContainer />

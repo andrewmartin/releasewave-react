@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Artist.module.css';
 import { useArtistContext } from '@/context/artist';
 import { useFormik } from 'formik';
@@ -21,11 +21,15 @@ import { ReleaseItem } from '../Release/item';
 import { ArtistFormValues, onEditArtist } from '@/context/artist/api';
 import { DEFAULT_RICH_TEXT_EDITOR_COPY, VALIDATIONS } from '@/util/constants';
 import { Input } from '../Atoms/InputField';
+import { ServerSideWithAdminArgs } from '@/types/App';
+import { BlankArtist } from '@/util/mock';
+import { useAppContext } from '@/context/app';
 
-export const ArtistPage = () => {
+export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
   const {
     state: { releases },
   } = useReleaseContext();
+  const { dispatch: appDispatch } = useAppContext();
   const {
     dispatch,
     state: { artist },
@@ -35,20 +39,20 @@ export const ArtistPage = () => {
 
   const formik = useFormik<ArtistFormValues>({
     initialValues: {
-      name: artist?.name,
-      id: artist?.id,
-      short_description: artist?.short_description,
-      spotify: artist?.spotify,
-      facebook: artist?.facebook,
-      twitter: artist?.twitter,
-      bandcamp: artist?.bandcamp,
-      itunes: artist?.itunes,
-      soundcloud: artist?.soundcloud,
-      website: artist?.website,
-      instagram: artist?.instagram,
+      name: artist?.name || ``,
+      id: artist?.id || 1,
+      short_description: artist?.short_description || ``,
+      spotify: artist?.spotify || ``,
+      facebook: artist?.facebook || ``,
+      twitter: artist?.twitter || ``,
+      bandcamp: artist?.bandcamp || ``,
+      itunes: artist?.itunes || ``,
+      soundcloud: artist?.soundcloud || ``,
+      website: artist?.website || ``,
+      instagram: artist?.instagram || ``,
     },
     onSubmit: async (values) => {
-      await onEditArtist(dispatch)(values, (slug) => {
+      await onEditArtist(dispatch, appDispatch)(values, (slug) => {
         console.log(`onsuccess`, slug);
         setIsEditing(false);
         push(`/artists/${slug}`);
@@ -57,34 +61,50 @@ export const ArtistPage = () => {
     validate: (values) => {
       const errors: Record<string, string> = {};
 
+      console.log(`values`, values);
+
       if (!values.name) {
         errors.name = VALIDATIONS.REQUIRED(`name`);
+      }
+
+      if (values.name === BlankArtist.name) {
+        errors.name = VALIDATIONS.CHANGE_FROM_DEFAULT(
+          `name`,
+          values?.name as string,
+        );
       }
 
       if (
         !values.short_description ||
         values.short_description === DEFAULT_RICH_TEXT_EDITOR_COPY
       ) {
-        errors.short_description = VALIDATIONS.REQUIRED(`short_description`);
+        errors.short_description = VALIDATIONS.REQUIRED(`Artist description`);
       }
 
       return errors;
     },
   });
 
-  if (!artist) {
-    return null;
-  }
+  // domparser hack, may try to find an alternative later
+  useEffect(() => {
+    if (isNew) {
+      setTimeout(() => {
+        setIsEditing(true);
+      });
+    }
+  }, [isNew, setIsEditing]);
 
   if (!artist) {
-    return null;
+    return null; // redirect?
   }
 
-  const { name, image, short_description } = artist;
+  const { name, short_description, image } = artist;
+
+  console.log(`artist`, artist);
 
   return (
     <MaybeForm
-      Footer={<FormFooter actionName="Edit" />}
+      Footer={<FormFooter isFixed actionName="Edit" />}
       handleSubmit={formik.handleSubmit}
     >
       <div className={styles.ArtistPage}>
@@ -103,7 +123,7 @@ export const ArtistPage = () => {
           <FileField
             width={400}
             height={400}
-            src={image.large}
+            src={image?.large}
             name="image"
             onChange={(name, values) => {
               formik.setFieldValue(name, {
@@ -118,9 +138,7 @@ export const ArtistPage = () => {
               formik={formik}
               name="name"
               value={name}
-              element={
-                <h2 className={styles.ArtistPageTitle}>{artist.name}</h2>
-              }
+              element={<h2 className={styles.ArtistPageTitle}>{name}</h2>}
             >
               <Input
                 name={`name`}
@@ -183,17 +201,19 @@ export const ArtistPage = () => {
         </article>
 
         {!isEditing && (
-          <section className="bg-white p-12">
-            <div className="mb-16">
+          <div className="mb-16 w-full">
+            <section className="bg-white p-12">
               <h2 className="text-2xl font-bold tracking-tighter">Releases</h2>
               <cite>
                 Releases we have curated and recommend to yours truly.
               </cite>
+            </section>
+            <div className="bg-white">
+              {releases?.items.map((release) => {
+                return <ReleaseItem release={release} key={release.id} />;
+              })}
             </div>
-            {releases?.items.map((release) => {
-              return <ReleaseItem release={release} key={release.id} />;
-            })}
-          </section>
+          </div>
         )}
       </div>
     </MaybeForm>

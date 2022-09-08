@@ -1,0 +1,9 @@
+.Embed {
+  border: 2px solid #f8f9fa;
+  box-shadow: 5px 5px 0 0 rgb(0 0 0 / 10%);
+  @apply transition-all flex overflow-hidden relative m-6 p-6 justify-center;
+}
+
+.Embed iframe {
+  max-width: 100%;
+}

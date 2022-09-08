@@ -24,7 +24,3 @@ export const globalServerSideProps: GetServerSideProps<
     };
   }
 };
-
-export type WithModal<T> = T & {
-  ModalContainer: JSX.Element;
-};

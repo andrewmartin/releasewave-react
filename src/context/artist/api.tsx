@@ -1,9 +1,12 @@
 import { AXIOS } from '@/api/axios';
 import { Artist, Review } from '@/types/Data';
 import { Dispatch } from 'react';
-import { ArtistAction } from '.';
+import toast from 'react-hot-toast';
+import { ArtistAction, FetchType } from '.';
+import { AppAction } from '../app';
+import { actionHelperCatch, genericErrorAction } from '../helpers/api';
 
-export type ArtistFormValues = Partial<Omit<Artist, 'image'>> & object;
+export type ArtistFormValues = Partial<Artist>;
 
 export type CreateReviewFormValues = {
   id: string;
@@ -19,19 +22,21 @@ export type DeleteReviewFormValues = {
 /**
  * api helpers for artist
  */
-export const onEditArtist =
-  (dispatch: Dispatch<ArtistAction>) =>
-  async (
-    values: ArtistFormValues,
-    onSuccess: (artistSlug: Artist['slug']) => void,
-  ) => {
+type OnEditArtist<Action, Values> = (
+  dispatch: Dispatch<Action>,
+  appDispatch: Dispatch<AppAction>,
+) => (
+  values: Values,
+  onSuccess: (artistSlug: Artist['slug']) => void,
+) => Promise<void>;
+
+export const onEditArtist: OnEditArtist<ArtistAction, ArtistFormValues> =
+  (dispatch, appDispatch) => async (values, onSuccess) => {
     dispatch({
       type: `start`,
       fetchType: `artist`,
       isFetching: true,
     });
-
-    console.log(`values`, values);
 
     try {
       const { data } = await AXIOS().instance.put<Artist>(
@@ -50,19 +55,30 @@ export const onEditArtist =
         fetchType: `artist`,
         data,
       });
-    } catch (error: any) {
-      dispatch({
-        type: `error`,
-        fetchType: `artist`,
-        message: error.toString(),
-      });
 
-      console.log(`error`, error);
+      toast(`artist updated!`);
+    } catch (error: any) {
+      actionHelperCatch(error, appDispatch, () => {
+        dispatch(
+          genericErrorAction<ArtistAction, FetchType>(
+            `artist`,
+            error.toString(),
+          ),
+        );
+      });
     }
   };
 
-export const onCreateArtist =
-  (dispatch: Dispatch<ArtistAction>) =>
+type OnCreateArtist<Action, Values> = (
+  dispatch: Dispatch<Action>,
+  appDispatch: Dispatch<AppAction>,
+) => (values: Values, slug: string, onSuccess: () => void) => Promise<void>;
+
+export const onCreateArtist: OnCreateArtist<
+  ArtistAction,
+  CreateReviewFormValues
+> =
+  (dispatch, appDispatch) =>
   async (
     values: CreateReviewFormValues,
     slug: string,
@@ -85,20 +101,24 @@ export const onCreateArtist =
       );
 
       onSuccess();
-
-      console.log(`data`, data);
+      toast(`artist created!`);
     } catch (error: any) {
-      dispatch({
-        type: `error`,
-        fetchType: `artist`,
-        message: error.toString(),
+      actionHelperCatch(error, appDispatch, () => {
+        dispatch(
+          genericErrorAction<ArtistAction, FetchType>(
+            `artist`,
+            error.toString(),
+          ),
+        );
       });
-
-      console.log(`error`, error);
     }
   };
 
-// export const onDeleteArtist =
+// type OnDeleteArtist<Action, Values> = (
+//   dispatch: Dispatch<Action>,
+//   appDispatch: Dispatch<AppAction>,
+// ) => (values: Values, onSuccess: () => void) => Promise<void>;
+// export const onDeleteArtist: OnDeleteArtist<ArtistAction, DeleteReviewFormValues> =
 //   (dispatch: Dispatch<ArtistAction>) =>
 //   async (values: DeleteReviewFormValues, onSuccess: () => void) => {
 //     const { artistSlug: slug, id } = values;

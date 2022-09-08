@@ -8,6 +8,7 @@ import styles from './ReviewItem.module.css';
 import { modifyScore } from '@/util/forms';
 import classNames from 'classnames';
 import Image from 'next/image';
+import { useAppContext } from '@/context/app';
 
 interface ReviewItemContent extends PropsWithChildren {
   content: string;
@@ -61,10 +62,11 @@ export const ReviewItemContent = (props: ReviewItemContent) => {
 
 const ReviewItem = (review: Review) => {
   const { state, dispatch } = useReleaseContext();
+  const { dispatch: appDispatch } = useAppContext();
   const { id, name, content, user_id, score } = review;
 
   const onDelete = async (id: number) => {
-    await onDeleteRelease(dispatch)(
+    await onDeleteRelease(dispatch, appDispatch)(
       {
         id,
         releaseSlug: state?.release?.slug as string,
@@ -101,7 +103,7 @@ export const Reviews = () => {
   const { items: reviews } = state.reviews;
 
   return (
-    <div className="max-w-[80%] w-full m-auto">
+    <div className="max-w-[80%] w-full ml-auto mr-auto mt-16">
       {reviews.map((review) => {
         return <ReviewItem {...review} key={review.id} />;
       })}

@@ -1,6 +1,7 @@
 import { Release } from '@/types/Data';
 import Link from 'next/link';
 import React from 'react';
+import atomStyles from '@/styles/Atoms.module.css';
 
 export const getFirstArtist = (release: Release) => {
   if (release.artists[0]) {
@@ -11,10 +12,12 @@ export const getFirstArtist = (release: Release) => {
 
 const ArtistLink = (props: schema.Artist) => {
   const { name, slug } = props;
-
+  const href = `/artists/${slug}`;
   return (
-    <Link href={`/artists/${slug}`}>
-      <span>{name}</span>
+    <Link href={href}>
+      <a href={href} className={atomStyles.Link}>
+        <span>{name}</span>
+      </a>
     </Link>
   );
 };

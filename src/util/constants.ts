@@ -28,6 +28,10 @@ export const CONFIRM = (type: keyof typeof CONFIRM_TEXT = `UNSAVED`) => {
 export const DEFAULT_RICH_TEXT_EDITOR_COPY = `<p>Write something here.</p>`;
 
 export const VALIDATIONS = {
-  REQUIRED: (name: string) => `"${name}" is a required field.`,
-  SCORE: (name: string) => `"${name}" must be between 0 and 10.`,
+  REQUIRED: (name: string) => `${name} is a required field.`,
+  CHANGE_FROM_DEFAULT: (name: string, value: string) =>
+    `${name} can't be ${value}...`,
+  SCORE: (name: string) => `${name} must be between 0 and 10.`,
+  CANNOT_EMPTY: (name: string) =>
+    `${name} must have at least one item selected.`,
 };

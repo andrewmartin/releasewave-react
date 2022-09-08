@@ -1,5 +1,5 @@
 .ReviewItemContent {
-  @apply w-full prose-2xl mb-12 p-12 border-b-2 border-gray-300;
+  @apply w-full prose-2xl mb-12 p-6 md:p-12 border-b-2 border-gray-300;
 }
 .ReviewItemHeadline {
   @apply flex items-center;

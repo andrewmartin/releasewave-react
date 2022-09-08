@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import styles from './Release.module.css';
 import Image from 'next/image';
 import {
@@ -9,12 +9,17 @@ import { useReleaseContext } from '@/context/release';
 import { useFormik } from 'formik';
 import { FaArrowAltCircleRight as FaLink } from 'react-icons/fa';
 import {
+  MaybeEmbedField,
   FormFooter,
   MaybeField,
   MaybeForm,
   useFormContext,
 } from '@/context/app/form';
-import { ReleaseFormValues, onEditRelease } from '@/context/release/api';
+import {
+  ReleaseFormValues,
+  onEditRelease,
+  onCreateRelease,
+} from '@/context/release/api';
 import { useRouter } from 'next/router';
 import { RichTextField } from '../Forms/Fields/RichTextField';
 import { FileField } from '../Forms/Fields/FileField';
@@ -24,16 +29,27 @@ import { SocialLinks } from '../SocialLinks';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { Reviews } from './Reviews';
-import { DEFAULT_RICH_TEXT_EDITOR_COPY } from '@/util/constants';
+import { DEFAULT_RICH_TEXT_EDITOR_COPY, VALIDATIONS } from '@/util/constants';
 import { Input } from '../Atoms/InputField';
 import { CreateReviewFormContainer } from '../Forms/Review/create';
 import { WithCurrentUser } from '@/hooks/user';
+import { EmbedField, Embeds } from '../Embeds';
+import ReactInfiniteCalendar, {
+  ReactInfiniteCalendarProps,
+} from 'react-infinite-calendar';
+import { formatDate, getToday, isFutureDate } from '@/util/date';
+import { ServerSideWithAdminArgs } from '@/types/App';
+import { BlankRelease } from '@/util/mock';
+import { useAppContext } from '@/context/app';
+const Calendar =
+  ReactInfiniteCalendar as unknown as FC<ReactInfiniteCalendarProps>;
 
-export const ReleasePage = () => {
+export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
   const {
     dispatch,
     state: { release },
   } = useReleaseContext();
+  const { dispatch: appDispatch } = useAppContext();
   const { isEditing, setIsEditing } = useFormContext();
   const { push } = useRouter();
   const artist = release ? getFirstArtist(release) : undefined;
@@ -44,36 +60,82 @@ export const ReleasePage = () => {
       description: release?.description || ``,
       image: ``,
       artist_ids: artist ? [artist.id] : [],
+      embed_code: release?.embeds.map(({ content }) => content || ``) || [],
+      release_date: release?.release_date,
+      buy: release?.buy,
     },
     onSubmit: async (values) => {
-      await onEditRelease(dispatch)(values, (slug) => {
-        console.log(`onsuccess`, slug);
+      const action = isNew ? onCreateRelease : onEditRelease;
+
+      await action(dispatch, appDispatch)(values, (slug) => {
         setIsEditing(false);
-        push(`/releases/${slug}`);
+        if (slug) {
+          push(`/releases/${slug}`);
+        }
       });
+    },
+    validate: (values) => {
+      const errors: Record<string, string> = {};
+
+      console.log(`values`, values);
+
+      if (!values.name) {
+        errors.name = VALIDATIONS.REQUIRED(`name`);
+      }
+
+      if (values.name === BlankRelease.name) {
+        errors.name = VALIDATIONS.CHANGE_FROM_DEFAULT(
+          `name`,
+          values?.name as string,
+        );
+      }
+
+      if (!values.artist_ids.length) {
+        errors.artist_ids = VALIDATIONS.CANNOT_EMPTY(`artists`);
+      }
+
+      if (
+        !values.description ||
+        values.description === DEFAULT_RICH_TEXT_EDITOR_COPY
+      ) {
+        errors.description = VALIDATIONS.REQUIRED(`Release Description`);
+      }
+
+      console.log(`errors`, errors);
+
+      return errors;
     },
   });
 
-  if (!release) {
-    return null;
-  }
+  // domparser hack, may try to find an alternative later
+  useEffect(() => {
+    if (isNew) {
+      setTimeout(() => {
+        setIsEditing(true);
+      });
+    }
+  }, [isNew, setIsEditing]);
 
   if (!release) {
     return null;
   }
 
-  const { description, name, image, artists } = release;
+  const { description, name, image, embeds, release_date, buy } = release;
+
+  const today = getToday();
+  const futureDate = isFutureDate(today);
+  const purchaseText = futureDate ? `Pre-Order` : `Purchase`;
 
   return (
     <>
       <MaybeForm
-        Footer={<FormFooter actionName="Edit" />}
+        Footer={<FormFooter isFixed actionName="Edit" />}
         handleSubmit={formik.handleSubmit}
       >
         {/* <FullBgImage
-        src={artist?.image.large as string}
-        alt={`${artist?.name} image`}
-      /> */}
+          src={artist?.image.large as string}
+          alt={`${artist?.name} image`}
+        /> */}
         <div className={styles.ReleasePage}>
           <header className={styles.ReleasePageHeader}>
             <div className={styles.ReleasePageArt}>
@@ -102,6 +164,58 @@ export const ReleasePage = () => {
                   }}
                 />
               </MaybeField>
+              <div className="flex items-center justify-center flex-row flex-wrap  w-full">
+                <MaybeField<ReleaseFormValues>
+                  formik={formik}
+                  name="release_date"
+                  value={release_date}
+                  element={
+                    <h2 className="p-5 w-full transition-all text-center  tracking-wider text-2xl uppercase">
+                      {formatDate(release_date)}
+                    </h2>
+                  }
+                >
+                  <Calendar
+                    width={400}
+                    height={300}
+                    selected={formik.values[`release_date`] || today.toDate()}
+                    onSelect={(value: Date) => {
+                      formik.setFieldValue(
+                        `release_date`,
+                        value.toDateString(),
+                      );
+                    }}
+                  />
+                </MaybeField>
+                <MaybeField<ReleaseFormValues>
+                  formik={formik}
+                  name="buy"
+                  customLabel="Purchase link"
+                  value={buy}
+                  element={
+                    buy ? (
+                      <>
+                        <a
+                          target="_blank"
+                          title={`${purchaseText} ${name}`}
+                          href={buy}
+                          className="bg-pink p-5 w-full text-white transition-all hover:bg-pink-400 text-center  tracking-wider text-2xl uppercase"
+                          rel="noreferrer"
+                        >
+                          {purchaseText}
+                        </a>
+                      </>
+                    ) : null
+                  }
+                >
+                  <Input
+                    name={`buy`}
+                    onChange={formik.handleChange}
+                    type="text"
+                    value={formik.values[`buy`] || ``}
+                  />
+                </MaybeField>
+              </div>
             </div>
             <div className={styles.ReleasePageTitle}>
               <MaybeField<ReleaseFormValues>
@@ -121,25 +235,36 @@ export const ReleasePage = () => {
               <span>
                 <MaybeField<ReleaseFormValues>
                   formik={formik}
-                  name="artist"
+                  name="artist_ids"
                   value={name}
                   element={<FirstArtistForRelease {...release} />}
                 >
-                  <ArtistSelect
-                    onChange={(option) => {
-                      const { value } = option!;
-
-                      formik.setFieldValue(`artist_ids`, [value]);
-                    }}
-                    initialValue={
-                      artist
-                        ? {
-                            value: artist.id,
-                            label: artist.name as string,
-                          }
-                        : null
-                    }
-                  />
+                  <>
+                    <ArtistSelect
+                      onChange={(option) => {
+                        const { value } = option!;
+                        formik.setFieldValue(`artist_ids`, [value]);
+                      }}
+                      initialValue={
+                        artist
+                          ? {
+                              value: artist.id,
+                              label: artist.name as string,
+                            }
+                          : null
+                      }
+                    />
+                    <Link href="/admin/artists/new">
+                      <a
+                        target="_blank"
+                        className="mt-2 text-pink hover:underline hover:text-pink-500 transition-all flex items-center space-x-2 text-sm"
+                        href="/admin/artists/new"
+                      >
+                        <FaLink></FaLink>
+                        <em>Create an Artist</em>
+                      </a>
+                    </Link>
+                  </>
                 </MaybeField>
                 <MaybeField<ReleaseFormValues>
                   formik={formik}
@@ -152,7 +277,7 @@ export const ReleasePage = () => {
                     <Link href={`/artists/${artist?.slug}`}>
                       <a
                         target="_blank"
-                        className="mt-2 text-pink hover:underline hover:text-pink-500 transition-all flex items-center space-x-2"
+                        className="mt-2 text-pink hover:underline hover:text-pink-500 transition-all flex items-center space-x-2 text-sm"
                       >
                         <FaLink></FaLink>
                         <em className="text-sm">
@@ -166,7 +291,7 @@ export const ReleasePage = () => {
             </div>
           </header>
           <Reviews />
-          <section className="w-full">
+          <section className="w-full flex justify-center">
             <article
               className={classNames(styles.ReleasePageContent, {
                 'prose prose-2xl': !isEditing,
@@ -191,13 +316,30 @@ export const ReleasePage = () => {
                   }}
                 />
               </MaybeField>
+              <MaybeEmbedField<ReleaseFormValues>
+                formik={formik}
+                name="embeds"
+                element={<Embeds embeds={embeds} />}
+              >
+                <EmbedField
+                  embeds={embeds}
+                  onChange={(embeds) => {
+                    formik.setFieldValue(
+                      `embed_code`,
+                      embeds.map(({ content }) => content),
+                    );
+                  }}
+                />
+              </MaybeEmbedField>
             </article>
           </section>
         </div>
       </MaybeForm>
-      <WithCurrentUser>
-        <CreateReviewFormContainer />
-      </WithCurrentUser>
+      {!isNew && (
+        <WithCurrentUser>
+          <CreateReviewFormContainer />
+        </WithCurrentUser>
+      )}
     </>
   );
 };

@@ -1,0 +1,37 @@
+.Nav {
+  @apply flex items-center justify-center py-2 px-4 bg-gray-50 border-b-2 border-b-gray-300;
+  @apply hidden md:flex;
+}
+
+.Nav ul {
+  @apply hidden md:flex;
+  @apply list-none;
+}
+
+.NavList {
+}
+
+.NavList li {
+  @apply mr-6 last:mr-0;
+}
+
+.NavList a,
+.NavList button {
+  @apply px-4 py-2 block;
+}
+
+.NavItem {
+  @apply text-sm uppercase tracking-wider;
+}
+
+.MobileNavList {
+  @apply flex-wrap;
+}
+
+.MobileNavItem {
+  @apply font-bold text-xl tracking-tighter block p-4 hover:bg-pink hover:text-white transition-all w-full;
+}
+
+.MobileNavToggleButton {
+  @apply block md:hidden opacity-25 transition-all hover:scale-105 hover:opacity-50 justify-end;
+}

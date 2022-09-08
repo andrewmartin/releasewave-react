@@ -1,6 +1,7 @@
 import { AXIOS } from '@/api/axios';
 import { RailsResponse, User } from '@/types/Data';
 import { Dispatch } from 'react';
+import toast from 'react-hot-toast';
 import { AppAction } from '.';
 import { closeModal } from './actions';
 
@@ -35,6 +36,8 @@ export const onSubmitLogin =
       });
 
       closeModal(dispatch)();
+
+      toast(`logged in!`);
     } catch (error: any) {
       dispatch({
         type: `error`,

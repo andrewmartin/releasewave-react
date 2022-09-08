@@ -2,6 +2,7 @@ import { Release } from '@/types/Data';
 import React, { FC, PropsWithChildren } from 'react';
 import Image from 'next/image';
 import { FirstArtistForRelease } from '../Atoms/FirstArtistForRelease';
+import atomStyles from '@/styles/Atoms.module.css';
 import styles from './Release.module.css';
 import Link from 'next/link';
 import { appendHostToImage } from '@/util/image';
@@ -14,16 +15,20 @@ export const FeaturedRelease = (release: Release) => {
     <div className={styles.FeaturedRelease} key={release.id}>
       <div className={styles.FeaturedReleaseImage}>
         <Link href={linkHref}>
-          <Image
-            src={appendHostToImage(release.image.large)}
-            alt={`${release.name}`}
-            width={400}
-            height={400}
-          />
+          <a href={linkHref}>
+            <Image
+              src={appendHostToImage(release.image.large)}
+              alt={`${release.name}`}
+              width={400}
+              height={400}
+            />
+          </a>
         </Link>
       </div>
       <div className={styles.FeaturedReleaseContent}>
-        <h2>{release.name}</h2>
+        <Link href={linkHref}>
+          <h2 className={atomStyles.Link}>{release.name}</h2>
+        </Link>
         <span>
           <FirstArtistForRelease {...release} />
         </span>

@@ -1,7 +1,7 @@
 .SearchInput {
-  @apply w-full text-2xl border-b-4 border-t-[1px] border-r-[1px] border-l-[1px] transition-all border-gray-200 focus:border-pink p-6 font-semibold tracking-tighter;
+  @apply w-full text-2xl border-4 border-t-transparent border-r-transparent border-l-transparent transition-all border-gray-200 focus:border-pink p-6 font-semibold tracking-tighter;
 }
 
 .SearchInput:focus {
-  border-width: 4px;
+  @apply border-4 outline-none;
 }

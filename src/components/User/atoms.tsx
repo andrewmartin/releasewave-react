@@ -1,7 +1,8 @@
-import { AppDispatch, useAppContext } from '@/context/app';
-import { FC, MouseEventHandler, ReactNode } from 'react';
-import atomStyles from '@/styles/Atoms.module.css';
+import { useAppContext } from '@/context/app';
+import { FC, ReactNode } from 'react';
 import { showLoginModal, closeModal } from '@/context/app/actions';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 interface WithUser {
   children: ReactNode;
@@ -19,7 +20,9 @@ export const CurrentUser: FC<WithUser> = (props) => {
   return Fallback ? <Fallback {...restProps} /> : null;
 };
 
-const Logout = () => {
+const Logout: FC<{
+  itemClassName: string;
+}> = ({ itemClassName }) => {
   const { dispatch } = useAppContext();
 
   return (
@@ -29,29 +32,38 @@ const Logout = () => {
           type: `logout`,
         });
         closeModal(dispatch)(event);
+        toast(`logged out!`);
       }}
-      className={atomStyles.NavLinkButton}
+      className={itemClassName}
     >
       Logout
     </button>
   );
 };
 
-export const LogInOrOut = () => {
+export const AdminNav: FC<{
+  itemClassName: string;
+}> = ({ itemClassName }) => {
   const { dispatch } = useAppContext();
 
   return (
     <CurrentUser
       Fallback={() => (
-        <button
-          onClick={showLoginModal(dispatch)}
-          className={atomStyles.NavLinkButton}
-        >
-          Login
-        </button>
+        <li>
+          <button onClick={showLoginModal(dispatch)} className={itemClassName}>
+            Login
+          </button>
+        </li>
       )}
     >
-      <Logout />
+      <li>
+        <Logout itemClassName={itemClassName} />
+      </li>
+      <li>
+        <Link href="/admin">
+          <a className={itemClassName}>Admin</a>
+        </Link>
+      </li>
     </CurrentUser>
   );
 };

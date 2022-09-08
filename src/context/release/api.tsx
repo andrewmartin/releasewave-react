@@ -2,11 +2,15 @@ import { AXIOS } from '@/api/axios';
 import { Release, Review } from '@/types/Data';
 import { CONFIRM } from '@/util/constants';
 import { Dispatch } from 'react';
-import { ReleaseAction } from '.';
+import toast from 'react-hot-toast';
+import { FetchType, ReleaseAction } from '.';
+import { AppAction } from '../app';
+import { actionHelperCatch, genericErrorAction } from '../helpers/api';
 
 export type ReleaseFormValues = Partial<Omit<Release, 'image'>> & {
   image: string;
   artist_ids: number[];
+  embed_code: string[];
 };
 
 export type CreateReviewFormValues = {
@@ -24,19 +28,65 @@ export type DeleteReviewFormValues = {
 /**
  * api helpers for release
  */
-export const onEditRelease =
-  (dispatch: Dispatch<ReleaseAction>) =>
-  async (
-    values: ReleaseFormValues,
-    onSuccess: (releaseSlug: Release['slug']) => void,
-  ) => {
+type OnCreateRelease<Action, Values> = (
+  dispatch: Dispatch<Action>,
+  appDispatch: Dispatch<AppAction>,
+) => (
+  values: Values,
+  onSuccess: (slug: Release['slug']) => void,
+) => Promise<void>;
+
+export const onCreateRelease: OnCreateRelease<
+  ReleaseAction,
+  ReleaseFormValues
+> = (dispatch, appDispatch) => async (values, onSuccess) => {
+  dispatch({
+    type: `start`,
+    fetchType: `release`,
+    isFetching: true,
+  });
+
+  try {
+    const { data } = await AXIOS().instance.post<Release>(`releases`, {
+      release: values,
+    });
+
+    onSuccess(data.slug);
+
+    dispatch({
+      type: `successEditOrCreate`,
+      fetchType: `release`,
+      data,
+    });
+
+    toast(`release created!`);
+  } catch (error: any) {
+    actionHelperCatch(error, appDispatch, () => {
+      dispatch(
+        genericErrorAction<ReleaseAction, FetchType>(
+          `review`,
+          error.toString(),
+        ),
+      );
+    });
+  }
+};
+
+type OnEditRelease<Action, Values> = (
+  dispatch: Dispatch<Action>,
+  appDispatch: Dispatch<AppAction>,
+) => (
+  values: Values,
+  onSuccess: (releaseSlug: Release['slug']) => void,
+) => Promise<void>;
+
+export const onEditRelease: OnEditRelease<ReleaseAction, ReleaseFormValues> =
+  (dispatch, appDispatch) => async (values: ReleaseFormValues, onSuccess) => {
     dispatch({
       type: `start`,
       fetchType: `release`,
       isFetching: true,
     });
-
-    console.log(`values`, values);
 
     try {
       const { data } = await AXIOS().instance.put<Release>(
@@ -48,102 +98,112 @@ export const onEditRelease =
 
       onSuccess(data.slug);
 
-      console.log(`data`, data);
-
       dispatch({
         type: `successEditOrCreate`,
         fetchType: `release`,
         data,
       });
-    } catch (error: any) {
-      dispatch({
-        type: `error`,
-        fetchType: `release`,
-        message: error.toString(),
-      });
 
-      console.log(`error`, error);
+      toast(`release updated!`);
+    } catch (error: any) {
+      actionHelperCatch(error, appDispatch, () => {
+        dispatch(
+          genericErrorAction<ReleaseAction, FetchType>(
+            `review`,
+            error.toString(),
+          ),
+        );
+      });
     }
   };
 
-export const onCreateReview =
-  (dispatch: Dispatch<ReleaseAction>) =>
-  async (
-    values: CreateReviewFormValues,
-    slug: string,
-    onSuccess: () => void,
-  ) => {
+type OnCreateReview<Action, Values> = (
+  dispatch: Dispatch<Action>,
+  appDispatch: Dispatch<AppAction>,
+) => (values: Values, slug: string, onSuccess: () => void) => Promise<void>;
+
+export const onCreateReview: OnCreateReview<
+  ReleaseAction,
+  CreateReviewFormValues
+> = (dispatch, appDispatch) => async (values, slug, onSuccess) => {
+  dispatch({
+    type: `start`,
+    fetchType: `review`,
+    isFetching: true,
+  });
+
+  try {
+    values.score = parseFloat(`${values.score}`).toFixed(2) as any;
+
+    const { data } = await AXIOS().instance.post<Review>(
+      `releases/${slug}/reviews`,
+      {
+        review: values,
+      },
+    );
+
+    onSuccess();
+
+    console.log(`data`, data);
+
     dispatch({
-      type: `start`,
+      type: `successCreateReview`,
       fetchType: `review`,
-      isFetching: true,
+      data,
     });
 
-    try {
-      console.log(`values.score`, values.score);
-      values.score = parseFloat(`${values.score}`).toFixed(2) as any;
-
-      const { data } = await AXIOS().instance.post<Review>(
-        `releases/${slug}/reviews`,
-        {
-          review: values,
-        },
+    toast(`review created!`);
+  } catch (error: any) {
+    actionHelperCatch(error, appDispatch, () => {
+      dispatch(
+        genericErrorAction<ReleaseAction, FetchType>(
+          `review`,
+          error.toString(),
+        ),
       );
+    });
+  }
+};
 
-      onSuccess();
+type OnDeleteRelease<Action, Values> = (
+  dispatch: Dispatch<Action>,
+  appDispatch: Dispatch<AppAction>,
+) => (values: Values, onSuccess: () => void) => Promise<void>;
 
-      console.log(`data`, data);
+export const onDeleteRelease: OnDeleteRelease<
+  ReleaseAction,
+  DeleteReviewFormValues
+> = (dispatch, appDispatch) => async (values, onSuccess) => {
+  const { releaseSlug: slug, id } = values;
+  if (!CONFIRM(`NO_UNDO`)) return;
+  dispatch({
+    type: `start`,
+    fetchType: `review`,
+    isFetching: true,
+  });
 
-      dispatch({
-        type: `successCreateReview`,
-        fetchType: `review`,
-        data,
-      });
-    } catch (error: any) {
-      dispatch({
-        type: `error`,
-        fetchType: `release`,
-        message: error.toString(),
-      });
+  try {
+    const { data } = await AXIOS().instance.delete<Review>(
+      `releases/${slug}/reviews/${id}`,
+    );
 
-      console.log(`error`, error);
-    }
-  };
+    onSuccess();
 
-export const onDeleteRelease =
-  (dispatch: Dispatch<ReleaseAction>) =>
-  async (values: DeleteReviewFormValues, onSuccess: () => void) => {
-    const { releaseSlug: slug, id } = values;
-    if (!CONFIRM(`NO_UNDO`)) return;
     dispatch({
-      type: `start`,
+      type: `successDeleteReview`,
       fetchType: `review`,
-      isFetching: true,
+      data,
     });
 
-    console.log(`values`, values);
-
-    try {
-      const { data } = await AXIOS().instance.delete<Review>(
-        `releases/${slug}/reviews/${id}`,
+    toast(`review deleted!`);
+  } catch (error: any) {
+    actionHelperCatch(error, appDispatch, () => {
+      dispatch(
+        genericErrorAction<ReleaseAction, FetchType>(
+          `review`,
+          error.toString(),
+        ),
       );
-
-      onSuccess();
-
-      console.log(`data`, data);
-
-      dispatch({
-        type: `successDeleteReview`,
-        fetchType: `review`,
-        data,
-      });
-    } catch (error: any) {
-      dispatch({
-        type: `error`,
-        fetchType: `release`,
-        message: error.toString(),
-      });
-
-      console.log(`error`, error);
-    }
-  };
+    });
+  }
+};

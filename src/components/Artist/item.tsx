@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { FC } from 'react';
 import styles from './Artist.module.css';
+import atomStyles from '@/styles/Atoms.module.css';
 
 interface ArtistItem {
   artist: Artist;
@@ -20,6 +21,7 @@ export const ArtistItem: FC<ArtistItem> = (props) => {
       <div className={styles.ArtistItemImage}>
         <Link href={linkHref}>
           <Image
+            className={atomStyles.Link}
             src={appendHostToImage(image.large)}
             alt={`${name}`}
             width={400}
@@ -28,7 +30,9 @@ export const ArtistItem: FC<ArtistItem> = (props) => {
         </Link>
       </div>
       <div className={styles.ArtistItemContent}>
-        <h2>{name}</h2>
+        <Link href={linkHref}>
+          <h2 className={atomStyles.Link}>{name}</h2>
+        </Link>
         <div
           className="prose-xl"
           dangerouslySetInnerHTML={{

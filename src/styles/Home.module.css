@@ -1,0 +1,14 @@
+.container {
+}
+
+.container > div {
+  @apply flex md:flex-nowrap flex-wrap;
+}
+
+.container > div > section {
+  @apply p-8 md:w-2/3 w-full;
+}
+
+.container > div > aside {
+  @apply p-8 md:w-1/3 bg-gray-50 text-gray-800 w-full;
+}

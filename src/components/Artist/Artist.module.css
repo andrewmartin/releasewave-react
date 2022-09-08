@@ -50,7 +50,7 @@
 
 /* artist page */
 .ArtistPage {
-  @apply flex w-full p-12 flex-wrap;
+  @apply flex w-full px-12 py-20 flex-wrap;
 }
 
 .ArtistPageContent {

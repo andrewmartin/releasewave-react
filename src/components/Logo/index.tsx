@@ -5,15 +5,15 @@ import Link from 'next/link';
 export const Logo = () => {
   return (
     <Link href="/">
-      <a href={`/`} className={styles.logo}>
+      <a href={`/`} className={styles.Logo}>
         <h1>
-          {/* <ActiveLink href="/"> */}
-          <figure />
-          <span>
+          <span className={styles.LogoWrapper}>
+            <figure />
+          </span>
+          <span className={styles.LogoText}>
             Release
             <strong>Wave</strong>
           </span>
-          {/* </ActiveLink> */}
         </h1>
       </a>
     </Link>

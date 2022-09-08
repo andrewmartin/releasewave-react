@@ -7,7 +7,7 @@ import { Input } from '@/components/Atoms/InputField';
 export const LoginForm = () => {
   const {
     dispatch,
-    state: { errors },
+    state: { errors, modalMessage },
   } = useAppContext();
 
   const { handleSubmit, handleChange, values } = useFormik<ISignupFormValues>({
@@ -21,6 +21,11 @@ export const LoginForm = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        {modalMessage && (
+          <div className="mb-6 text-md border-2 border-pink p-6">
+            {modalMessage}
+          </div>
+        )}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"

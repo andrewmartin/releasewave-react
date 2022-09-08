@@ -1,31 +1,29 @@
-.logo {
+.Logo {
   line-height: 1;
-  @apply m-0 self-center;
+  @apply m-0 self-center p-4 md:w-auto w-full;
 }
 
-.logo h1 {
-  @apply flex items-center text-4xl tracking-tighter;
+.Logo h1 {
+  @apply flex items-center justify-start text-4xl tracking-tighter;
   font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif;
 }
 
-.logo figure {
-  display: block;
-  width: 131.25px;
-  height: 72.75px;
-  margin: 0 15px 0 0;
+.LogoWrapper {
+  @apply hidden md:block w-full h-full md:relative p-1;
+}
+
+.Logo figure {
+  @apply md:w-[131.25px] md:h-[72.75px] md:block mr-2;
   background: transparent url('/static/releasewave-logo.svg') no-repeat scroll
     top left;
   background-size: contain;
 }
 
-.logo span {
-  justify-content: center;
-  color: #000;
+.LogoText {
+  @apply text-black justify-center lowercase flex;
   line-height: 1;
-  @apply lowercase flex;
 }
 
-.logo strong {
-  display: block;
-  @apply text-pink;
+.Logo strong {
+  @apply text-pink block;
 }

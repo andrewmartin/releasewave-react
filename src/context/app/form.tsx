@@ -17,10 +17,6 @@ interface FormContext {
   setIsEditing: Dispatch<SetStateAction<boolean>>;
 }
 
-interface FormProviderProps {
-  children: ReactNode;
-}
-
 const FormContext = createContext<FormContext>({
   isEditing: false,
   setIsEditing: () => {},
@@ -30,24 +26,33 @@ export const useFormContext = () => useContext(FormContext);
 
 interface FormFooterProps {
   actionName: string;
+  isFixed?: boolean;
   AdditionalActions?: JSX.Element;
 }
 
-const Wrapper: FC<PropsWithChildren> = ({ children }) => (
-  <div className="w-full p-6 text-right flex items-end justify-end space-x-2">
+const Wrapper: FC<PropsWithChildren<Omit<FormFooterProps, 'actionName'>>> = ({
+  children,
+  isFixed,
+}) => (
+  <div
+    className={classNames(
+      ` w-full p-6 text-right flex items-end justify-end space-x-2 bg-white border-t-2 border-gray-200 shadow-inner`,
+      {
+        'fixed bottom-0 right-0 z-40': isFixed,
+      },
+    )}
+  >
     {children}
   </div>
 );
 
-export const FormFooter = ({
-  AdditionalActions,
-  actionName,
-}: FormFooterProps) => {
+export const FormFooter: FC<FormFooterProps> = (props) => {
+  const { AdditionalActions, actionName, isFixed } = props;
   const { isEditing, setIsEditing } = useFormContext();
 
   if (!isEditing) {
     return (
-      <Wrapper>
+      <Wrapper isFixed={isFixed}>
         {AdditionalActions}
         <button
           type="button"
@@ -64,7 +69,7 @@ export const FormFooter = ({
   }
 
   return (
-    <Wrapper>
+    <Wrapper isFixed={isFixed}>
       <button type="submit" className="btn btn-primary">
         Submit
       </button>
@@ -81,9 +86,14 @@ export const FormFooter = ({
   );
 };
 
+interface FormProviderProps {
+  initInEditMode?: boolean;
+  children: ReactNode;
+}
+
 export function FormProvider(props: FormProviderProps) {
-  const { children } = props;
-  const [isEditing, setIsEditing] = useState(false);
+  const { children, initInEditMode } = props;
+  const [isEditing, setIsEditing] = useState(Boolean(initInEditMode));
   const isLoggedIn = useIsLoggedIn();
 
   if (isLoggedIn) {
@@ -105,10 +115,53 @@ interface MaybeField<Values extends FormikValues = FormikValues> {
   children: ReactNode;
   element: JSX.Element | null;
   className?: string;
+  customLabel?: string;
 }
 
 export function MaybeField<T extends FormikValues = FormikValues>(
   props: MaybeField<T>,
+) {
+  const { children, element, name, className, customLabel } = props;
+  const { isEditing } = useFormContext();
+
+  if (isEditing) {
+    return (
+      <div
+        className={classNames({
+          [`flex flex-wrap w-full mb-4`]: !className,
+          [`${className}`]: className,
+        })}
+      >
+        <label className="uppercase text-sm w-full not-italic font-semibold">
+          {sentenceCase(customLabel || name)}
+        </label>
+        <div
+          className={classNames({
+            'w-full': !className,
+            [`${className}`]: className,
+          })}
+        >
+          {children}
+        </div>
+        <FormikErrors formik={props.formik} name={name} />
+      </div>
+    );
+  }
+
+  if (className) {
+    return <div className={className}>{element}</div>;
+  }
+
+  return element;
+}
+
+type MaybeEmbedField<Values extends FormikValues = FormikValues> = Omit<
+  MaybeField<Values>,
+  'value'
+>;
+
+export function MaybeEmbedField<T extends FormikValues = FormikValues>(
+  props: MaybeEmbedField<T>,
 ) {
   const { children, element, name, className } = props;
   const { isEditing } = useFormContext();
