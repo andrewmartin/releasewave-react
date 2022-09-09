@@ -101,7 +101,7 @@ export const Filter: FC<Filter> = ({ onChange, onReset }) => {
       </Select>
       <button
         onClick={onReset}
-        className="!py-[27px] !px-[30px] w-full md:!w-auto mb-4 md:!mb-0 btn btn-primary"
+        className="w-full md:!w-auto mb-4 md:!mb-0 btn btn-secondary"
       >
         Reset
       </button>

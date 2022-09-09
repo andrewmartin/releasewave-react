@@ -19,9 +19,9 @@ export default function About(props: IAboutServerSideProps) {
   return (
     <div className={`p-12 flex justify-start max-w-[800px] flex-wrap m-auto`}>
       <Head {...seo} />
-      <h2 className="w-full text-2xl md:!text-3xl font-bold tracking-tighter mb-12">
+      <h3 className="font-bold tracking-tighter text-[2em] md:!text-[3em] border-b-2 border-b-gray-300 mb-4 inline-block leading-[1]">
         About
-      </h2>
+      </h3>
       <div className={`${atomStyles.EmphasisContent}`}>
         <p>
           <strong className="tracking-tighter text-[1.2em] font-bold text-pink">
@@ -34,7 +34,7 @@ export default function About(props: IAboutServerSideProps) {
           genres.{` `}
         </p>
 
-        <h3 className="my-8 text-[1.8em] font-bold tracking-tighter border-b-2 border-gray-200 inline-block">
+        <h3 className="font-bold tracking-tighter text-[1.5em] md:!text-[2em] border-b-2 border-b-gray-300 mb-4 inline-block mt-16 leading-[1]">
           Contact Us
         </h3>
         <p>
