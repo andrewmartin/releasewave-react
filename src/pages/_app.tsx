@@ -17,7 +17,7 @@ export default function App(props: AppProps) {
           name="description"
           content="Release Wave: Curating the best new music releases."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/static/favicon.ico" />
       </Head>
       <AppWrapper {...pageProps}>
         <Layout {...pageProps}>
