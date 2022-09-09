@@ -8,6 +8,14 @@
   @apply list-none;
 }
 
+.NavItem {
+  @apply hover:text-pink transition-all;
+}
+
+.NavItemActive {
+  @apply text-pink font-bold tracking-tighter;
+}
+
 .NavList {
 }
 
@@ -22,6 +30,7 @@
 
 .NavItem {
   @apply text-sm uppercase tracking-wider;
+  box-shadow: none !important;
 }
 
 .MobileNavList {
@@ -29,7 +38,11 @@
 }
 
 .MobileNavItem {
-  @apply font-bold text-xl tracking-tighter block p-4 hover:bg-pink hover:text-white transition-all w-full;
+  @apply font-bold text-xl tracking-tighter block p-4 hover:bg-pink hover:text-white transition-all w-full text-left;
+}
+
+.MobileNavItemActive {
+  @apply text-pink;
 }
 
 .MobileNavToggleButton {

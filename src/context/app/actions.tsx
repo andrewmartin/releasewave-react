@@ -8,8 +8,6 @@ export const showLoginModal =
   (dispatch: AppDispatch): MaybeMouseEvent =>
   (event) => {
     event && event.preventDefault();
-    console.log(`modal`);
-
     dispatch({
       type: `modal:show`,
       modal: `login`,

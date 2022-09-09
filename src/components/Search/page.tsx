@@ -14,6 +14,7 @@ import { InlineLoadingContainer } from '../Loading';
 import { useAppContext } from '@/context/app';
 import classNames from 'classnames';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { Head } from '../Head';
 
 interface SearchPage {
   searchQuery: string | null;
@@ -48,6 +49,7 @@ export const SearchBarWrapper: FC = () => {
   useEffect(() => {
     if (searchActive) {
       inputRef.current?.focus();
+      inputRef.current?.scrollIntoView({ behavior: `smooth` });
     }
   }, [searchActive]);
 
@@ -102,23 +104,34 @@ export const SearchPage: FC<SearchPage> = (props) => {
   } = useAppContext();
   const {
     dispatch: dispatchRelease,
-    state: { releases },
+    state: { releases, fetching: fetchingReleases },
   } = useReleaseContext();
   const {
     dispatch: dispatchArtist,
-    state: { artists },
+    state: { artists, fetching: fetchingArtists },
   } = useArtistContext();
   const { push } = useRouter();
   const previousSearchValue = usePrevious(searchTerm);
 
   useEffect(() => {
     async function getSearch() {
+      dispatchRelease({
+        type: `start`,
+        fetchType: `releases`,
+        isFetching: true,
+      });
+      dispatchArtist({
+        type: `start`,
+        fetchType: `artist`,
+        isFetching: true,
+      });
+
       const { data } = await AXIOS().instance.get<SearchResults>(
         `search/${searchTerm}`,
       );
       dispatchRelease({
         type: `successGetReleases`,
-        fetchType: `release`,
+        fetchType: `releases`,
         data: data.releases,
       });
       dispatchArtist({
@@ -139,8 +152,16 @@ export const SearchPage: FC<SearchPage> = (props) => {
     searchTerm,
   ]);
 
+  const isFetching =
+    fetchingArtists.get(`artists`) || fetchingReleases.get(`releases`);
+
+  const seo = {
+    title: `Search for "${searchTerm}"`,
+  };
+
   return (
     <div className="p-16 w-full">
+      <Head title={seo.title} />
       <div className="mb-16 w-full">
         <form
           onSubmit={(event) => {
@@ -169,26 +190,74 @@ export const SearchPage: FC<SearchPage> = (props) => {
         <InlineLoadingContainer />
       </div>
       {searchTerm && (
-        <h2 className="text-3xl font-bold tracking-tighter">
+        <h2 className="text-3xl font-bold tracking-tighter mb-12">
           {`Search for "${searchTerm}"`}
         </h2>
       )}
-      <div>
-        <h2 className="text-4xl font-bold tracking-tighter mb-16 border-b-2 border-gray-200 inline-block">
-          Releases
-        </h2>
-        {releases?.items.map((release) => {
-          return <ReleaseItem showArtist release={release} key={release.id} />;
-        })}
-      </div>
-      <div>
-        <h2 className="text-4xl font-bold tracking-tighter mb-16 border-b border-b-2 border-gray-200 inline-block">
-          Artists
-        </h2>
-        {artists?.items.map((artist) => {
-          return <ArtistItem artist={artist} key={artist.id} />;
-        })}
-      </div>
+      <section className="xl:grid xl:grid-cols-2 xl:gap-6">
+        <div>
+          <h2 className="text-4xl font-bold tracking-tighter mb-16 border-b-2 border-gray-200 inline-block">
+            Releases
+          </h2>
+          {releases?.items.map((release) => {
+            return (
+              <ReleaseItem
+                classNames={{
+                  container: styles.Item,
+                  content: styles.ItemContent,
+                  image: styles.Image,
+                }}
+                imageProps={{
+                  width: 300,
+                  height: 300,
+                }}
+                showArtist
+                key={release.id}
+                {...release}
+              />
+            );
+          })}
+          {!isFetching && previousSearchValue && !releases?.items.length && (
+            <h3 className="text-xl">Nothing found for {searchTerm}.</h3>
+          )}
+          {!isFetching && !previousSearchValue && !artists?.items.length && (
+            <h3 className="text-xl">
+              Enter a keyword above to search for Releases.
+            </h3>
+          )}
+        </div>
+        <div>
+          <h2 className="text-4xl font-bold tracking-tighter mb-16 border-b-2 border-gray-200 inline-block">
+            Artists
+          </h2>
+          {artists?.items.map((artist) => {
+            return (
+              <ArtistItem
+                showContentDefault={false}
+                classNames={{
+                  container: styles.Item,
+                  content: styles.ItemContent,
+                  image: styles.Image,
+                }}
+                imageProps={{
+                  width: 300,
+                  height: 300,
+                }}
+                {...artist}
+                key={artist.id}
+              />
+            );
+          })}
+          {!isFetching && previousSearchValue && !artists?.items.length && (
+            <h3 className="text-xl">Nothing found for {searchTerm}.</h3>
+          )}
+          {!isFetching && !previousSearchValue && !artists?.items.length && (
+            <h3 className="text-xl">
+              Enter a keyword above to search for Artists.
+            </h3>
+          )}
+        </div>
+      </section>
     </div>
   );
 };

@@ -44,17 +44,17 @@ export class Axios {
   }
 
   setupRetry() {
-    axiosRetry(axios, {
-      retries: 3, // number of retries
-      retryDelay: (retryCount) => {
-        console.log(`retry attempt: ${retryCount}`);
-        return retryCount * 1000; // time interval between retries
-      },
-      // retryCondition: (error) => {
-      //   // if retry condition is not specified, by default idempotent requests are retried
-      //   return error?.response?.status === 503;
-      // },
-    });
+    // axiosRetry(axios, {
+    //   retries: 1, // number of retries
+    //   retryDelay: (retryCount) => {
+    //     console.log(`retry attempt: ${retryCount}`);
+    //     return retryCount * 1000; // time interval between retries
+    //   },
+    //   // retryCondition: (error) => {
+    //   //   // if retry condition is not specified, by default idempotent requests are retried
+    //   //   return error?.response?.status === 503;
+    //   // },
+    // });
 
     return axios;
   }

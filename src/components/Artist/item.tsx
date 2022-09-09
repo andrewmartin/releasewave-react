@@ -5,40 +5,54 @@ import Link from 'next/link';
 import React, { FC } from 'react';
 import styles from './Artist.module.css';
 import atomStyles from '@/styles/Atoms.module.css';
+import { ReleaseContent } from '../Atoms/ReleaseMeta';
+import { ItemWrapper } from '@/types/Components';
 
-interface ArtistItem {
-  artist: Artist;
-}
+interface ArtistItem extends Artist, ItemWrapper {}
 
 export const ArtistItem: FC<ArtistItem> = (props) => {
   const {
-    artist: { slug, name, image, short_description },
+    imageProps = {
+      width: 500,
+      height: 500,
+    },
+    classNames,
+    showContentDefault = true,
+    Content,
+    ...artist
   } = props;
+  const { slug, name, short_description } = artist;
+
   const linkHref = `/artists/${slug}`;
+  const container = classNames?.container || styles.ArtistItem;
+  const image = classNames?.image || styles.ArtistItemImage;
+  const content = classNames?.content || styles.ArtistItemContent;
 
   return (
-    <div className={styles.ArtistItem}>
-      <div className={styles.ArtistItemImage}>
+    <div className={container}>
+      <div
+        className={`${image} cursor-pointer hover:scale-110 transition-all transform-gpu`}
+      >
         <Link href={linkHref}>
-          <Image
-            className={atomStyles.Link}
-            src={appendHostToImage(image.large)}
-            alt={`${name}`}
-            width={400}
-            height={400}
-          />
+          <a href={linkHref}>
+            <Image
+              src={appendHostToImage(artist.image.large)}
+              alt={`${name}`}
+              {...imageProps}
+            />
+          </a>
         </Link>
       </div>
-      <div className={styles.ArtistItemContent}>
+      <div className={content}>
         <Link href={linkHref}>
-          <h2 className={atomStyles.Link}>{name}</h2>
+          <a href={linkHref}>
+            <h2 className={atomStyles.ArtistLink}>{name}</h2>
+          </a>
         </Link>
-        <div
-          className="prose-xl"
-          dangerouslySetInnerHTML={{
-            __html: short_description ? `${short_description}` : ``,
-          }}
-        ></div>
+        {!showContentDefault && Content && Content}
+        {showContentDefault && !Content && (
+          <ReleaseContent content={short_description} className="prose-xl" />
+        )}
       </div>
     </div>
   );

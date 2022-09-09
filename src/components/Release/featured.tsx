@@ -7,6 +7,7 @@ import styles from './Release.module.css';
 import Link from 'next/link';
 import { appendHostToImage } from '@/util/image';
 import { useReleaseContext } from '@/context/release';
+import { ReleaseContent } from '../Atoms/ReleaseMeta';
 
 export const FeaturedRelease = (release: Release) => {
   const linkHref = `/releases/${release.slug}`;
@@ -27,16 +28,14 @@ export const FeaturedRelease = (release: Release) => {
       </div>
       <div className={styles.FeaturedReleaseContent}>
         <Link href={linkHref}>
-          <h2 className={atomStyles.Link}>{release.name}</h2>
+          <a href={linkHref}>
+            <h2 className={atomStyles.ReleaseLink}>{release.name}</h2>
+          </a>
         </Link>
         <span>
           <FirstArtistForRelease {...release} />
         </span>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: release.description ? `${release.description}` : ``,
-          }}
-        ></div>
+        <ReleaseContent content={release.description} trim={500} />
       </div>
     </div>
   );

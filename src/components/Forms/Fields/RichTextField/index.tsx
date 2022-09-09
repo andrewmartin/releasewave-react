@@ -7,7 +7,7 @@ import { jsx } from 'slate-hyperscript';
 import classNames from 'classnames';
 
 // https://codesandbox.io/s/slate-plugins-reproductions-yxr3q?file=/index.tsx
-const deserialize = (el, markAttributes = {}): any => {
+const deserialize = (el: any, markAttributes = {}): any => {
   if (el.nodeType === Node.TEXT_NODE) {
     return jsx(`text`, markAttributes, el.textContent);
   } else if (el.nodeType !== Node.ELEMENT_NODE) {
@@ -89,9 +89,12 @@ const SlateInner: FC<PropsWithChildren> = () => {
 
   return (
     <div
-      className={classNames(`border-2 p-6 prose-sm transition-all`, {
-        'border-pink': isFocused,
-      })}
+      className={classNames(
+        `min-h-[500px] border-2 p-6 text-base w-full transition-all`,
+        {
+          'border-pink': isFocused,
+        },
+      )}
     >
       <Editable
         onBlur={onBlur}

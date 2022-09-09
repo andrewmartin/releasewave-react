@@ -1,10 +1,10 @@
-import { IServerSideProps, ServerSideChecks } from '@/types/App';
+import IServerSideProps, { ServerSideChecks } from '@/types/App';
 import { globalServerSideProps } from './global';
-import { AXIOS } from '@/api/axios';
-import { Artist, RailsCollectionResponse, Release } from '@/types/Data';
+import { Artist } from '@/types/Data';
 import { ParsedUrlQuery } from 'querystring';
 import { BlankArtist } from '@/util/mock';
-export interface IArtistServerSideProps extends IServerSideProps {
+import { serverSideFetch } from './api';
+export interface IArtistServerSideProps extends Partial<IServerSideProps> {
   artist?: Artist;
   isEditing?: boolean;
 }
@@ -21,7 +21,7 @@ export const artistServerSideProps: ServerSideChecks<IArtistServerSideProps> = (
   return async (context) => {
     const serverGlobalProps = await globalServerSideProps(context);
 
-    let globalProps: IServerSideProps = {};
+    let globalProps = {};
     if (`props` in serverGlobalProps) {
       globalProps = serverGlobalProps.props as IServerSideProps;
     }
@@ -55,27 +55,10 @@ export const artistServerSideProps: ServerSideChecks<IArtistServerSideProps> = (
       };
     }
 
-    const getArtist = (params: IParams) => {
-      const { slug } = params;
-      return AXIOS(context).instance.get<Artist>(`artists/${slug}`, {
-        params,
-      });
-    };
-
-    const getArtistReleases = (params: IParams) => {
-      const { slug } = params;
-      return AXIOS(context).instance.get<RailsCollectionResponse<Release>>(
-        `artists/${slug}/releases`,
-        {
-          params,
-        },
-      );
-    };
-
     try {
       const [{ data: artist }, { data: releases }] = await Promise.all([
-        getArtist(context.params as IParams),
-        getArtistReleases(context.params as IParams),
+        serverSideFetch(context).getArtist(),
+        serverSideFetch(context).getArtistReleases(),
       ]);
 
       // console.log(`artistServerSideProps artist:`, artist.name);

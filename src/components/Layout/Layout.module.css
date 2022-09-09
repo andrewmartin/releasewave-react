@@ -3,5 +3,5 @@
 }
 
 .LayoutContent {
-  @apply flex items-center justify-center flex-wrap;
+  @apply flex items-center justify-center flex-wrap max-w-7xl m-auto;
 }

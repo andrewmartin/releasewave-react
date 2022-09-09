@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import styles from './Release.module.css';
-import Image from 'next/image';
 import {
   FirstArtistForRelease,
   getFirstArtist,
@@ -23,14 +22,13 @@ import {
 import { useRouter } from 'next/router';
 import { RichTextField } from '../Forms/Fields/RichTextField';
 import { FileField } from '../Forms/Fields/FileField';
-import { appendHostToImage } from '@/util/image';
 import { ArtistSelect } from '../Forms/Fields/Select';
 import { SocialLinks } from '../SocialLinks';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { Reviews } from './Reviews';
 import { DEFAULT_RICH_TEXT_EDITOR_COPY, VALIDATIONS } from '@/util/constants';
-import { Input } from '../Atoms/InputField';
+import { Checkbox, Input } from '../Atoms/InputField';
 import { CreateReviewFormContainer } from '../Forms/Review/create';
 import { WithCurrentUser } from '@/hooks/user';
 import { EmbedField, Embeds } from '../Embeds';
@@ -41,6 +39,9 @@ import { formatDate, getToday, isFutureDate } from '@/util/date';
 import { ServerSideWithAdminArgs } from '@/types/App';
 import { BlankRelease } from '@/util/mock';
 import { useAppContext } from '@/context/app';
+import { PictureImage } from '../Image';
+import { ReleaseContent, ReleaseFeaturedBanner } from '../Atoms/ReleaseMeta';
+import { Head, SeoProps } from '../Head';
 const Calendar =
   ReactInfiniteCalendar as unknown as FC<ReactInfiniteCalendarProps>;
 
@@ -63,6 +64,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
       embed_code: release?.embeds.map(({ content }) => content || ``) || [],
       release_date: release?.release_date,
       buy: release?.buy,
+      featured: release?.featured,
     },
     onSubmit: async (values) => {
       const action = isNew ? onCreateRelease : onEditRelease;
@@ -125,98 +127,27 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
   const today = getToday();
   const futureDate = isFutureDate(today);
   const purchaseText = futureDate ? `Pre-Order` : `Purchase`;
+  console.log(`name`, name);
+  const title =
+    artist && artist.name ? `${name} by ${artist.name}` : name || ``;
+
+  const seo: SeoProps = {
+    title,
+    description: `Read about ${title} on Release Wave.`,
+    ogImageWidth: `500`,
+    ogImageHeight: `500`,
+    ogImage: image.square,
+  };
 
   return (
     <>
+      <Head {...seo} />
       <MaybeForm
         Footer={<FormFooter isFixed actionName="Edit" />}
         handleSubmit={formik.handleSubmit}
       >
-        {/* <FullBgImage
-          src={artist?.image.large as string}
-          alt={`${artist?.name} image`}
-        /> */}
         <div className={styles.ReleasePage}>
           <header className={styles.ReleasePageHeader}>
-            <div className={styles.ReleasePageArt}>
-              <MaybeField<ReleaseFormValues>
-                formik={formik}
-                name="image"
-                value={name}
-                element={
-                  <Image
-                    src={appendHostToImage(image.large)}
-                    alt={`${name}`}
-                    width={400}
-                    height={400}
-                  />
-                }
-              >
-                <FileField
-                  width={400}
-                  height={400}
-                  src={image.large}
-                  name="image"
-                  onChange={(name, values) => {
-                    formik.setFieldValue(name, {
-                      ...values,
-                    });
-                  }}
-                />
-              </MaybeField>
-              <div className="flex items-center justify-center flex-row flex-wrap  w-full">
-                <MaybeField<ReleaseFormValues>
-                  formik={formik}
-                  name="release_date"
-                  value={release_date}
-                  element={
-                    <h2 className="p-5 w-full transition-all text-center  tracking-wider text-2xl uppercase">
-                      {formatDate(release_date)}
-                    </h2>
-                  }
-                >
-                  <Calendar
-                    width={400}
-                    height={300}
-                    selected={formik.values[`release_date`] || today.toDate()}
-                    onSelect={(value: Date) => {
-                      formik.setFieldValue(
-                        `release_date`,
-                        value.toDateString(),
-                      );
-                    }}
-                  />
-                </MaybeField>
-                <MaybeField<ReleaseFormValues>
-                  formik={formik}
-                  name="buy"
-                  customLabel="Purchase link"
-                  value={buy}
-                  element={
-                    buy ? (
-                      <>
-                        <a
-                          target="_blank"
-                          title={`${purchaseText} ${name}`}
-                          href={buy}
-                          className="bg-pink p-5 w-full text-white transition-all hover:bg-pink-400 text-center  tracking-wider text-2xl uppercase"
-                          rel="noreferrer"
-                        >
-                          {purchaseText}
-                        </a>
-                      </>
-                    ) : null
-                  }
-                >
-                  <Input
-                    name={`buy`}
-                    onChange={formik.handleChange}
-                    type="text"
-                    value={formik.values[`buy`] || ``}
-                  />
-                </MaybeField>
-              </div>
-            </div>
             <div className={styles.ReleasePageTitle}>
               <MaybeField<ReleaseFormValues>
                 formik={formik}
@@ -236,6 +167,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                 <MaybeField<ReleaseFormValues>
                   formik={formik}
                   name="artist_ids"
+                  customLabel="Artists"
                   value={name}
                   element={<FirstArtistForRelease {...release} />}
                 >
@@ -289,6 +221,91 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                 </MaybeField>
               </span>
             </div>
+            <div className={styles.ReleasePageArt}>
+              <MaybeField<ReleaseFormValues>
+                formik={formik}
+                name="featured"
+                value={name}
+                element={<ReleaseFeaturedBanner {...release} />}
+              >
+                <Checkbox
+                  onChange={(event) => {
+                    formik.setFieldValue(`featured`, !formik.values.featured);
+                  }}
+                  checked={Boolean(formik.values.featured)}
+                />
+              </MaybeField>
+              <MaybeField<ReleaseFormValues>
+                formik={formik}
+                name="image"
+                value={name}
+                element={<PictureImage src={image.large} alt={name} />}
+              >
+                <FileField
+                  width={400}
+                  height={400}
+                  src={image.large}
+                  name="image"
+                  onChange={(name, values) => {
+                    formik.setFieldValue(name, {
+                      ...values,
+                    });
+                  }}
+                />
+              </MaybeField>
+              <div className="flex items-center justify-center flex-row flex-wrap w-full">
+                <MaybeField<ReleaseFormValues>
+                  formik={formik}
+                  name="release_date"
+                  value={release_date}
+                  element={
+                    <h2 className="p-5 w-full transition-all text-center  tracking-wider text-xl lg:text-2xl uppercase">
+                      {formatDate(release_date)}
+                    </h2>
+                  }
+                >
+                  <Calendar
+                    width={400}
+                    height={300}
+                    selected={formik.values[`release_date`] || today.toDate()}
+                    onSelect={(value: Date) => {
+                      formik.setFieldValue(
+                        `release_date`,
+                        value.toDateString(),
+                      );
+                    }}
+                  />
+                </MaybeField>
+                <MaybeField<ReleaseFormValues>
+                  formik={formik}
+                  name="buy"
+                  customLabel="Purchase link"
+                  value={buy}
+                  element={
+                    buy ? (
+                      <>
+                        <a
+                          target="_blank"
+                          title={`${purchaseText} ${name}`}
+                          href={buy}
+                          className="bg-pink p-5 w-full text-white transition-all hover:bg-pink-400 text-center  tracking-wider text-xl lg:text-2xl uppercase"
+                          rel="noreferrer"
+                        >
+                          {purchaseText}
+                        </a>
+                      </>
+                    ) : null
+                  }
+                >
+                  <Input
+                    name={`buy`}
+                    onChange={formik.handleChange}
+                    type="text"
+                    value={formik.values[`buy`] || ``}
+                  />
+                </MaybeField>
+              </div>
+            </div>
           </header>
           <Reviews />
           <section className="w-full flex justify-center">
@@ -301,13 +318,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                 formik={formik}
                 name="description"
                 value={description}
-                element={
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: description ? `${description}` : ``,
-                    }}
-                  ></div>
-                }
+                element={<ReleaseContent content={description} />}
               >
                 <RichTextField
                   value={description || DEFAULT_RICH_TEXT_EDITOR_COPY}

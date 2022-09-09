@@ -2,13 +2,22 @@ import { FetchType as ReleaseFetchType } from '@/context/release';
 import { FetchType as ArtistFetchType } from '@/context/artist';
 import { FetchType as AppFetchType } from '@/context/app';
 import { GetServerSideProps } from 'next';
-import { RailsCollectionResponse, Release, Review, User } from './Data';
+import {
+  RailsCollectionResponse,
+  Release,
+  Review,
+  User,
+  SiteOption,
+} from './Data';
+import { BuildDateRangeResult } from '@/util/date';
 
-export interface IServerSideProps {
-  user?: User;
+export default interface IServerSideProps {
+  user?: User | null;
   featuredReleases?: RailsCollectionResponse<Release>;
   releases?: RailsCollectionResponse<Release>;
   reviews?: RailsCollectionResponse<Review>;
+  fullUrl?: string;
+  siteOption: SiteOption & BuildDateRangeResult;
 }
 
 export interface IPageProps extends IServerSideProps {

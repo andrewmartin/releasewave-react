@@ -5,3 +5,19 @@
 .SearchInput:focus {
   @apply border-4 outline-none;
 }
+
+.Item {
+  @apply flex-wrap md:flex-nowrap flex items-center justify-start pb-20;
+}
+
+.ItemContent h2 {
+  @apply text-[2em] font-bold tracking-tighter leading-[0.9] mb-4;
+}
+
+.ItemContent span {
+  @apply block italic text-2xl mb-16;
+}
+
+.Image {
+  @apply min-w-full md:min-w-[50%] flex justify-center md:justify-around md:mb-0 mb-16 mr-6;
+}

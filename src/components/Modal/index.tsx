@@ -65,7 +65,7 @@ export const ModalContainer = ({ layoutProps }: ModalContainerProps) => {
   useEffect(() => {
     function listener(event: DocumentEventMap['keyup']) {
       const { key } = event;
-      if (key === `~`) {
+      if (key === `~` && state.user) {
         dispatch({
           type: `modal:show`,
           modal: `debug`,
@@ -78,7 +78,7 @@ export const ModalContainer = ({ layoutProps }: ModalContainerProps) => {
     }
 
     document.addEventListener(`keyup`, listener);
-  }, [dispatch, state.activeModal]);
+  }, [dispatch, state.activeModal, state.user]);
 
   const Element = () => {
     switch (state.activeModal) {

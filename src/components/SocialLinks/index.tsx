@@ -60,7 +60,7 @@ const SocialIconLi = ({ type, link, name }: IconProps) => {
         href={link}
         target="_blank"
         rel="noreferrer"
-        className={`w-[50px] h-[50px] block transition-all opacity-70 hover:opacity-100 hover:scale-110`}
+        className={`w-[50px] h-[50px] block transition-transform hover:scale-125 transform-gpu`}
       >
         <Icon
           color="#AC1E8C"
@@ -99,7 +99,7 @@ export const SocialLinks = (props: Artist) => {
   } = props;
 
   return (
-    <ul className="flex space-x-4 my-6">
+    <ul className="flex space-x-4 my-12 transition-all opacity-50 hover:opacity-100">
       {spotify && (
         <SocialIconLi name={name || ``} type="spotify" link={spotify} />
       )}

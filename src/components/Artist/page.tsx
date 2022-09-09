@@ -24,6 +24,8 @@ import { Input } from '../Atoms/InputField';
 import { ServerSideWithAdminArgs } from '@/types/App';
 import { BlankArtist } from '@/util/mock';
 import { useAppContext } from '@/context/app';
+import { ReleaseContent } from '../Atoms/ReleaseMeta';
+import { Head, SeoProps } from '../Head';
 
 export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
   const {
@@ -100,122 +102,146 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
 
   const { name, short_description, image } = artist;
 
-  console.log(`artist`, artist);
+  const title = `${name}`;
+
+  const seo: SeoProps = {
+    title,
+    description: `Music Releases from ${name} on Release Wave.`,
+    ogImageWidth: `500`,
+    ogImageHeight: `500`,
+    ogImage: image.square,
+  };
 
   return (
-    <MaybeForm
-      Footer={<FormFooter isFixed actionName="Edit" />}
-      handleSubmit={formik.handleSubmit}
-    >
-      <div className={styles.ArtistPage}>
-        <MaybeField<ArtistFormValues>
-          formik={formik}
-          name="Artist Image"
-          value={name}
-          className="justify-center flex w-full flex-wrap"
-          element={
-            <FullBgImage
-              src={artist?.image.large as string}
-              alt={`${artist?.name} image`}
-            />
-          }
-        >
-          <FileField
-            width={400}
-            height={400}
-            src={image?.large}
-            name="image"
-            onChange={(name, values) => {
-              formik.setFieldValue(name, {
-                ...values,
-              });
-            }}
-          />
-        </MaybeField>
-        <header className={styles.ArtistPageHeader}>
-          <div className={styles.ArtistPageTitleContainer}>
-            <MaybeField<ArtistFormValues>
-              formik={formik}
-              name="name"
-              value={name}
-              element={<h2 className={styles.ArtistPageTitle}>{name}</h2>}
-            >
-              <Input
-                name={`name`}
-                onChange={formik.handleChange}
-                type="text"
-                value={formik.values[`name`] || ``}
-              />
-            </MaybeField>
-            <SocialLinks {...artist} />
-            {SOCIALS.map((socialName) => (
-              <MaybeField<ArtistFormValues>
-                formik={formik}
-                key={socialName}
-                name={socialName}
-                value={name}
-                element={<div></div>}
-              >
-                <ArtistSocialSelect
-                  artistName={formik.values.name as string}
-                  socialName={socialName}
-                  initialValue={{
-                    value: `${formik.values[socialName]}`,
-                    label: `${formik.values[socialName]}`,
-                  }}
-                  onChange={(optionValue) => {
-                    formik.setFieldValue(socialName, optionValue?.value);
-                  }}
-                  onRemove={() => {
-                    formik.setFieldValue(socialName, ``);
-                  }}
-                />
-              </MaybeField>
-            ))}
-          </div>
-        </header>
-        <article
-          className={classNames(styles.ArtistPageContent, {
-            'prose prose-2xl bg-white px-8': !isEditing,
-          })}
-        >
+    <>
+      <Head {...seo} />
+      <MaybeForm
+        Footer={<FormFooter isFixed actionName="Edit" />}
+        handleSubmit={formik.handleSubmit}
+      >
+        <div className={styles.ArtistPage}>
           <MaybeField<ArtistFormValues>
             formik={formik}
-            name="short_description"
-            value={short_description}
+            name="Artist Image"
+            value={name}
+            className="justify-center flex w-full flex-wrap"
             element={
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: short_description ? `${short_description}` : ``,
-                }}
-              ></div>
+              <FullBgImage
+                className="grayscale opacity-50 blur-sm"
+                src={artist?.image.large as string}
+                alt={`${artist?.name} image`}
+              />
             }
           >
-            <RichTextField
-              value={short_description || DEFAULT_RICH_TEXT_EDITOR_COPY}
-              onChange={(value) => {
-                formik.setFieldValue(`short_description`, value);
+            <FileField
+              width={400}
+              height={400}
+              src={image?.large}
+              name="image"
+              onChange={(name, values) => {
+                formik.setFieldValue(name, {
+                  ...values,
+                });
               }}
             />
           </MaybeField>
-        </article>
-
-        {!isEditing && (
-          <div className="mb-16 w-full">
-            <section className="bg-white p-12">
-              <h2 className="text-2xl font-bold tracking-tighter">Releases</h2>
-              <cite>
-                Releases we have curated and recommend to yours truly.
-              </cite>
-            </section>
-            <div className="bg-white">
-              {releases?.items.map((release) => {
-                return <ReleaseItem release={release} key={release.id} />;
-              })}
+          <header className={styles.ArtistPageHeader}>
+            <div className={styles.ArtistPageTitleContainer}>
+              <MaybeField<ArtistFormValues>
+                formik={formik}
+                name="name"
+                value={name}
+                element={<h2 className={styles.ArtistPageTitle}>{name}</h2>}
+              >
+                <Input
+                  name={`name`}
+                  onChange={formik.handleChange}
+                  type="text"
+                  value={formik.values[`name`] || ``}
+                />
+              </MaybeField>
+              <SocialLinks {...artist} />
+              {SOCIALS.map((socialName) => (
+                <MaybeField<ArtistFormValues>
+                  formik={formik}
+                  key={socialName}
+                  name={socialName}
+                  value={name}
+                  element={<div></div>}
+                >
+                  <ArtistSocialSelect
+                    artistName={formik.values.name as string}
+                    socialName={socialName}
+                    initialValue={{
+                      value: `${formik.values[socialName]}`,
+                      label: `${formik.values[socialName]}`,
+                    }}
+                    onChange={(optionValue) => {
+                      formik.setFieldValue(socialName, optionValue?.value);
+                    }}
+                    onRemove={() => {
+                      formik.setFieldValue(socialName, ``);
+                    }}
+                  />
+                </MaybeField>
+              ))}
             </div>
-          </div>
-        )}
-      </div>
-    </MaybeForm>
+          </header>
+          <article
+            className={classNames(`w-full`, {
+              [`p-16 text-base box-item bg-white ${styles.ArtistPageContent}`]:
+                Boolean(short_description),
+            })}
+          >
+            {short_description && (
+              <h2 className="text-[2.5em] font-bold tracking-tighter mb-6">
+                About this Artist
+              </h2>
+            )}
+            <MaybeField<ArtistFormValues>
+              formik={formik}
+              name="short_description"
+              value={short_description}
+              element={<ReleaseContent content={short_description} />}
+            >
+              <RichTextField
+                value={short_description || DEFAULT_RICH_TEXT_EDITOR_COPY}
+                onChange={(value) => {
+                  formik.setFieldValue(`short_description`, value);
+                }}
+              />
+            </MaybeField>
+          </article>
+
+          {!isEditing && (
+            <div className="mb-16 w-full bg-white p-8 md:p-16 box-item">
+              <section className="mb-24">
+                <h2 className="text-[2em] leading-9 mb-6 font-bold tracking-tighter">
+                  Releases
+                </h2>
+                <cite className="text-base text-gray-500">
+                  Releases we have curated and recommend to yours truly.
+                </cite>
+              </section>
+              <div className="bg-white">
+                {releases?.items.map((release) => {
+                  return (
+                    <ReleaseItem
+                      key={release.id}
+                      showArtist={false}
+                      showContentDefault
+                      classNames={{
+                        container: styles.ReleaseItem,
+                      }}
+                      {...release}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </MaybeForm>
+    </>
   );
 };

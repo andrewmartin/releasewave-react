@@ -9,6 +9,7 @@ import { modifyScore } from '@/util/forms';
 import classNames from 'classnames';
 import Image from 'next/image';
 import { useAppContext } from '@/context/app';
+import { ReleaseContent } from '@/components/Atoms/ReleaseMeta';
 
 interface ReviewItemContent extends PropsWithChildren {
   content: string;
@@ -26,7 +27,7 @@ export const ReviewItemContent = (props: ReviewItemContent) => {
   }
 
   return (
-    <div className={styles.ReviewItemContent}>
+    <div className={classNames(styles.ReviewItemContent, `box-item`)}>
       <div className={styles.ReviewItemHeadline}>
         <h2>{name}</h2>
         {score && (
@@ -39,11 +40,7 @@ export const ReviewItemContent = (props: ReviewItemContent) => {
           </span>
         )}
       </div>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: content ? `${content}` : ``,
-        }}
-      ></div>
+      <ReleaseContent content={content} />
       {children}
       {user.name && user.image && (
         <div className={styles.ReviewItemByline}>

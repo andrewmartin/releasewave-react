@@ -1,0 +1,14 @@
+.ImageContainer {
+  @apply w-full h-full relative;
+}
+
+.Image {
+  object-fit: contain;
+  width: 100% !important;
+  position: relative !important;
+  height: unset !important;
+}
+
+.ImageContainer div {
+  position: unset !important;
+}

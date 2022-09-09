@@ -10,21 +10,26 @@ import { FC } from 'react';
 import { AdminNav } from '../User/atoms';
 import styles from './Nav.module.css';
 import { SetOpen } from '../Footer';
+import { useRouter } from 'next/router';
+import classNames from 'classnames';
 type Link = [name: string, href: string];
 
 const NAV_PAGES: Link[] = [
   [`Home`, `/`],
   [`Releases`, `/releases`],
   [`Artists`, `/artists`],
-  [`Contact`, `/contact`],
+  [`About`, `/about`],
 ];
 
 export const NavList: FC<{
   ulClassName: string;
   itemClassName: string;
+  itemActiveClassName: string;
   showLogin?: boolean;
-}> = ({ ulClassName, itemClassName, showLogin }) => {
+}> = ({ ulClassName, itemClassName, showLogin, itemActiveClassName }) => {
   const { dispatch } = useAppContext();
+  const { pathname } = useRouter();
+  console.log(`pathname`, pathname);
 
   return (
     <ul className={ulClassName}>
@@ -32,7 +37,12 @@ export const NavList: FC<{
         return (
           <li key={href}>
             <Link href={href}>
-              <a href={href} className={itemClassName}>
+              <a
+                href={href}
+                className={classNames(itemClassName, {
+                  [itemActiveClassName]: pathname === href,
+                })}
+              >
                 {name}
               </a>
             </Link>
@@ -83,6 +93,7 @@ export const MobileNavMenu: FC<{
     >
       <NavList
         itemClassName={styles.MobileNavItem}
+        itemActiveClassName={styles.MobileNavItemActive}
         ulClassName={styles.MobileNavList}
         showLogin
       />
@@ -93,7 +104,11 @@ export const MobileNavMenu: FC<{
 export const NavContainer: FC = () => {
   return (
     <div className={styles.Nav}>
-      <NavList itemClassName={styles.NavItem} ulClassName={styles.NavList} />
+      <NavList
+        itemClassName={styles.NavItem}
+        ulClassName={styles.NavList}
+        itemActiveClassName={styles.NavItemActive}
+      />
     </div>
   );
 };

@@ -3,6 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .box-item {
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.2);
+  }
+}
+
 html,
 body {
   margin: 0;
@@ -39,7 +46,7 @@ a {
   @apply py-2 px-6 transition-all text-sm font-semibold uppercase;
 }
 .btn-primary {
-  @apply bg-pink text-white;
+  @apply bg-pink text-white hover:bg-pink-400 hover:scale-105;
 }
 .btn-secondary {
   @apply transition-all bg-gray-200 text-gray-700;
@@ -117,4 +124,9 @@ a {
     border-color: #e361c6;
     outline: none;
   }
+}
+
+/* headroom */
+.headroom-wrapper {
+  @apply overflow-hidden;
 }

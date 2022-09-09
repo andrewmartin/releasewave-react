@@ -95,7 +95,7 @@ export const EmbedField: FC<{
           const newEmbeds = currentEmbeds.concat();
           newEmbeds.push({
             idx: Math.floor(Math.random() * 10000),
-            content: `Embed content`,
+            content: ``,
           });
           setCurrentEmbeds(newEmbeds);
           setHasTouched(true);

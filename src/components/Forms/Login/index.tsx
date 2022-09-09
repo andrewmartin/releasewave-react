@@ -68,15 +68,12 @@ export const LoginForm = () => {
         </div>
 
         <div className="flex items-center justify-between">
-          <button
-            className="bg-pink hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-pink-600 hover:transition-colors"
-            type="submit"
-          >
+          <button className="btn btn-primary" type="submit">
             Sign In
           </button>
-          <button className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+          {/* <button className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
             Forgot Password?
-          </button>
+          </button> */}
         </div>
       </form>
     </div>

@@ -1,23 +1,36 @@
 import { adminServerSideProps } from '@/util/next/getServerSideProps/admin';
-import ReactInfiniteCalendar, {
-  ReactInfiniteCalendarProps,
-} from 'react-infinite-calendar';
 import { useFormik } from 'formik';
-import moment from 'moment';
 import { Input } from '@/components/Atoms/InputField';
 import Link from 'next/link';
+import IServerSideProps from '@/types/App';
+import { onUpdateOption } from '@/context/option/api';
+import toast from 'react-hot-toast';
 
-export default function Admin() {
-  // const formik = useFormik<any>({
-  //   initialValues: {
-  //     start_date: moment().toDate(),
-  //     end_date: moment().toDate(),
-  //   },
-  //   onSubmit: async (values) => {},
-  // });
+export default function Admin(props: IServerSideProps) {
+  const {
+    siteOption: { featured_date_window_before, featured_date_window_after },
+  } = props;
+
+  const formik = useFormik<any>({
+    initialValues: {
+      featured_date_window_before: featured_date_window_before,
+      featured_date_window_after: featured_date_window_after,
+    },
+    onSubmit: async (values) => {
+      try {
+        await onUpdateOption(values);
+        toast(`updated options!`);
+      } catch (error) {
+        toast(`error updating options! ${error.toString()}`);
+      }
+    },
+  });
 
   return (
-    <div className={`p-12 flex justify-start w-full flex-wrap`}>
+    <form
+      onSubmit={formik.handleSubmit}
+      className={`p-12 flex justify-start w-full flex-wrap`}
+    >
       <h2 className="text-3xl font-bold tracking-tighter mb-12">
         Admin Controls
       </h2>
@@ -46,10 +59,19 @@ export default function Admin() {
               will go back 10 days before the current date to look for reviews.
             </span>
           </label>
-          <Input
-            id="release_window_before"
-            placeholder="Window start in days."
-          />
+          <div className="flex w-full items-center justify-start">
+            <Input
+              id="release_window_before"
+              placeholder="Window start in days."
+              name="featured_date_window_before"
+              value={formik.values.featured_date_window_before}
+              onChange={formik.handleChange}
+              style={{
+                maxWidth: 100,
+              }}
+            />
+            <em className="ml-5 text-[1.5em]">days before today</em>
+          </div>
         </div>
         <div className="mb-12 flex w-full flex-wrap">
           <label
@@ -63,16 +85,26 @@ export default function Admin() {
               will go ahead 10 days after the current date to look for reviews.
             </span>
           </label>
-          <Input
-            id="release_window_after"
-            placeholder="Window start in days."
-          />
+
+          <div className="flex w-full items-center justify-start">
+            <Input
+              id="release_window_after"
+              placeholder="Window end in days."
+              name="featured_date_window_after"
+              value={formik.values.featured_date_window_after}
+              onChange={formik.handleChange}
+              style={{
+                maxWidth: 100,
+              }}
+            />
+            <em className="ml-5 text-[1.5em]">days after today</em>
+          </div>
         </div>
       </div>
       <button className="self-end justify-end btn-primary btn ml-auto">
         Save
       </button>
-    </div>
+    </form>
   );
 }
 

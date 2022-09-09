@@ -53,11 +53,29 @@ export const clearBrowserCookies = () => {
     const cookieId = `${COOKIE_PREFIX}_${headerName}`;
     const cookieValue = jsCookie.get(cookieId);
     console.log(`cookieValueFound`, cookieValue);
-    // console.log(`setBrowserCookies for ${headerName}: ${cookieValue}`);
     if (cookieValue) {
       jsCookie.remove(`${COOKIE_PREFIX}_${headerName}`);
     }
   });
+};
+
+export const hasLoggedInHeaders = (
+  context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
+): boolean => {
+  let found = false;
+
+  HEADERS.map((headerName) => {
+    const headerValue = context.req.cookies[`${COOKIE_PREFIX}_${headerName}`];
+    if (headerValue) {
+      found = true;
+    }
+  });
+
+  if (found) {
+    console.log(`found by searching headers:`, HEADERS.join(`,`));
+  }
+
+  return found;
 };
 
 export const serverRequestHeaders = (

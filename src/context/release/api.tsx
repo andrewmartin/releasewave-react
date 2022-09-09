@@ -1,6 +1,7 @@
 import { AXIOS } from '@/api/axios';
 import { RailsCollectionResponse, Release, Review } from '@/types/Data';
 import { CONFIRM } from '@/util/constants';
+import { GetServerSidePropsContext } from 'next';
 import { Dispatch } from 'react';
 import toast from 'react-hot-toast';
 import { FetchType, ReleaseAction } from '.';

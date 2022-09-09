@@ -6,14 +6,17 @@ import { sentenceCase } from 'change-case';
 interface FullBgImage {
   src: string;
   alt: string;
+  className?: string;
 }
 
 export const FullBgImage: FC<FullBgImage> = (props) => {
-  const { src, alt } = props;
+  const { src, alt, className } = props;
 
   return (
     <ReactPortal wrapperId={`${sentenceCase(alt)}_releaseBg`}>
-      <div className="z-0 fixed w-full h-full top-0 left-0">
+      <div
+        className={`${className || ``} z-0 fixed w-full h-full top-0 left-0`}
+      >
         <Image
           layout="fill"
           objectFit="cover"

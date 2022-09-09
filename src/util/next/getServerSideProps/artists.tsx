@@ -1,9 +1,10 @@
-import { IServerSideProps } from '@/types/App';
+import IServerSideProps from '@/types/App';
 import { GetServerSideProps } from 'next';
 import { globalServerSideProps } from './global';
 import { AXIOS } from '@/api/axios';
 import { RailsCollectionResponse, Artist } from '@/types/Data';
-export interface IArtistsServerSideProps extends IServerSideProps {
+import { serverSideFetch } from './api';
+export interface IArtistsServerSideProps extends Partial<IServerSideProps> {
   artists?: RailsCollectionResponse<Artist>;
 }
 
@@ -18,17 +19,10 @@ export const artistsServerSideProps: GetServerSideProps<
 
   console.log(`globalProps`, serverGlobalProps);
 
-  const getAllArtists = (params?: Record<string, string>) => {
-    return AXIOS(context).instance.get<RailsCollectionResponse<Artist>>(
-      `artists`,
-      {
-        params,
-      },
-    );
-  };
-
   try {
-    const [{ data: artistsData }] = await Promise.all([getAllArtists()]);
+    const [{ data: artistsData }] = await Promise.all([
+      serverSideFetch(context).getAllArtists(),
+    ]);
 
     // console.log(`featured releases fetched in global`, releases);
 

@@ -8,5 +8,34 @@
 }
 
 .Link {
-  @apply hover:text-pink transition-all hover:underline hover:bg-gray-50 hover:cursor-pointer hover:scale-105;
+  @apply hover:text-pink transition-all hover:underline  hover:cursor-pointer hover:scale-105 text-gray-500;
+}
+
+.ReleaseLink,
+.ArtistLink {
+  @apply hover:text-pink transition-all hover:underline  hover:cursor-pointer hover:scale-105 hover:opacity-100 no-underline;
+}
+
+.ReleaseDate {
+  @apply uppercase text-sm text-gray-500 not-italic mt-6 block tracking-widest;
+}
+
+.FeaturedText {
+  @apply uppercase text-sm text-gray-500 not-italic my-6 tracking-widest absolute top-0 px-12 bg-white leading-[2] flex items-center justify-center z-10;
+}
+
+.FeaturedTextDefault {
+  @apply text-sm;
+}
+
+.FeaturedTextSmall {
+  @apply text-[0.8em] max-w-[75%] leading-[1.5] opacity-75;
+}
+
+.ReleaseContent {
+  @apply leading-[2.2] text-[1em] mt-8;
+}
+
+.EmphasisContent {
+  @apply leading-[2.2] text-[1.4em] mt-8;
 }

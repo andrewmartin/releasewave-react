@@ -1,4 +1,4 @@
-import { IServerSideProps } from '@/types/App';
+import IServerSideProps from '@/types/App';
 import { GetServerSideProps } from 'next';
 import { globalServerSideProps } from './global';
 
@@ -8,7 +8,7 @@ export const adminServerSideProps: GetServerSideProps<
   IAdminServerSideProps
 > = async (context) => {
   const serverGlobalProps = await globalServerSideProps(context);
-  let globalProps: IServerSideProps = {};
+  let globalProps = {} as IServerSideProps;
   if (`props` in serverGlobalProps) {
     globalProps = serverGlobalProps.props as IServerSideProps;
   }
@@ -17,6 +17,9 @@ export const adminServerSideProps: GetServerSideProps<
     const userIsAdmin = Boolean(globalProps?.user?.is_admin);
     if (!userIsAdmin) {
       return {
+        props: {
+          ...globalProps,
+        },
         redirect: {
           permanent: false,
           destination: `/`,

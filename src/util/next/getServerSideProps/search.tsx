@@ -1,9 +1,9 @@
-import { IServerSideProps } from '@/types/App';
+import IServerSideProps from '@/types/App';
 import { GetServerSideProps } from 'next';
 import { globalServerSideProps } from './global';
-import { AXIOS } from '@/api/axios';
 import { Artist, RailsCollectionResponse, Release, Review } from '@/types/Data';
 import { ParsedUrlQuery } from 'querystring';
+import { serverSideFetch } from './api';
 
 export interface SearchResults {
   releases?: RailsCollectionResponse<Release>;
@@ -31,16 +31,9 @@ export const searchServerSideProps: GetServerSideProps<
     globalProps = serverGlobalProps.props;
   }
 
-  const getSearch = (params: IParams) => {
-    const { query } = params;
-    return AXIOS(context).instance.get<SearchResults>(`search/${query}`, {
-      params,
-    });
-  };
-
   try {
     const [{ data }] = await Promise.all([
-      getSearch(context.params as IParams),
+      serverSideFetch(context).getSearch(),
     ]);
 
     return {

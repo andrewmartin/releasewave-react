@@ -1,4 +1,4 @@
-import { IServerSideProps } from '@/types/App';
+import IServerSideProps from '@/types/App';
 import React, { FC, ReactNode } from 'react';
 import Footer from '../Footer';
 import Header from '../Header';

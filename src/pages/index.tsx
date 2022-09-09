@@ -6,10 +6,12 @@ import {
 import { ReleaseContextContainer } from '@/context/release';
 import { FeaturedReleaseContainer } from '@/components/Release/featured';
 import { UpcomingReleaseContainer } from '@/components/Release/upcoming';
+import { Head } from '@/components/Head';
 
 export default function Home(props: IHomeServerSideProps) {
   return (
     <div className={styles.container}>
+      <Head url={props.fullUrl || ``} />
       <div>
         <section>
           {props.featuredReleases && (

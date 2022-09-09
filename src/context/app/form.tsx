@@ -28,6 +28,7 @@ interface FormFooterProps {
   actionName: string;
   isFixed?: boolean;
   AdditionalActions?: JSX.Element;
+  ServerErrors?: JSX.Element;
 }
 
 const Wrapper: FC<PropsWithChildren<Omit<FormFooterProps, 'actionName'>>> = ({
@@ -36,9 +37,9 @@ const Wrapper: FC<PropsWithChildren<Omit<FormFooterProps, 'actionName'>>> = ({
 }) => (
   <div
     className={classNames(
-      ` w-full p-6 text-right flex items-end justify-end space-x-2 bg-white border-t-2 border-gray-200 shadow-inner`,
+      ` w-full p-6 text-right flex items-end justify-end space-x-2 bg-white border-t-2 border-gray-200 mt-12 flex-wrap`,
       {
-        'fixed bottom-0 right-0 z-40': isFixed,
+        'fixed bottom-0 right-0 z-40 shadow-inner': isFixed,
       },
     )}
   >
@@ -47,7 +48,7 @@ const Wrapper: FC<PropsWithChildren<Omit<FormFooterProps, 'actionName'>>> = ({
 );
 
 export const FormFooter: FC<FormFooterProps> = (props) => {
-  const { AdditionalActions, actionName, isFixed } = props;
+  const { AdditionalActions, actionName, isFixed, ServerErrors } = props;
   const { isEditing, setIsEditing } = useFormContext();
 
   if (!isEditing) {
@@ -70,6 +71,8 @@ export const FormFooter: FC<FormFooterProps> = (props) => {
 
   return (
     <Wrapper isFixed={isFixed}>
+      {ServerErrors}
+
       <button type="submit" className="btn btn-primary">
         Submit
       </button>

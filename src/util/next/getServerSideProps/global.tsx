@@ -1,26 +1,60 @@
 import { GetServerSideProps, GetServerSidePropsResult } from 'next';
-import { AXIOS } from '@/api/axios';
-import { IServerSideProps } from '@/types/App';
-import { User } from '@/types/Data';
+import IServerSideProps from '@/types/App';
+import { serverSideFetch } from './api';
+import { hasLoggedInHeaders } from '@/util/cookie';
+import { SiteOption } from '@/types/Data';
+import { buildDateRange } from '@/util/date';
 
 export const globalServerSideProps: GetServerSideProps<
   IServerSideProps
 > = async (context): Promise<GetServerSidePropsResult<IServerSideProps>> => {
-  try {
-    const { data } = await AXIOS(context).instance.get<User>(`current_user`);
+  const url = context.req.url; // e.g. context.req.url = /search/armor
 
-    console.log(`user data fetched in global`, data);
+  const fullUrl = `${process.env.NEXT_SITE_ROOT}${url}`;
+  const { data } = await serverSideFetch(context).getOptions();
 
+  const siteOption: SiteOption = data?.id
+    ? data
+    : {
+        id: 999,
+        featured_date_window_after: 15,
+        featured_date_window_before: 15,
+        name: `staticOptions`,
+      };
+
+  const dateRange = buildDateRange(siteOption);
+
+  const withoutUser = () => {
     return {
       props: {
+        siteOption: {
+          ...siteOption,
+          ...dateRange,
+        },
+        fullUrl,
+        user: null,
+      },
+    };
+  };
+
+  if (!hasLoggedInHeaders(context)) {
+    return withoutUser();
+  }
+
+  try {
+    const data = await serverSideFetch(context).getCurrentUser();
+    return {
+      props: {
+        siteOption: {
+          ...siteOption,
+          ...dateRange,
+        },
+        fullUrl,
         user: data,
       },
     };
   } catch (error: any) {
-    console.log(`error`, error.toString());
-
-    return {
-      props: {},
-    };
+    console.log(`globalServerSideProps error`, error.toString());
+    return withoutUser();
   }
 };

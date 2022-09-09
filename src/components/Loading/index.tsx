@@ -122,8 +122,6 @@ export const InlineLoadingContainer = () => {
       }
     }
 
-    console.log(`show`, show);
-
     if (show) {
       return setShow(true);
     }

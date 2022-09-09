@@ -1,3 +1,4 @@
+import { Head } from '@/components/Head';
 import { ReleasePage } from '@/components/Release/page';
 import { FormProvider } from '@/context/app/form';
 import { ReleaseContextContainer } from '@/context/release';
@@ -7,17 +8,25 @@ import {
 } from '@/util/next/getServerSideProps/release';
 
 export default function Release(props: IReleaseServerSideProps) {
-  const { release, reviews } = props;
+  const { release, reviews, fullUrl } = props;
+  const seo = {
+    url: fullUrl,
+    title: `Releases`,
+    description: `Discover new music by viewing all the Releases on ReleaseWave.`,
+  };
 
   if (!release || !reviews) {
     return null; // TODO handle redirect in ssr
   }
   return (
-    <ReleaseContextContainer release={release} reviews={reviews}>
-      <FormProvider>
-        <ReleasePage />
-      </FormProvider>
-    </ReleaseContextContainer>
+    <>
+      <Head {...seo} />
+      <ReleaseContextContainer release={release} reviews={reviews}>
+        <FormProvider>
+          <ReleasePage />
+        </FormProvider>
+      </ReleaseContextContainer>
+    </>
   );
 }
 

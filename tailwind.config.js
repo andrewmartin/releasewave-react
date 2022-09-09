@@ -1,5 +1,5 @@
 const colors = require('tailwindcss/colors');
-const defaultTheme = require('tailwindcss/defaultTheme');
+// const defaultTheme = require('tailwindcss/defaultTheme');
 
 const fontSize = (multiplier = 1) => {
   const base = 1.2;

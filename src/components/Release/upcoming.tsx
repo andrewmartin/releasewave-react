@@ -1,44 +1,27 @@
-import { RailsCollectionResponse, Release } from '@/types/Data';
+import { Release } from '@/types/Data';
 import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
-import Image from 'next/image';
-import { FirstArtistForRelease } from '../Atoms/FirstArtistForRelease';
 import styles from './Release.module.css';
-import atomStyles from '@/styles/Atoms.module.css';
-import { appendHostToImage } from '@/util/image';
 import { useReleaseContext } from '@/context/release';
-import Link from 'next/link';
 import { Pagination } from '../Pagination';
-import { AXIOS } from '@/api/axios';
 import { getReleases } from '@/context/release/api';
 import { usePrevious } from 'react-use';
+import { ReleaseItem } from './item';
+import { ReleaseContent } from '../Atoms/ReleaseMeta';
 
 const UpcomingRelease = (release: Release) => {
   const linkHref = `/releases/${release.slug}`;
 
   return (
-    <div className={styles.UpcomingRelease} key={release.id}>
-      <div className={styles.UpcomingReleaseImage}>
-        <Link href={linkHref}>
-          <Image
-            src={appendHostToImage(release.image.large)}
-            alt={`${release.name}`}
-            width={500}
-            height={500}
-          />
-        </Link>
-      </div>
-      <div className={styles.UpcomingReleaseContent}>
-        <Link href={linkHref}>
-          <h2 className={atomStyles.Link}>{release.name}</h2>
-        </Link>
-        <FirstArtistForRelease {...release} />
-        <div
-          dangerouslySetInnerHTML={{
-            __html: release.description ? `${release.description}` : ``,
-          }}
-        ></div>
-      </div>
-    </div>
+    <ReleaseItem
+      type="small"
+      href={linkHref}
+      classNames={{
+        container: `${styles.UpcomingRelease} box-item`,
+        image: styles.UpcomingReleaseImage,
+        content: styles.UpcomingReleaseContent,
+      }}
+      {...release}
+    />
   );
 };
 export const UpcomingReleaseContainer: FC<PropsWithChildren> = () => {
@@ -69,31 +52,22 @@ const ReleaseCollectionItem = (release: Release) => {
   const linkHref = `/releases/${release.slug}`;
 
   return (
-    <div className={styles.ReleaseCollectionItem} key={release.id}>
-      <div className={styles.ReleaseCollectionItemImage}>
-        <Link href={linkHref}>
-          <Image
-            src={appendHostToImage(release.image.large)}
-            alt={`${release.name}`}
-            width={500}
-            height={500}
-          />
-        </Link>
-      </div>
-      <div className={styles.ReleaseCollectionItemContent}>
-        <Link href={linkHref}>
-          <h2 className={atomStyles.Link}>{release.name}</h2>
-        </Link>
-        <FirstArtistForRelease {...release} />
-        <div
-          dangerouslySetInnerHTML={{
-            __html: release.description
-              ? `${release.description.slice(0, 300)}...`
-              : ``,
-          }}
-        ></div>
-      </div>
-    </div>
+    <ReleaseItem
+      href={linkHref}
+      classNames={{
+        container: styles.ReleaseCollectionItem,
+        image: styles.ReleaseCollectionItemImage,
+        content: styles.ReleaseCollectionItemContent,
+      }}
+      {...release}
+      Content={
+        <ReleaseContent
+          content={
+            release.description ? `${release.description.slice(0, 300)}` : ``
+          }
+        />
+      }
+    />
   );
 };
 
@@ -115,7 +89,7 @@ export const ReleasesCollectionContainer: FC<PropsWithChildren> = () => {
     getReleases(dispatchRelease, {
       page: pageNumber,
     })(() => {
-      console.log(`success`);
+      return;
     });
   };
 

@@ -45,7 +45,7 @@ export const CreateReviewForm = () => {
       id: ``,
       name: ``,
       content: ``,
-      score: `0`,
+      score: ``,
     },
     onSubmit: async (values) => {
       await onCreateReview(dispatch, appDispatch)(
@@ -96,7 +96,12 @@ export const CreateReviewForm = () => {
   return (
     <>
       <MaybeForm
-        Footer={<FormFooter actionName="Create Review" />}
+        Footer={
+          <FormFooter
+            ServerErrors={<ServerErrors errors={serverErrors} />}
+            actionName="Create Review"
+          />
+        }
         handleSubmit={(event) => {
           formik.values.score = modifyScore(formik.values.score);
           formik.handleSubmit(event);
@@ -157,7 +162,6 @@ export const CreateReviewForm = () => {
         />
         <FormikErrors formik={formik} name={`content`} />
       </MaybeForm>
-      <ServerErrors errors={serverErrors} />
     </>
   );
 };

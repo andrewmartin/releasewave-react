@@ -1,10 +1,9 @@
-import { IServerSideProps } from '@/types/App';
+import IServerSideProps from '@/types/App';
 import { GetServerSideProps } from 'next';
 import { globalServerSideProps } from './global';
-import { AXIOS } from '@/api/axios';
-import moment from 'moment';
 import { RailsCollectionResponse, Release } from '@/types/Data';
-export interface IHomeServerSideProps extends IServerSideProps {
+import { serverSideFetch } from './api';
+export interface IHomeServerSideProps extends Partial<IServerSideProps> {
   featuredReleases?: RailsCollectionResponse<Release>;
   releases?: RailsCollectionResponse<Release>;
 }
@@ -13,54 +12,38 @@ export const homeServerSideProps: GetServerSideProps<
   IHomeServerSideProps
 > = async (context) => {
   const serverGlobalProps = await globalServerSideProps(context);
-  let globalProps = {};
+
+  let globalProps: Partial<IServerSideProps> = {};
   if (`props` in serverGlobalProps) {
-    globalProps = serverGlobalProps.props;
+    globalProps = serverGlobalProps.props as IServerSideProps;
   }
 
-  console.log(`globalProps`, serverGlobalProps);
-
-  const getFeaturedReleases = (params: Record<string, string>) => {
-    return AXIOS(context).instance.get<RailsCollectionResponse<Release>>(
-      `releases`,
-      {
-        params,
-      },
+  if (!globalProps.siteOption) {
+    throw new Error(
+      `site options not found. we should not have gotten here, as we .`,
     );
-  };
+  }
 
-  const getAllReleases = (params?: Record<string, string>) => {
-    return AXIOS(context).instance.get<RailsCollectionResponse<Release>>(
-      `releases`,
-      {
-        params,
-      },
-    );
-  };
-
-  /**
-   * hardcoding dates?
-   */
-
-  const currentDate = () => moment().clone();
-
-  const start_date = moment(currentDate())
-    .subtract(1, `weeks`)
-    .format(`YYYY-MM-DD`);
-  const end_date = moment(currentDate()).add(5, `days`).format(`YYYY-MM-DD`);
-  // console.log(`getting releases for start_date:`, start_date);
-  // console.log(`getting releases for end_date`, end_date);
+  const { start_date, end_date } = globalProps.siteOption;
+  console.log(
+    `fetching releases for start_date: ${start_date} and end date: ${end_date}`,
+  );
 
   try {
     const [{ data: featuredReleases }, { data: releases }] = await Promise.all([
-      getFeaturedReleases({
+      serverSideFetch(context).getReleases({
         start_date,
         end_date,
+        featured: true,
+        per_page: 50,
       }),
-      getAllReleases(),
+      serverSideFetch(context).getReleases({
+        start_date,
+        end_date,
+        featured: false,
+        per_page: 50,
+      }),
     ]);
-
-    // console.log(`featured releases fetched in global`, releases);
 
     return {
       props: {
