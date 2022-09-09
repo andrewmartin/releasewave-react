@@ -21,7 +21,7 @@ interface EmbedsProps {
 
 export const Embeds: FC<EmbedsProps> = ({ embeds }) => {
   return (
-    <div>
+    <div className="md:grid md:grid-cols-2 gap-2">
       {embeds.map((embed) => {
         return <Embed {...embed} key={embed.id} />;
       })}

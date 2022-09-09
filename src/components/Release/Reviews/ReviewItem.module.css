@@ -3,7 +3,7 @@
 }
 
 .ReviewItemContent p {
-  @apply mb-12 text-xl;
+  @apply mb-12 text-sm leading-[1.7] md:text-xl;
 }
 
 .ReviewItemHeadline {

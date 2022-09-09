@@ -33,9 +33,9 @@
 }
 
 .ReleaseContent {
-  @apply leading-[2.2] text-[1em] mt-8;
+  @apply leading-[2] text-[1em] mt-8;
 }
 
 .EmphasisContent {
-  @apply leading-[2.2] text-[1.4em] mt-8;
+  @apply leading-[2] text-[1.4em] mt-8;
 }

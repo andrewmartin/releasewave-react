@@ -59,8 +59,8 @@ export const Filter: FC<Filter> = ({ onChange, onReset }) => {
 
   return (
     <div className="w-full my-12 pb-12 flex items-center justify-center flex-wrap md:!flex-nowrap md:!space-x-4">
-      <h3 className="min-w-[150px] text-2xl mb-4 md:!mb-0 font-bold tracking-tighter">
-        Filter Results
+      <h3 className="text-2xl mb-4 md:!mb-0 font-bold tracking-tighter">
+        Filter
       </h3>
       <Select
         className="mb-4 md:!mb-0"
