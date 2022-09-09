@@ -27,6 +27,7 @@ export const Debug = (props: DebugProps) => {
 
       <h3>Debug: LayoutProps</h3>
       <pre>See console.</pre>
+      {children}
     </div>
   );
 };

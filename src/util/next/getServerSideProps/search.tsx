@@ -2,7 +2,6 @@ import IServerSideProps from '@/types/App';
 import { GetServerSideProps } from 'next';
 import { globalServerSideProps } from './global';
 import { Artist, RailsCollectionResponse, Release, Review } from '@/types/Data';
-import { ParsedUrlQuery } from 'querystring';
 import { serverSideFetch } from './api';
 
 export interface SearchResults {
@@ -17,16 +16,16 @@ export interface ISearchServerSideProps
   searchQuery: string | null;
 }
 
-interface IParams extends ParsedUrlQuery {
-  query?: string;
-}
+// interface IParams extends ParsedUrlQuery {
+//   query?: string;
+// }
 
 export const searchServerSideProps: GetServerSideProps<
-  ISearchServerSideProps
+  Partial<ISearchServerSideProps>
 > = async (context) => {
   const serverGlobalProps = await globalServerSideProps(context);
 
-  let globalProps = {};
+  let globalProps: any = {}; // TODO: Fix this.
   if (`props` in serverGlobalProps) {
     globalProps = serverGlobalProps.props;
   }

@@ -49,7 +49,7 @@ export const ReviewItemContent = (props: ReviewItemContent) => {
             alt={`${user.name} image`}
             width={75}
             height={75}
-            src={user.image}
+            src={user.image.square}
           />
         </div>
       )}

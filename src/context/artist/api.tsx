@@ -93,12 +93,9 @@ export const onCreateArtist: OnCreateArtist<
     console.log(`values`, values);
 
     try {
-      const { data } = await AXIOS().instance.post<Review>(
-        `artists/${slug}/reviews`,
-        {
-          review: values,
-        },
-      );
+      await AXIOS().instance.post<Review>(`artists/${slug}/reviews`, {
+        review: values,
+      });
 
       onSuccess();
       toast(`artist created!`);
@@ -134,47 +131,5 @@ export const getArtists: onGetArtists<ArtistAction> =
         data,
       });
       onSuccess();
-    } catch (error) {}
+    } catch (error: any) {}
   };
-
-// type OnDeleteArtist<Action, Values> = (
-//   dispatch: Dispatch<Action>,
-//   appDispatch: Dispatch<AppAction>,
-// ) => (values: Values, onSuccess: () => void) => Promise<void>;
-// export const onDeleteArtist: OnDeleteArtist<ArtistAction, DeleteReviewFormValues> =
-//   (dispatch: Dispatch<ArtistAction>) =>
-//   async (values: DeleteReviewFormValues, onSuccess: () => void) => {
-//     const { artistSlug: slug, id } = values;
-//     if (!CONFIRM(`NO_UNDO`)) return;
-//     dispatch({
-//       type: `start`,
-//       fetchType: `review`,
-//       isFetching: true,
-//     });
-
-//     console.log(`values`, values);
-
-//     try {
-//       const { data } = await AXIOS().instance.delete<Review>(
-//         `artists/${slug}/reviews/${id}`,
-//       );
-
-//       onSuccess();
-
-//       console.log(`data`, data);
-
-//       dispatch({
-//         type: `successDeleteReview`,
-//         fetchType: `review`,
-//         data,
-//       });
-//     } catch (error: any) {
-//       dispatch({
-//         type: `error`,
-//         fetchType: `artist`,
-//         message: error.toString(),
-//       });
-
-//       console.log(`error`, error);
-//     }
-//   };

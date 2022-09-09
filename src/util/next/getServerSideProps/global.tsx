@@ -23,7 +23,7 @@ export const globalServerSideProps: GetServerSideProps<
     if (data?.id) {
       siteOption = data;
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log(`error`, error);
   }
   const dateRange = buildDateRange(siteOption);

@@ -24,7 +24,7 @@ export const actionHelperCatch = (
   return genericErrorCallback();
 };
 
-type GenericErrorAction = {
+export type GenericErrorAction = {
   type: 'error';
   fetchType: AllFetchTypes;
   message: string;
@@ -38,5 +38,5 @@ export function genericErrorAction<T, FetchType>(
     type: `error`,
     fetchType,
     message,
-  } as T;
+  } as any as T;
 }

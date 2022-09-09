@@ -228,7 +228,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                 element={<ReleaseFeaturedBanner {...release} />}
               >
                 <Checkbox
-                  onChange={(event) => {
+                  onChange={() => {
                     formik.setFieldValue(`featured`, !formik.values.featured);
                   }}
                   checked={Boolean(formik.values.featured)}

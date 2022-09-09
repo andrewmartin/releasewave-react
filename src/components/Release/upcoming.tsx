@@ -1,23 +1,13 @@
 import { Release } from '@/types/Data';
-import React, {
-  FC,
-  PropsWithChildren,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import styles from './Release.module.css';
 import { useReleaseContext } from '@/context/release';
 import { Pagination } from '../Pagination';
-import {
-  getReleases,
-  getReleasesByFilter,
-  onChangeDate,
-} from '@/context/release/api';
-import { useFirstMountState, usePrevious } from 'react-use';
+import { getReleases } from '@/context/release/api';
+import { usePrevious } from 'react-use';
 import { ReleaseItem } from './item';
 import { ReleaseContent } from '../Atoms/ReleaseMeta';
-import { Filter, FilterOnChangeValues } from '../Forms/Filter';
+import { Filter } from '../Forms/Filter';
 import toast from 'react-hot-toast';
 
 const UpcomingRelease = (release: Release) => {
@@ -86,7 +76,7 @@ const ReleaseCollectionItem = (release: Release) => {
 export const ReleasesCollectionContainer: FC<PropsWithChildren> = () => {
   const {
     dispatch: dispatchRelease,
-    state: { releases, fetching: fetchingRelease },
+    state: { releases },
   } = useReleaseContext();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const { current_page, per_page, total_entries } = releases!;

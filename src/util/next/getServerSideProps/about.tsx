@@ -17,7 +17,7 @@ export const aboutServerSideProps: ServerSideChecks<
   return async (context) => {
     const serverGlobalProps = await globalServerSideProps(context);
 
-    let globalProps = {};
+    let globalProps: any = {}; // TODO: Fix this.
     if (`props` in serverGlobalProps) {
       globalProps = serverGlobalProps.props as IServerSideProps;
     }

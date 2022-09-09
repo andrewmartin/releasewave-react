@@ -20,7 +20,7 @@ export default function Admin(props: IServerSideProps) {
       try {
         await onUpdateOption(values);
         toast(`updated options!`);
-      } catch (error) {
+      } catch (error: any) {
         toast(`error updating options! ${error.toString()}`);
       }
     },

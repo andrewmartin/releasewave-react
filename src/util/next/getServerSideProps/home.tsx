@@ -13,7 +13,7 @@ export const homeServerSideProps: GetServerSideProps<
 > = async (context) => {
   const serverGlobalProps = await globalServerSideProps(context);
 
-  let globalProps: Partial<IServerSideProps> = {};
+  let globalProps: any = {}; // TODO: Fix this.
   if (`props` in serverGlobalProps) {
     globalProps = serverGlobalProps.props as IServerSideProps;
   }

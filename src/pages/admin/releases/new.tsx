@@ -6,7 +6,6 @@ import {
   IReleaseServerSideProps,
   releaseServerSideProps,
 } from '@/util/next/getServerSideProps/release';
-import { useEffect, useState } from 'react';
 
 type Props = WithServerSideChecks<IReleaseServerSideProps>;
 

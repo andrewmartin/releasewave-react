@@ -12,7 +12,7 @@ export const artistsServerSideProps: GetServerSideProps<
   IArtistsServerSideProps
 > = async (context) => {
   const serverGlobalProps = await globalServerSideProps(context);
-  let globalProps = {};
+  let globalProps: any = {}; // TODO: Fix this.
   if (`props` in serverGlobalProps) {
     globalProps = serverGlobalProps.props;
   }

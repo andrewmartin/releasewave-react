@@ -29,3 +29,7 @@
 .FooterEmphasis cite {
   @apply text-lg font-normal uppercase tracking-widest w-full text-gray-300;
 }
+
+.FooterNavItemActive {
+  @apply text-pink;
+}

@@ -1,7 +1,6 @@
 import IServerSideProps, { ServerSideChecks } from '@/types/App';
 import { globalServerSideProps } from './global';
 import { Artist } from '@/types/Data';
-import { ParsedUrlQuery } from 'querystring';
 import { BlankArtist } from '@/util/mock';
 import { serverSideFetch } from './api';
 export interface IArtistServerSideProps extends Partial<IServerSideProps> {
@@ -9,9 +8,9 @@ export interface IArtistServerSideProps extends Partial<IServerSideProps> {
   isEditing?: boolean;
 }
 
-interface IParams extends ParsedUrlQuery {
-  slug: string;
-}
+// interface IParams extends ParsedUrlQuery {
+//   slug: string;
+// }
 
 export const artistServerSideProps: ServerSideChecks<IArtistServerSideProps> = (
   args,
@@ -21,7 +20,7 @@ export const artistServerSideProps: ServerSideChecks<IArtistServerSideProps> = (
   return async (context) => {
     const serverGlobalProps = await globalServerSideProps(context);
 
-    let globalProps = {};
+    let globalProps: any = {}; // TODO: Fix this.
     if (`props` in serverGlobalProps) {
       globalProps = serverGlobalProps.props as IServerSideProps;
     }
