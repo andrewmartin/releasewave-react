@@ -52,6 +52,19 @@ export const FeaturedReleaseContainer: FC<PropsWithChildren> = () => {
 
   return (
     <>
+      <div className="w-full flex flex-wrap mb-16 pb-8 border-b-2 border-gray-100">
+        <h2 className="font-extrabold tracking-tighter text-[2em] md:!text-[2.5em] border-b-2 border-b-gray-300 mb-4 inline-block">
+          The Wave
+        </h2>
+        <p className="italic w-full text-[1.4em] leading-[1.5]">
+          <span className="font-bold tracking-tighter not-italic">
+            Release Wave
+          </span>
+          {` `}
+          highlights the best in upcoming releases by the artists we love. Here
+          are some of our most recommended releases.
+        </p>
+      </div>
       {releases?.items?.map((release) => (
         <FeaturedRelease {...release} key={release.id} />
       ))}

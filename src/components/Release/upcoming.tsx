@@ -34,12 +34,12 @@ export const UpcomingReleaseContainer: FC<PropsWithChildren> = () => {
 
   return (
     <>
-      <div className="mb-4">
-        <h2 className="font-extrabold tracking-tight text-xl letter">
+      <div className="mb-4 pb-8 border-b-2 border-gray-100">
+        <h2 className="font-extrabold tracking-tighter text-[1.5em] md:!text-[1.8em] border-b-2 border-b-gray-300 mb-4 inline-block">
           Upcoming Releases
         </h2>
         <p className="italic text-gray-500">
-          A curated set of our recommended releases
+          A curated set of our recommended releases.
         </p>
       </div>
       <div className="grid grid-cols-2 gap-8">
