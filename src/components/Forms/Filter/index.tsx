@@ -4,23 +4,23 @@ import moment from 'moment';
 import React, { FC, useState } from 'react';
 
 const MONTHS = [
-  `January`,
-  `February`,
-  `March`,
-  `April`,
-  `May`,
-  `June`,
-  `July`,
-  `August`,
-  `September`,
-  `October`,
-  `November`,
-  `December`,
+  [`January`, `01`],
+  [`February`, `02`],
+  [`March`, `03`],
+  [`April`, `04`],
+  [`May`, `05`],
+  [`June`, `06`],
+  [`July`, `07`],
+  [`August`, `08`],
+  [`September`, `09`],
+  [`October`, `10`],
+  [`November`, `11`],
+  [`December`, `12`],
 ];
 
 const FORMATS = {
   YEAR: `YYYY`,
-  MONTH: `MMMM`,
+  MONTH: `MM`,
 };
 
 export type FilterOnChangeValues = { start_date: string; end_date: string };
@@ -50,6 +50,7 @@ export const Filter: FC<Filter> = ({ onChange, onReset }) => {
     const end_date = moment(dateString)
       .add(1, `month`)
       .format(SERVER_DATE_FORMAT);
+
     onChange({
       start_date,
       end_date,
@@ -57,11 +58,12 @@ export const Filter: FC<Filter> = ({ onChange, onReset }) => {
   };
 
   return (
-    <div className="w-full my-12 pb-12 flex items-center justify-center space-x-4">
-      <h3 className="min-w-[150px] text-2xl font-bold tracking-tighter">
+    <div className="w-full my-12 pb-12 flex items-center justify-center flex-wrap md:!flex-nowrap md:!space-x-4">
+      <h3 className="min-w-[150px] text-2xl mb-4 md:!mb-0 font-bold tracking-tighter">
         Filter Results
       </h3>
       <Select
+        className="mb-4 md:!mb-0"
         defaultValue={year}
         onChange={(event) => {
           setYear(event.currentTarget.value);
@@ -79,6 +81,7 @@ export const Filter: FC<Filter> = ({ onChange, onReset }) => {
         })}
       </Select>
       <Select
+        className="mb-4 md:!mb-0"
         defaultValue={month}
         onChange={(event) => {
           setMonth(event.currentTarget.value);
@@ -88,15 +91,18 @@ export const Filter: FC<Filter> = ({ onChange, onReset }) => {
         <option disabled value="">
           Select a month
         </option>
-        {MONTHS.map((monthItem) => {
+        {MONTHS.map(([label, value]) => {
           return (
-            <option key={monthItem} value={monthItem}>
-              {monthItem}
+            <option key={label} value={value}>
+              {label}
             </option>
           );
         })}
       </Select>
-      <button onClick={onReset} className="btn btn-primary">
+      <button
+        onClick={onReset}
+        className="!py-[27px] !px-[30px] w-full md:!w-auto mb-4 md:!mb-0 btn btn-primary"
+      >
         Reset
       </button>
     </div>

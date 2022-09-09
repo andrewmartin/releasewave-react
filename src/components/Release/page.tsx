@@ -25,7 +25,6 @@ import { FileField } from '../Forms/Fields/FileField';
 import { ArtistSelect } from '../Forms/Fields/Select';
 import { SocialLinks } from '../SocialLinks';
 import Link from 'next/link';
-import classNames from 'classnames';
 import { Reviews } from './Reviews';
 import { DEFAULT_RICH_TEXT_EDITOR_COPY, VALIDATIONS } from '@/util/constants';
 import { Checkbox, Input } from '../Atoms/InputField';
@@ -51,7 +50,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
     state: { release },
   } = useReleaseContext();
   const { dispatch: appDispatch } = useAppContext();
-  const { isEditing, setIsEditing } = useFormContext();
+  const { setIsEditing } = useFormContext();
   const { push } = useRouter();
   const artist = release ? getFirstArtist(release) : undefined;
   const formik = useFormik<ReleaseFormValues>({
@@ -308,11 +307,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
           </header>
           <Reviews />
           <section className="w-full flex justify-center">
-            <article
-              className={classNames(styles.ReleasePageContent, {
-                'prose prose-2xl': !isEditing,
-              })}
-            >
+            <article className={styles.ReleasePageContent}>
               <MaybeField<ReleaseFormValues>
                 formik={formik}
                 name="description"

@@ -54,7 +54,7 @@ const SocialIconLi = ({ type, link, name }: IconProps) => {
   const SIZE = `50`;
 
   return (
-    <li className="block">
+    <li className="block ml-2 md:ml-4">
       <a
         title={`${name} on ${type}`}
         href={link}
@@ -99,7 +99,7 @@ export const SocialLinks = (props: Artist) => {
   } = props;
 
   return (
-    <ul className="flex space-x-4 my-12 transition-all opacity-50 hover:opacity-100">
+    <ul className="flex flex-wrap my-12 transition-all opacity-50 hover:opacity-100">
       {spotify && (
         <SocialIconLi name={name || ``} type="spotify" link={spotify} />
       )}

@@ -121,3 +121,21 @@ export const setServerCookies = (
 
   return cookiesToSet;
 };
+
+export const clearServerCookies = (
+  context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
+) => {
+  const cookiesToSet: string[] = [];
+
+  HEADERS.map((headerName) => {
+    const cookieKey = `${COOKIE_PREFIX}_${headerName}`;
+    console.log(`clearServerCookies for ${headerName}: ${cookieKey}`);
+    cookiesToSet.push(`${cookieKey}=deleted; path=/; samesite=lax; Max-Age=0`);
+  });
+
+  if (cookiesToSet.length) {
+    context.res.setHeader(`set-cookie`, cookiesToSet);
+  }
+
+  return cookiesToSet;
+};

@@ -53,9 +53,7 @@ interface ModalContainerProps {
 
 const Wrapper: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      {children}
-    </div>
+    <div className="bg-white shadow-md px-8 pt-6 pb-8 mb-4">{children}</div>
   );
 };
 

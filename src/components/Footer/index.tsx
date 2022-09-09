@@ -20,9 +20,9 @@ const BuiltWith: FC = () => {
   return (
     <>
       <div className="mt-16 text-gray-300 flex items-center justify-center text-sm flex-wrap w-full">
-        <span className="flex items-center mb-6">
+        <span className="md:flex items-center mb-6">
           Built with TypeScript, React, Next.js, and Ruby on Rails with{` `}
-          <span className="mx-2">
+          <span className="my-2 md:m-0 md:mx-2 w-full md:!w-auto flex items-center justify-center">
             <BsFillHeartFill size={15} />
           </span>
           {` `}

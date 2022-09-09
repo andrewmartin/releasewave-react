@@ -194,7 +194,7 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
             })}
           >
             {short_description && (
-              <h2 className="text-[2.5em] font-bold tracking-tighter mb-6">
+              <h2 className="text-[1.5em] md:text-[2.5em] font-bold tracking-tighter mb-6">
                 About this Artist
               </h2>
             )}

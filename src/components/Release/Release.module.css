@@ -14,7 +14,7 @@
 }
 
 .FeaturedReleaseContent h2 {
-  @apply font-extrabold tracking-tighter text-3xl w-full mb-8 mt-8 md:mt-20;
+  @apply font-extrabold tracking-tighter text-2xl md:!text-3xl w-full mb-8 mt-8 md:mt-20;
 }
 
 .FeaturedReleaseContent span {
@@ -61,18 +61,19 @@
 }
 
 .ReleaseCollectionItemImage {
-  @apply w-full flex items-center justify-center relative mb-8;
+  @apply w-full flex items-center justify-center relative mb-4 md:mb-8;
 }
 
 .ReleaseCollectionItemImage img {
   @apply w-1/2 px-7;
 }
 
-.ReleaseCollectionItemContent {
+.ReleaseCollectionItemContent > div {
+  @apply hidden md:block;
 }
 
 .ReleaseCollectionItemContent h2 {
-  @apply font-extrabold tracking-tighter text-[2.5em] w-full mb-3 mt-0;
+  @apply font-extrabold tracking-tighter text-[1.5em] md:text-[2.5em] w-full mb-3 mt-0 leading-[1];
 }
 
 .ReleaseCollectionItemContent span {
@@ -84,7 +85,10 @@
   @apply md:px-12 py-20 flex w-full flex-wrap justify-center;
 }
 .ReleasePageContent {
-  @apply p-12 md:p-0 md:py-12 w-full;
+  @apply p-6 md:p-0 md:py-12 w-full;
+}
+.ReleasePageContent p {
+  @apply mb-6 text-xl;
 }
 .ReleasePageHeader {
   @apply flex w-full flex-wrap;

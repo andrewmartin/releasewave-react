@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 import { usePrevious } from 'react-use';
 import { SearchResults } from '@/util/next/getServerSideProps/search';
 import { AXIOS } from '@/api/axios';
-import { InlineLoadingContainer } from '../Loading';
 import { useAppContext } from '@/context/app';
 import classNames from 'classnames';
 import { AiFillCloseCircle } from 'react-icons/ai';
@@ -77,7 +76,7 @@ export const SearchBarWrapper: FC = () => {
         }}
       />
       <button
-        className="bg-pink transition-all text-xl font-bold tracking-tight border-pink py-4 px-8 text-white h-[92px] border-4"
+        className="bg-pink transition-all text-xl font-bold tracking-tight border-pink p-2 md:py-4 md:px-8 text-white h-[92px] border-4"
         type="submit"
       >
         <FaSearch size={30} />
@@ -90,7 +89,11 @@ export const SearchBarWrapper: FC = () => {
           });
         }}
       >
-        <AiFillCloseCircle className="m-4" size={50} color="rgba(0,0,0,0.2)" />
+        <AiFillCloseCircle
+          className="m-2 md:m-4"
+          size={50}
+          color="rgba(0,0,0,0.2)"
+        />
       </button>
     </form>
   );
@@ -160,7 +163,7 @@ export const SearchPage: FC<SearchPage> = (props) => {
   };
 
   return (
-    <div className="p-16 w-full">
+    <div className="p-6 md:p-16 w-full">
       <Head title={seo.title} />
       <div className="mb-16 w-full">
         <form
@@ -181,20 +184,20 @@ export const SearchPage: FC<SearchPage> = (props) => {
             value={searchTerm}
           />
           <button
-            className="min-w-[100px] flex items-center justify-center btn-primary btn"
+            className="md:min-w-[100px] flex items-center justify-center btn-primary btn"
             type="submit"
           >
             <FaSearch size={30} />
           </button>
         </form>
-        <InlineLoadingContainer />
+        {/* <InlineLoadingContainer /> */}
       </div>
       {searchTerm && (
-        <h2 className="text-3xl font-bold tracking-tighter mb-12">
+        <h2 className="text-2xl md:!text-3xl font-bold tracking-tighter mb-12">
           {`Search for "${searchTerm}"`}
         </h2>
       )}
-      <section className="xl:grid xl:grid-cols-2 xl:gap-6">
+      <section className="grid grid-cols-2 gap-6">
         <div>
           <h2 className="text-4xl font-bold tracking-tighter mb-16 border-b-2 border-gray-200 inline-block">
             Releases

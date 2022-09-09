@@ -61,8 +61,11 @@ export const ArtistsCollectionContainer: FC<PropsWithChildren> = () => {
   };
 
   return (
-    <div className="p-12">
-      <h2 ref={titleRef} className="font-extrabold tracking-tighter text-3xl">
+    <div className="p-4 md:p-12">
+      <h2
+        ref={titleRef}
+        className="font-extrabold tracking-tighter text-2xl md:!text-3xl"
+      >
         Our Artists
       </h2>
       <div className="mb-4">
@@ -76,7 +79,7 @@ export const ArtistsCollectionContainer: FC<PropsWithChildren> = () => {
         current_page={current_page}
         onSelectPage={onSelectPage}
       />
-      <div className="xl:grid xl:grid-cols-3 gap-12">
+      <div className="grid grid-cols-3 md:grid md:grid-cols-3 md:gap-12">
         {artists?.items?.map((release) => (
           <ArtistCollectionItem {...release} key={release.id} />
         ))}

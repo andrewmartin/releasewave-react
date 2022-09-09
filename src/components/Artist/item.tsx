@@ -51,7 +51,7 @@ export const ArtistItem: FC<ArtistItem> = (props) => {
         </Link>
         {!showContentDefault && Content && Content}
         {showContentDefault && !Content && (
-          <ReleaseContent content={short_description} className="prose-xl" />
+          <ReleaseContent content={short_description} />
         )}
       </div>
     </div>

@@ -26,9 +26,17 @@ export const NavList: FC<{
   itemClassName: string;
   itemActiveClassName: string;
   showLogin?: boolean;
-}> = ({ ulClassName, itemClassName, showLogin, itemActiveClassName }) => {
+  onClose?: () => void;
+}> = ({
+  ulClassName,
+  itemClassName,
+  showLogin,
+  itemActiveClassName,
+  onClose,
+}) => {
   const { dispatch } = useAppContext();
   const { pathname } = useRouter();
+  const isSearch = ~pathname.indexOf(`search`);
 
   return (
     <ul className={ulClassName}>
@@ -37,6 +45,7 @@ export const NavList: FC<{
           <li key={href}>
             <Link href={href}>
               <a
+                onClick={onClose && onClose}
                 href={href}
                 className={classNames(itemClassName, {
                   [itemActiveClassName]: pathname === href,
@@ -48,19 +57,24 @@ export const NavList: FC<{
           </li>
         );
       })}
-      <li>
-        <button
-          onClick={() => {
-            dispatch({
-              type: `search:show`,
-            });
-          }}
-          className={itemClassName}
-        >
-          Search
-        </button>
-      </li>
-      {showLogin && <AdminNav itemClassName={itemClassName} />}
+      {!isSearch && (
+        <li>
+          <button
+            onClick={() => {
+              dispatch({
+                type: `search:show`,
+              });
+              onClose && onClose();
+            }}
+            className={itemClassName}
+          >
+            Search
+          </button>
+        </li>
+      )}
+      {showLogin && (
+        <AdminNav onClose={onClose} itemClassName={itemClassName} />
+      )}
     </ul>
   );
 };
@@ -95,6 +109,7 @@ export const MobileNavMenu: FC<{
         itemActiveClassName={styles.MobileNavItemActive}
         ulClassName={styles.MobileNavList}
         showLogin
+        onClose={onClose}
       />
     </BurgerMenu>
   );

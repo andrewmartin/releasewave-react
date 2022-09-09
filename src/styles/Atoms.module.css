@@ -21,7 +21,7 @@
 }
 
 .FeaturedText {
-  @apply uppercase text-sm text-gray-500 not-italic my-6 tracking-widest absolute top-0 px-12 bg-white leading-[2] flex items-center justify-center z-10;
+  @apply uppercase text-xs md:text-sm text-gray-500 not-italic my-6 tracking-widest absolute top-0 md:px-12 bg-white leading-[2] flex items-center justify-center z-10;
 }
 
 .FeaturedTextDefault {

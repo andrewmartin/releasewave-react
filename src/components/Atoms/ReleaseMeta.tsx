@@ -86,7 +86,7 @@ export const Avatar: FC<Avatar> = ({
 }) => {
   return (
     <div
-      className={classNames({
+      className={classNames(`relative flex items-center justify-center`, {
         grayscale: isGrayscale,
       })}
       style={{

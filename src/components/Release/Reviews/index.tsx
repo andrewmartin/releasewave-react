@@ -7,9 +7,8 @@ import { PropsWithChildren } from 'react';
 import styles from './ReviewItem.module.css';
 import { modifyScore } from '@/util/forms';
 import classNames from 'classnames';
-import Image from 'next/image';
 import { useAppContext } from '@/context/app';
-import { ReleaseContent } from '@/components/Atoms/ReleaseMeta';
+import { Avatar, ReleaseContent } from '@/components/Atoms/ReleaseMeta';
 
 interface ReviewItemContent extends PropsWithChildren {
   content: string;
@@ -45,11 +44,11 @@ export const ReviewItemContent = (props: ReviewItemContent) => {
       {user.name && user.image && (
         <div className={styles.ReviewItemByline}>
           <cite>By {user.name}</cite>
-          <Image
+          <Avatar
             alt={`${user.name} image`}
             width={75}
             height={75}
-            src={user.image.square}
+            src={user.image}
           />
         </div>
       )}

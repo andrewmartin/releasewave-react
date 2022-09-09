@@ -14,7 +14,7 @@ export const Input = (
   return (
     <input
       className={classNames(INPUT_BASE_STYLES, {
-        className: Boolean(className),
+        [`${className}`]: Boolean(className),
       })}
       type="text"
       {...restProps}
@@ -72,7 +72,7 @@ export const Select = (
   return (
     <select
       className={classNames(`p-6 w-full`, {
-        className: Boolean(className),
+        [`${className}`]: Boolean(className),
       })}
       {...restProps}
     >

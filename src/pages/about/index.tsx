@@ -19,7 +19,7 @@ export default function About(props: IAboutServerSideProps) {
   return (
     <div className={`p-12 flex justify-start max-w-[800px] flex-wrap m-auto`}>
       <Head {...seo} />
-      <h2 className="w-full text-3xl font-bold tracking-tighter mb-12">
+      <h2 className="w-full text-2xl md:!text-3xl font-bold tracking-tighter mb-12">
         About
       </h2>
       <div className={`${atomStyles.EmphasisContent}`}>
@@ -49,13 +49,13 @@ export default function About(props: IAboutServerSideProps) {
           users.map((user) => {
             return (
               <a
-                className={`${atomStyles.ReleaseLink} flex items-center mx-6 my-12`}
+                className={`${atomStyles.ReleaseLink} flex items-center justify-center md:justify-start flex-wrap md:px-6 my-12`}
                 href={`mailto:${user.email}`}
                 key={user.id}
               >
                 <Avatar src={user.image.square} alt={`image of ${user.name}`} />
-                <span className="ml-8 w-full flex flex-wrap items-center">
-                  <strong className="text-[1.2em] tracking-tighter font-bold leading-[0.8]">
+                <span className="md:ml-8 md:mt-0 mt-4 flex flex-wrap items-center justify-center md:justify-start text-center md:text-left">
+                  <strong className="w-full text-[1.2em] tracking-tighter font-bold leading-[0.8]">
                     {user.name}
                   </strong>
                   <span className="block w-full">{user.email}</span>
@@ -66,13 +66,13 @@ export default function About(props: IAboutServerSideProps) {
         <h3 className="my-8 text-[1.8em] font-bold tracking-tighter border-b-2 border-gray-200 inline-block">
           Social
         </h3>
-        <div className="ml-8 flex align-center items-center space-x-6">
+        <div className="md:ml-8 flex-wrap flex align-center items-center space-x-6">
           <a
             className={`${atomStyles.ArtistLink} flex align-center items-center space-x-6`}
             href="https://instagram.com/releasewave"
           >
             <ImInstagram size={50} />
-            <span className="md:text-[1.8em] text-[1.2em] font-bold tracking-tighter">
+            <span className="text-[0.9em] md:text-[1.2em] font-bold tracking-tighter">
               @releasewave
             </span>
           </a>

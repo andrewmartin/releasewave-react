@@ -13,7 +13,7 @@ export const Header: FC = () => {
   return (
     <>
       <MobileNavMenu onClose={() => setOpen(false)} isOpen={open} />
-      <Headroom>
+      <Headroom pinStart={150}>
         <div className="mb-12">
           <SearchBarWrapper />
           <div className={styles.Header}>

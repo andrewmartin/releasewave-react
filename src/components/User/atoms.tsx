@@ -43,7 +43,8 @@ const Logout: FC<{
 
 export const AdminNav: FC<{
   itemClassName: string;
-}> = ({ itemClassName }) => {
+  onClose?: () => void;
+}> = ({ itemClassName, onClose }) => {
   const { dispatch } = useAppContext();
 
   return (
@@ -56,10 +57,10 @@ export const AdminNav: FC<{
         </li>
       )}
     >
-      <li>
+      <li onClick={onClose && onClose}>
         <Logout itemClassName={itemClassName} />
       </li>
-      <li>
+      <li onClick={onClose && onClose}>
         <Link href="/admin">
           <a className={itemClassName}>Admin</a>
         </Link>

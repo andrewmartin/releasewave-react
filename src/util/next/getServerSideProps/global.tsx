@@ -1,7 +1,7 @@
 import { GetServerSideProps, GetServerSidePropsResult } from 'next';
 import IServerSideProps from '@/types/App';
 import { serverSideFetch } from './api';
-import { hasLoggedInHeaders } from '@/util/cookie';
+import { clearServerCookies, hasLoggedInHeaders } from '@/util/cookie';
 import { SiteOption } from '@/types/Data';
 import { buildDateRange } from '@/util/date';
 
@@ -24,7 +24,7 @@ export const globalServerSideProps: GetServerSideProps<
       siteOption = data;
     }
   } catch (error: any) {
-    console.log(`error`, error);
+    console.log(`globalServerSideProps getOptions`, error);
   }
   const dateRange = buildDateRange(siteOption);
 
@@ -58,7 +58,11 @@ export const globalServerSideProps: GetServerSideProps<
       },
     };
   } catch (error: any) {
-    console.log(`globalServerSideProps error`, error.toString());
+    console.log(
+      `globalServerSideProps getCurrentUser error. clearing cookies`,
+      error.toString(),
+    );
+    clearServerCookies(context);
     return withoutUser();
   }
 };

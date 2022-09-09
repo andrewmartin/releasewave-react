@@ -36,6 +36,14 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  image: string;
+  is_admin: boolean;
+}
+
+export interface GetUser extends Omit<User, 'image'> {
+  id: number;
+  name: string;
+  email: string;
   image: PaperClipImage;
   is_admin: boolean;
 }

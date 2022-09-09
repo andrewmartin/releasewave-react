@@ -1,11 +1,11 @@
 import IServerSideProps, { ServerSideChecks } from '@/types/App';
 import { globalServerSideProps } from './global';
 import { AXIOS } from '@/api/axios';
-import { User, RailsCollectionResponse, Release } from '@/types/Data';
+import { User, RailsCollectionResponse, Release, GetUser } from '@/types/Data';
 import { ParsedUrlQuery } from 'querystring';
 
 export interface IAboutServerSideProps extends Partial<IServerSideProps> {
-  users?: User[];
+  users?: GetUser[];
   isEditing?: boolean;
 }
 

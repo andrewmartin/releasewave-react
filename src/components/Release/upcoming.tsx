@@ -97,8 +97,11 @@ export const ReleasesCollectionContainer: FC<PropsWithChildren> = () => {
   };
 
   return (
-    <div className="p-12">
-      <h2 ref={titleRef} className="font-extrabold tracking-tighter text-3xl">
+    <div className="p-6 md:p-12">
+      <h2
+        ref={titleRef}
+        className="font-extrabold tracking-tighter text-2xl md:!text-3xl"
+      >
         Our Releases
       </h2>
       <div className="mb-4">
@@ -126,7 +129,7 @@ export const ReleasesCollectionContainer: FC<PropsWithChildren> = () => {
         current_page={current_page}
         onSelectPage={onSelectPage}
       />
-      <div className="xl:grid xl:grid-cols-3 gap-12">
+      <div className="grid grid-cols-2 md:!grid-cols-3 md:!gap-12">
         {releases?.items?.map((release) => (
           <ReleaseCollectionItem {...release} key={release.id} />
         ))}

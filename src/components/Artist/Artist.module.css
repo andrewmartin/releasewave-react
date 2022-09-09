@@ -14,7 +14,7 @@
 }
 
 .FeaturedArtistContent h2 {
-  @apply font-extrabold tracking-tighter text-3xl w-full mb-8;
+  @apply font-extrabold tracking-tighter text-2xl md:!text-3xl w-full mb-8;
 }
 
 .FeaturedArtistContent span {
@@ -50,7 +50,7 @@
 
 /* artist page */
 .ArtistPage {
-  @apply flex w-full px-12 py-20 flex-wrap;
+  @apply flex w-full md:px-12 md:py-20 flex-wrap;
 }
 
 .ArtistPageContent {
@@ -87,11 +87,11 @@
 }
 
 .ArtistCollectionItem {
-  @apply w-full my-5 mb-0;
+  @apply w-full my-5 mb-0 flex flex-wrap items-center justify-center md:block;
 }
 
 .ArtistCollectionItemImage {
-  @apply w-full flex items-center justify-center relative mb-8;
+  @apply w-full flex items-center justify-center relative mb-4 md:mb-8;
 }
 
 .ArtistCollectionItemImage img {
@@ -102,7 +102,7 @@
 }
 
 .ArtistCollectionItemContent h2 {
-  @apply font-extrabold tracking-tighter text-[2.5em] w-full mb-3 mt-0;
+  @apply font-extrabold tracking-tighter md:text-[1.5em] md:text-[2.5em] w-full md:mb-3 mt-0 text-center md:text-left;
 }
 
 .ArtistCollectionItemContent span {
