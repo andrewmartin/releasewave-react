@@ -1,4 +1,5 @@
 import { AXIOS } from '@/api/axios';
+import { FilterOnChangeValues } from '@/components/Forms/Filter';
 import { RailsCollectionResponse, Release, Review } from '@/types/Data';
 import { CONFIRM } from '@/util/constants';
 import { GetServerSidePropsContext } from 'next';
@@ -6,6 +7,7 @@ import { Dispatch } from 'react';
 import toast from 'react-hot-toast';
 import { FetchType, ReleaseAction } from '.';
 import { AppAction } from '../app';
+import { ArtistAction } from '../artist';
 import { actionHelperCatch, genericErrorAction } from '../helpers/api';
 
 export type ReleaseFormValues = Partial<Omit<Release, 'image'>> & {
@@ -231,3 +233,15 @@ export const getReleases: onGetReleases<ReleaseAction> =
       onSuccess();
     } catch (error) {}
   };
+
+export const onChangeDate = (dispatchRelease: Dispatch<ReleaseAction>) => {
+  return ({ start_date, end_date }: FilterOnChangeValues) => {
+    getReleases(dispatchRelease, {
+      page: 1,
+      start_date,
+      end_date,
+    })(() => {
+      return;
+    });
+  };
+};

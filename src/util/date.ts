@@ -1,5 +1,5 @@
 import moment from 'moment';
-export const SERVER_DATE_FORMAT = `MMMM Do, YYYY`;
+export const SERVER_DATE_FORMAT = `YYYY-MM-DD`;
 export const FRONTEND_DATE_FORMAT = `MMMM Do, YYYY`;
 
 export const formatDate = (date: string) =>
@@ -24,10 +24,10 @@ export const buildDateRange = (
 
   const start_date = moment(currentDate())
     .subtract(featured_date_window_before, `days`)
-    .format(`YYYY-MM-DD`);
+    .format(SERVER_DATE_FORMAT);
   const end_date = moment(currentDate())
     .add(featured_date_window_after, `days`)
-    .format(`YYYY-MM-DD`);
+    .format(SERVER_DATE_FORMAT);
 
   return {
     start_date,

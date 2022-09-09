@@ -3,10 +3,11 @@ import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import styles from './Release.module.css';
 import { useReleaseContext } from '@/context/release';
 import { Pagination } from '../Pagination';
-import { getReleases } from '@/context/release/api';
+import { getReleases, onChangeDate } from '@/context/release/api';
 import { usePrevious } from 'react-use';
 import { ReleaseItem } from './item';
 import { ReleaseContent } from '../Atoms/ReleaseMeta';
+import { Filter, FilterOnChangeValues } from '../Forms/Filter';
 
 const UpcomingRelease = (release: Release) => {
   const linkHref = `/releases/${release.slug}`;
@@ -103,6 +104,7 @@ export const ReleasesCollectionContainer: FC<PropsWithChildren> = () => {
           All of the releases we recommend. Nothing more, nothing less.
         </p>
       </div>
+      <Filter onChange={onChangeDate(dispatchRelease)} />
       <Pagination
         per_page={per_page}
         total_entries={total_entries}

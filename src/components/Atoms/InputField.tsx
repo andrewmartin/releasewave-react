@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 export const INPUT_BASE_STYLES = `w-full text-base border-gray-200 border-spacing-2 border-2 p-6 leading-8`;
 
@@ -56,5 +56,27 @@ export const Checkbox = (
       type="checkbox"
       {...restProps}
     />
+  );
+};
+
+export const Select = (
+  props: PropsWithChildren<
+    React.DetailedHTMLProps<
+      React.InputHTMLAttributes<HTMLSelectElement>,
+      HTMLSelectElement
+    >
+  >,
+) => {
+  const { children, className, ...restProps } = props;
+
+  return (
+    <select
+      className={classNames(`p-6 w-full`, {
+        className: Boolean(className),
+      })}
+      {...restProps}
+    >
+      {children}
+    </select>
   );
 };

@@ -127,7 +127,6 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
   const today = getToday();
   const futureDate = isFutureDate(today);
   const purchaseText = futureDate ? `Pre-Order` : `Purchase`;
-  console.log(`name`, name);
   const title =
     artist && artist.name ? `${name} by ${artist.name}` : name || ``;
 
