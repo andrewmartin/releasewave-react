@@ -31,7 +31,7 @@ export default function Admin(props: IServerSideProps) {
       onSubmit={formik.handleSubmit}
       className={`p-12 flex justify-start w-full flex-wrap`}
     >
-      <h2 className="text-2xl md:!text-3xl font-bold tracking-tighter mb-12">
+      <h2 className="text-2xl md:!text-3xl font-bold tracking-[-0.045em] mb-12">
         Admin Controls
       </h2>
       <div className="w-full">

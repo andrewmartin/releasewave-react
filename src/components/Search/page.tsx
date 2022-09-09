@@ -193,13 +193,13 @@ export const SearchPage: FC<SearchPage> = (props) => {
         {/* <InlineLoadingContainer /> */}
       </div>
       {searchTerm && (
-        <h2 className="text-2xl md:!text-3xl font-bold tracking-tighter mb-12">
+        <h2 className="text-2xl md:!text-3xl font-bold tracking-[-0.045em] mb-12">
           {`Search for "${searchTerm}"`}
         </h2>
       )}
       <section className="grid grid-cols-2 gap-6">
         <div>
-          <h2 className="text-4xl font-bold tracking-tighter mb-16 border-b-2 border-gray-200 inline-block">
+          <h2 className="text-4xl font-bold tracking-[-0.045em] mb-16 border-b-2 border-gray-200 inline-block">
             Releases
           </h2>
           {releases?.items.map((release) => {
@@ -230,7 +230,7 @@ export const SearchPage: FC<SearchPage> = (props) => {
           )}
         </div>
         <div>
-          <h2 className="text-4xl font-bold tracking-tighter mb-16 border-b-2 border-gray-200 inline-block">
+          <h2 className="text-4xl font-bold tracking-[-0.045em] mb-16 border-b-2 border-gray-200 inline-block">
             Artists
           </h2>
           {artists?.items.map((artist) => {

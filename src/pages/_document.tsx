@@ -5,12 +5,11 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          {/* <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> */}
           <link
-            href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter&display=optional"
             rel="stylesheet"
           />
-          <link rel="stylesheet" href="https://use.typekit.net/tcw0xsq.css" />
-          <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         </Head>
         <body>
           <Main />

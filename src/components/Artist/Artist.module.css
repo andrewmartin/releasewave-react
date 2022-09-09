@@ -14,7 +14,7 @@
 }
 
 .FeaturedArtistContent h2 {
-  @apply font-extrabold tracking-tighter text-2xl md:!text-3xl w-full mb-8;
+  @apply font-extrabold tracking-[-0.045em] text-2xl md:!text-3xl w-full mb-8;
 }
 
 .FeaturedArtistContent span {
@@ -41,7 +41,7 @@
 }
 
 .UpcomingArtistContent h2 {
-  @apply font-extrabold tracking-tighter text-2xl w-full mb-3 mt-0;
+  @apply font-extrabold tracking-[-0.045em] text-2xl w-full mb-3 mt-0;
 }
 
 .UpcomingArtistContent span {
@@ -63,7 +63,7 @@
   @apply inline-block p-8;
 }
 .ArtistPageTitle {
-  @apply text-[3em] md:text-[6em] font-bold tracking-tighter leading-[0.9] mb-12;
+  @apply text-[3em] md:text-[6em] font-bold tracking-[-0.045em] leading-[0.9] mb-12;
 }
 .ArtistPageArt {
   @apply w-full lg:w-1/3 justify-center lg:justify-end lg:pr-0 flex items-end lg:items-start lg:mt-0 my-8 lg:my-0 md:pr-16 lg:order-1;
@@ -79,7 +79,7 @@
 }
 
 .ArtistItemContent h2 {
-  @apply text-[4em] font-bold tracking-tighter leading-[0.9] mb-12;
+  @apply text-[4em] font-bold tracking-[-0.045em] leading-[0.9] mb-12;
 }
 
 .ArtistItemContent span {
@@ -102,7 +102,7 @@
 }
 
 .ArtistCollectionItemContent h2 {
-  @apply font-extrabold tracking-tighter md:text-[1.5em] md:text-[2.5em] w-full md:mb-3 mt-0 text-center md:text-left;
+  @apply font-extrabold tracking-[-0.045em] md:text-[1.5em] md:text-[2.5em] w-full md:mb-3 mt-0 text-center md:text-left;
 }
 
 .ArtistCollectionItemContent span {

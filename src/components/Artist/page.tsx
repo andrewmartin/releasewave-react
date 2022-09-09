@@ -194,7 +194,7 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
             })}
           >
             {short_description && (
-              <h2 className="text-[1.5em] md:!text-[2em] font-bold tracking-tighter mb-6">
+              <h2 className="text-[1.5em] md:!text-[2em] font-bold tracking-[-0.045em] mb-6">
                 About this Artist
               </h2>
             )}
@@ -216,7 +216,7 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
           {!isEditing && (
             <div className="mb-8 p-8 md:mb-16 w-full bg-white md:p-16 box-item">
               <section className="mb-24">
-                <h2 className="text-[1.5em] md:!text-[2em] font-bold tracking-tighter mb-6">
+                <h2 className="text-[1.5em] md:!text-[2em] font-bold tracking-[-0.045em] mb-6">
                   Releases
                 </h2>
                 <cite className="text-base text-gray-500">

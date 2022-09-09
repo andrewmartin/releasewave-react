@@ -131,7 +131,7 @@ export const CreateReviewForm = () => {
           />
         </div>
 
-        <h2 ref={titleRef} className="text-2xl tracking-tighter font-bold">
+        <h2 ref={titleRef} className="text-2xl tracking-[-0.045em] font-bold">
           Create Review
         </h2>
         <div className="mb-4">

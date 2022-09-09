@@ -19,12 +19,12 @@ export default function About(props: IAboutServerSideProps) {
   return (
     <div className={`p-12 flex justify-start max-w-[800px] flex-wrap m-auto`}>
       <Head {...seo} />
-      <h3 className="font-bold tracking-tighter text-[2em] md:!text-[3em] border-b-2 border-b-gray-300 mb-4 inline-block leading-[1]">
+      <h3 className="font-bold tracking-[-0.045em] text-[2em] md:!text-[3em] border-b-2 border-b-gray-300 mb-4 inline-block leading-[1]">
         About
       </h3>
       <div className={`${atomStyles.EmphasisContent}`}>
         <p>
-          <strong className="tracking-tighter text-[1.2em] font-bold text-pink">
+          <strong className="tracking-[-0.045em] text-[1.2em] font-bold text-pink">
             Release Wave
           </strong>
           {` `}
@@ -34,11 +34,11 @@ export default function About(props: IAboutServerSideProps) {
           genres.{` `}
         </p>
 
-        <h3 className="font-bold tracking-tighter text-[1.5em] md:!text-[2em] border-b-2 border-b-gray-300 mb-4 inline-block mt-16 leading-[1]">
+        <h3 className="font-bold tracking-[-0.045em] text-[1.5em] md:!text-[2em] border-b-2 border-b-gray-300 mb-4 inline-block mt-16 leading-[1]">
           Contact Us
         </h3>
         <p>
-          <strong className="tracking-tighter text-[1.2em] font-bold text-pink">
+          <strong className="tracking-[-0.045em] text-[1.2em] font-bold text-pink">
             Release Wave
           </strong>
           {` `}
@@ -55,7 +55,7 @@ export default function About(props: IAboutServerSideProps) {
               >
                 <Avatar src={user.image.square} alt={`image of ${user.name}`} />
                 <span className="md:ml-8 md:mt-0 mt-4 flex flex-wrap items-center justify-center md:justify-start text-center md:text-left">
-                  <strong className="w-full text-[1.2em] tracking-tighter font-bold leading-[0.8]">
+                  <strong className="w-full text-[1.2em] tracking-[-0.045em] font-bold leading-[0.8]">
                     {user.name}
                   </strong>
                   <span className="block w-full">{user.email}</span>
@@ -63,7 +63,7 @@ export default function About(props: IAboutServerSideProps) {
               </a>
             );
           })}
-        <h3 className="my-8 text-[1.8em] font-bold tracking-tighter border-b-2 border-gray-200 inline-block">
+        <h3 className="my-8 text-[1.8em] font-bold tracking-[-0.045em] border-b-2 border-gray-200 inline-block">
           Social
         </h3>
         <div className="md:ml-8 flex-wrap flex align-center items-center space-x-6">
@@ -72,7 +72,7 @@ export default function About(props: IAboutServerSideProps) {
             href="https://instagram.com/releasewave"
           >
             <ImInstagram size={50} />
-            <span className="text-[0.9em] md:text-[1.2em] font-bold tracking-tighter">
+            <span className="text-[0.9em] md:text-[1.2em] font-bold tracking-[-0.045em]">
               @releasewave
             </span>
           </a>

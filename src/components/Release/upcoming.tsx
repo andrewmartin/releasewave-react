@@ -35,7 +35,7 @@ export const UpcomingReleaseContainer: FC<PropsWithChildren> = () => {
   return (
     <>
       <div className="mb-4 pb-8 border-b-2 border-gray-100">
-        <h2 className="font-extrabold tracking-tighter text-[1.5em] md:!text-[1.8em] border-b-2 border-b-gray-300 mb-4 inline-block leading-[1]">
+        <h2 className="font-extrabold tracking-[-0.045em] text-[1.5em] md:!text-[1.8em] border-b-2 border-b-gray-300 mb-4 inline-block leading-[1]">
           Upcoming Releases
         </h2>
         <p className="italic text-gray-500">
@@ -106,7 +106,7 @@ export const ReleasesCollectionContainer: FC<PropsWithChildren> = () => {
     <div className="p-6 md:p-12">
       <h2
         ref={titleRef}
-        className="font-extrabold tracking-tighter text-2xl md:!text-3xl"
+        className="font-extrabold tracking-[-0.045em] text-2xl md:!text-3xl"
       >
         Our Releases
       </h2>

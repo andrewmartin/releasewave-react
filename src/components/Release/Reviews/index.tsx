@@ -113,7 +113,7 @@ export const Reviews = () => {
   const { items: reviews } = state.reviews;
 
   return (
-    <div className="max-w-[90%] md:max-w[80%] w-full ml-auto mr-auto mt-16">
+    <div className="max-w-[85%] w-full ml-auto mr-auto mt-16">
       {reviews.map((review) => {
         return <ReviewItem {...review} key={review.id} />;
       })}

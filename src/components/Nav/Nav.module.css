@@ -13,7 +13,7 @@
 }
 
 .NavItemActive {
-  @apply text-pink font-bold tracking-tighter;
+  @apply text-pink font-bold tracking-[-0.045em];
 }
 
 .NavList {
@@ -38,7 +38,7 @@
 }
 
 .MobileNavItem {
-  @apply font-bold text-xl tracking-tighter block p-4 hover:bg-pink hover:text-white transition-all w-full text-left;
+  @apply font-bold text-xl tracking-[-0.045em] block p-4 hover:bg-pink hover:text-white transition-all w-full text-left;
 }
 
 .MobileNavItemActive {

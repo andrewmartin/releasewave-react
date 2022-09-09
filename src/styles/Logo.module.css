@@ -4,7 +4,7 @@
 }
 
 .Logo h1 {
-  @apply flex items-center justify-start text-4xl tracking-tighter;
+  @apply flex items-center justify-start text-4xl tracking-[-0.045em];
   font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif;
 }
 

@@ -23,7 +23,7 @@
 }
 
 .FooterEmphasis h3 {
-  @apply text-[2em] font-bold tracking-tighter w-full mb-4;
+  @apply text-[2em] font-bold tracking-[-0.045em] w-full mb-4;
 }
 
 .FooterEmphasis cite {

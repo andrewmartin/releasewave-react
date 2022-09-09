@@ -64,7 +64,7 @@ export const ArtistsCollectionContainer: FC<PropsWithChildren> = () => {
     <div className="p-4 md:p-12">
       <h2
         ref={titleRef}
-        className="font-extrabold tracking-tighter text-2xl md:!text-3xl"
+        className="font-extrabold tracking-[-0.045em] text-2xl md:!text-3xl"
       >
         Our Artists
       </h2>
