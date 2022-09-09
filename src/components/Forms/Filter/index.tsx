@@ -27,29 +27,35 @@ const FORMATS = {
 export type FilterOnChangeValues = { start_date: string; end_date: string };
 interface Filter {
   onChange: (values: FilterOnChangeValues) => void;
+  onReset: () => void;
 }
 
-export const Filter: FC<Filter> = ({ onChange }) => {
+export const Filter: FC<Filter> = ({ onChange, onReset }) => {
   const [year, setYear] = useState(moment().format(FORMATS.YEAR));
   const [month, setMonth] = useState(moment().format(FORMATS.MONTH));
 
   const YEARS = [
+    moment().subtract(3, `year`),
+    moment().subtract(2, `year`),
     moment().subtract(1, `year`),
     moment(),
     moment().add(1, `year`),
   ];
 
-  useEffect(() => {
-    // assume first day
-    const start_date = moment(`${year}-${month}-01`).format(SERVER_DATE_FORMAT);
-    const end_date = moment(`${year}-${month}-01`)
+  const sendOnChange = (yearEventValue?: string, monthEventValue?: string) => {
+    const dateString = `${yearEventValue || year}-${
+      monthEventValue || month
+    }-01`;
+
+    const start_date = moment(dateString).format(SERVER_DATE_FORMAT);
+    const end_date = moment(dateString)
       .add(1, `month`)
       .format(SERVER_DATE_FORMAT);
     onChange({
       start_date,
       end_date,
     });
-  }, [year, month, onChange]);
+  };
 
   return (
     <div className="w-full my-12 pb-12 flex items-center justify-center space-x-4">
@@ -57,27 +63,27 @@ export const Filter: FC<Filter> = ({ onChange }) => {
         Filter Results
       </h3>
       <Select
+        defaultValue={year}
         onChange={(event) => {
           setYear(event.currentTarget.value);
+          sendOnChange(event.currentTarget.value);
         }}
       >
         <option disabled>Select a year</option>
         {YEARS.map((yearItem) => {
           const yearValue = yearItem.format(FORMATS.YEAR);
           return (
-            <option
-              selected={yearValue === year}
-              key={yearValue}
-              value={yearValue}
-            >
+            <option key={yearValue} value={yearValue}>
               {yearValue}
             </option>
           );
         })}
       </Select>
       <Select
+        defaultValue={month}
         onChange={(event) => {
           setMonth(event.currentTarget.value);
+          sendOnChange(undefined, event.currentTarget.value);
         }}
       >
         <option disabled value="">
@@ -85,16 +91,15 @@ export const Filter: FC<Filter> = ({ onChange }) => {
         </option>
         {MONTHS.map((monthItem) => {
           return (
-            <option
-              selected={monthItem === month}
-              key={monthItem}
-              value={monthItem}
-            >
+            <option key={monthItem} value={monthItem}>
               {monthItem}
             </option>
           );
         })}
       </Select>
+      <button onClick={onReset} className="btn btn-primary">
+        Reset
+      </button>
     </div>
   );
 };

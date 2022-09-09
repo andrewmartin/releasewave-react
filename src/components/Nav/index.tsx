@@ -29,7 +29,6 @@ export const NavList: FC<{
 }> = ({ ulClassName, itemClassName, showLogin, itemActiveClassName }) => {
   const { dispatch } = useAppContext();
   const { pathname } = useRouter();
-  console.log(`pathname`, pathname);
 
   return (
     <ul className={ulClassName}>

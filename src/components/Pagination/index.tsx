@@ -12,7 +12,6 @@ export function Pagination(props: PropsWithChildren<Pagination>) {
   const totalPages = Math.ceil(total_entries / per_page);
 
   const handlePageClick = (event: { selected: number }) => {
-    console.log(`event.selected`, event.selected);
     const itemIndex = event.selected;
     // add 1, this is an index based value
     onSelectPage(itemIndex + 1);

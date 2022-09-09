@@ -219,6 +219,12 @@ type onGetReleases<Action> = (
 export const getReleases: onGetReleases<ReleaseAction> =
   (dispatch, params = {}) =>
   async (onSuccess) => {
+    dispatch({
+      type: `start`,
+      fetchType: `review`,
+      isFetching: true,
+    });
+
     try {
       const { data } = await AXIOS().instance.get<
         RailsCollectionResponse<Release>
@@ -233,15 +239,3 @@ export const getReleases: onGetReleases<ReleaseAction> =
       onSuccess();
     } catch (error) {}
   };
-
-export const onChangeDate = (dispatchRelease: Dispatch<ReleaseAction>) => {
-  return ({ start_date, end_date }: FilterOnChangeValues) => {
-    getReleases(dispatchRelease, {
-      page: 1,
-      start_date,
-      end_date,
-    })(() => {
-      return;
-    });
-  };
-};

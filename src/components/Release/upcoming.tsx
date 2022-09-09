@@ -1,13 +1,24 @@
 import { Release } from '@/types/Data';
-import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
+import React, {
+  FC,
+  PropsWithChildren,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styles from './Release.module.css';
 import { useReleaseContext } from '@/context/release';
 import { Pagination } from '../Pagination';
-import { getReleases, onChangeDate } from '@/context/release/api';
-import { usePrevious } from 'react-use';
+import {
+  getReleases,
+  getReleasesByFilter,
+  onChangeDate,
+} from '@/context/release/api';
+import { useFirstMountState, usePrevious } from 'react-use';
 import { ReleaseItem } from './item';
 import { ReleaseContent } from '../Atoms/ReleaseMeta';
 import { Filter, FilterOnChangeValues } from '../Forms/Filter';
+import toast from 'react-hot-toast';
 
 const UpcomingRelease = (release: Release) => {
   const linkHref = `/releases/${release.slug}`;
@@ -75,11 +86,12 @@ const ReleaseCollectionItem = (release: Release) => {
 export const ReleasesCollectionContainer: FC<PropsWithChildren> = () => {
   const {
     dispatch: dispatchRelease,
-    state: { releases },
+    state: { releases, fetching: fetchingRelease },
   } = useReleaseContext();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const { current_page, per_page, total_entries } = releases!;
   const previousPage = usePrevious(current_page);
+
   useEffect(() => {
     if (titleRef.current && current_page !== previousPage) {
       titleRef.current.scrollIntoView({ behavior: `smooth` });
@@ -104,7 +116,20 @@ export const ReleasesCollectionContainer: FC<PropsWithChildren> = () => {
           All of the releases we recommend. Nothing more, nothing less.
         </p>
       </div>
-      <Filter onChange={onChangeDate(dispatchRelease)} />
+      <Filter
+        onReset={() => {
+          onSelectPage(1);
+        }}
+        onChange={({ start_date, end_date }) => {
+          getReleases(dispatchRelease, {
+            page: 1,
+            start_date,
+            end_date,
+          })(() => {
+            toast(`fetched releases between ${start_date} and ${end_date}!`);
+          });
+        }}
+      />
       <Pagination
         per_page={per_page}
         total_entries={total_entries}

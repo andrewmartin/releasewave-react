@@ -10,18 +10,22 @@ export const globalServerSideProps: GetServerSideProps<
 > = async (context): Promise<GetServerSidePropsResult<IServerSideProps>> => {
   const url = context.req.url; // e.g. context.req.url = /search/armor
 
+  let siteOption: SiteOption = {
+    id: 999,
+    featured_date_window_after: 15,
+    featured_date_window_before: 15,
+    name: `staticOptions`,
+  };
+
   const fullUrl = `${process.env.NEXT_SITE_ROOT}${url}`;
-  const { data } = await serverSideFetch(context).getOptions();
-
-  const siteOption: SiteOption = data?.id
-    ? data
-    : {
-        id: 999,
-        featured_date_window_after: 15,
-        featured_date_window_before: 15,
-        name: `staticOptions`,
-      };
-
+  try {
+    const { data } = await serverSideFetch(context).getOptions();
+    if (data?.id) {
+      siteOption = data;
+    }
+  } catch (error) {
+    console.log(`error`, error);
+  }
   const dateRange = buildDateRange(siteOption);
 
   const withoutUser = () => {

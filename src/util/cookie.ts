@@ -64,7 +64,7 @@ export const hasLoggedInHeaders = (
 ): boolean => {
   let found = false;
 
-  HEADERS.map((headerName) => {
+  [`access-token`].map((headerName) => {
     const headerValue = context.req.cookies[`${COOKIE_PREFIX}_${headerName}`];
     if (headerValue) {
       found = true;
