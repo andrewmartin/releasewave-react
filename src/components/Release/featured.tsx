@@ -35,7 +35,11 @@ export const FeaturedRelease = (release: Release) => {
         <span>
           <FirstArtistForRelease {...release} />
         </span>
-        <ReleaseContent content={release.description} trim={500} />
+        <ReleaseContent
+          className={styles.HomeReleaseContent}
+          content={release.description}
+          trim={350}
+        />
       </div>
     </div>
   );

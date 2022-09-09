@@ -6,9 +6,9 @@
 }
 
 .container > div > section {
-  @apply p-8 md:w-[60%] w-full;
+  @apply p-6 md:p-8 md:w-[60%] w-full;
 }
 
 .container > div > aside {
-  @apply p-8 md:w-[40%] text-gray-800 w-full;
+  @apply p-6 md:p-8 md:w-[40%] text-gray-800 w-full;
 }

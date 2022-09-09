@@ -1,9 +1,9 @@
 .FeaturedRelease {
-  @apply w-full my-5 mb-16 text-[1.3em] leading-[1.2];
+  @apply w-full my-5 mb-8 md:mb-16 text-[1.3em] leading-[1.2];
 }
 
 .FeaturedReleaseImage {
-  @apply w-full flex items-center justify-center relative mb-8;
+  @apply w-full flex items-center justify-center relative mb-8 max-w-xs m-auto md:max-w-none;
 }
 
 .FeaturedReleaseImage img {
@@ -14,7 +14,7 @@
 }
 
 .FeaturedReleaseContent h2 {
-  @apply font-extrabold tracking-tighter text-2xl md:!text-3xl w-full mb-8 mt-8 md:mt-20;
+  @apply font-extrabold tracking-tighter text-2xl md:!text-3xl w-full my-4 md:mt-20;
 }
 
 .FeaturedReleaseContent span {
@@ -39,6 +39,10 @@
 
 .UpcomingReleaseImage img {
   @apply w-1/2 px-7;
+}
+
+.HomeReleaseContent {
+  @apply mt-4 text-sm md:text-base leading-[2];
 }
 
 .UpcomingReleaseContent {

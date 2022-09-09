@@ -9,6 +9,7 @@ import { ReleaseItem } from './item';
 import { ReleaseContent } from '../Atoms/ReleaseMeta';
 import { Filter } from '../Forms/Filter';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 const UpcomingRelease = (release: Release) => {
   const linkHref = `/releases/${release.slug}`;
@@ -41,10 +42,15 @@ export const UpcomingReleaseContainer: FC<PropsWithChildren> = () => {
           A curated set of our recommended releases
         </p>
       </div>
-      <div className="xl:grid xl:grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8">
         {releases?.items?.map((release) => (
           <UpcomingRelease {...release} key={release.id} />
         ))}
+      </div>
+      <div className="flex w-full items-center justify-center my-8">
+        <Link href="/releases">
+          <a className="btn btn-primary">View All Releases</a>
+        </Link>
       </div>
     </>
   );
