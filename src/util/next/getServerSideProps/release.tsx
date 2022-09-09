@@ -1,11 +1,11 @@
 import IServerSideProps, { ServerSideChecks } from '@/types/App';
-import { GetServerSideProps } from 'next';
 import { globalServerSideProps } from './global';
-import { AXIOS } from '@/api/axios';
 import { RailsCollectionResponse, Release, Review } from '@/types/Data';
 import { ParsedUrlQuery } from 'querystring';
 import { BlankRelease } from '@/util/mock';
 import { serverSideFetch } from './api';
+import { AxiosError } from 'axios';
+import { catchAxiosErrors, baseRedirect } from './api/helpers';
 export interface IReleaseServerSideProps extends Partial<IServerSideProps> {
   release?: Release;
   reviews?: RailsCollectionResponse<Review>;
@@ -74,6 +74,13 @@ export const releaseServerSideProps: ServerSideChecks<
       };
     } catch (error: any) {
       console.log(`error`, error.toString());
+
+      try {
+        catchAxiosErrors.notFound(error as AxiosError);
+      } catch (error: any) {
+        console.log(`error thrown from axiosHelpers`, error.toString());
+        return baseRedirect() as any; // todo fix
+      }
 
       return {
         props: {

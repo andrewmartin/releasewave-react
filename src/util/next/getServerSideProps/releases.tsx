@@ -3,6 +3,8 @@ import { GetServerSideProps } from 'next';
 import { globalServerSideProps } from './global';
 import { RailsCollectionResponse, Release } from '@/types/Data';
 import { serverSideFetch } from './api';
+import { AxiosError } from 'axios';
+import { catchAxiosErrors, baseRedirect } from './api/helpers';
 export interface IReleasesServerSideProps extends Partial<IServerSideProps> {
   featuredReleases?: RailsCollectionResponse<Release>;
   releases?: RailsCollectionResponse<Release>;
@@ -32,6 +34,13 @@ export const releasesServerSideProps: GetServerSideProps<
     };
   } catch (error: any) {
     console.log(`error`, error.toString());
+
+    try {
+      catchAxiosErrors.notFound(error as AxiosError);
+    } catch (error: any) {
+      console.log(`error thrown from axiosHelpers`, error.toString());
+      return baseRedirect();
+    }
 
     return {
       props: {

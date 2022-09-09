@@ -165,6 +165,49 @@ export const onCreateReview: OnCreateReview<
   }
 };
 
+export const onEditReview: OnCreateReview<
+  ReleaseAction,
+  CreateReviewFormValues
+> = (dispatch, appDispatch) => async (values, slug, onSuccess) => {
+  dispatch({
+    type: `start`,
+    fetchType: `review`,
+    isFetching: true,
+  });
+
+  try {
+    values.score = parseFloat(`${values.score}`).toFixed(2) as any;
+
+    const { data } = await AXIOS().instance.put<Review>(
+      `releases/${slug}/reviews/${values.id}`,
+      {
+        review: values,
+      },
+    );
+
+    onSuccess();
+
+    console.log(`data`, data);
+
+    dispatch({
+      type: `successEditReview`,
+      fetchType: `review`,
+      data,
+    });
+
+    toast(`review edited!`);
+  } catch (error: any) {
+    actionHelperCatch(error, appDispatch, () => {
+      dispatch(
+        genericErrorAction<ReleaseAction, FetchType>(
+          `review`,
+          error.toString(),
+        ),
+      );
+    });
+  }
+};
+
 type OnDeleteRelease<Action, Values> = (
   dispatch: Dispatch<Action>,
   appDispatch: Dispatch<AppAction>,

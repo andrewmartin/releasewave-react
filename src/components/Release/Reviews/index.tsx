@@ -5,7 +5,7 @@ import { WithCurrentUser } from '@/hooks/user';
 import { Review, User } from '@/types/Data';
 import { PropsWithChildren } from 'react';
 import styles from './ReviewItem.module.css';
-import { modifyScore } from '@/util/forms';
+import { highlightScore, modifyScore } from '@/util/forms';
 import classNames from 'classnames';
 import { useAppContext } from '@/context/app';
 import { Avatar, ReleaseContent } from '@/components/Atoms/ReleaseMeta';
@@ -32,7 +32,7 @@ export const ReviewItemContent = (props: ReviewItemContent) => {
         {score && (
           <span
             className={classNames({
-              [`${styles.ReviewItemHighScore}`]: parseInt(score) > 8.5,
+              [`${styles.ReviewItemHighScore}`]: highlightScore(score),
             })}
           >
             {scoreValue}
@@ -57,12 +57,12 @@ export const ReviewItemContent = (props: ReviewItemContent) => {
 };
 
 const ReviewItem = (review: Review) => {
-  const { state, dispatch } = useReleaseContext();
+  const { state, dispatch: dispatchRelease } = useReleaseContext();
   const { dispatch: appDispatch } = useAppContext();
   const { id, name, content, user_id, score } = review;
 
   const onDelete = async (id: number) => {
-    await onDeleteRelease(dispatch, appDispatch)(
+    await onDeleteRelease(dispatchRelease, appDispatch)(
       {
         id,
         releaseSlug: state?.release?.slug as string,
@@ -81,9 +81,23 @@ const ReviewItem = (review: Review) => {
       score={score!}
     >
       <WithCurrentUser userId={user_id || undefined}>
-        <button onClick={() => onDelete(id)} className="btn btn-secondary">
-          Delete
-        </button>
+        <div className="flex space-x-2">
+          <button onClick={() => onDelete(id)} className="btn btn-secondary">
+            Delete
+          </button>
+          <button
+            onClick={(event) => {
+              event.preventDefault();
+              dispatchRelease({
+                type: `setEditingReview`,
+                review,
+              });
+            }}
+            className="btn btn-secondary"
+          >
+            Edit
+          </button>
+        </div>
       </WithCurrentUser>
     </ReviewItemContent>
   );

@@ -81,6 +81,8 @@ export const LoadingContainer = () => {
     }, LOADING_DELAY);
   }, [fetching, fetchingArtist, fetchingRelease]);
 
+  // console.log('fetchingRelease', fetchingRelease);
+
   return <PortalLoader show={show} />;
 };
 

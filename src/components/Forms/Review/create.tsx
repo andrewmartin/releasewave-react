@@ -8,7 +8,11 @@ import {
   FormProvider,
 } from '@/context/app/form';
 import { useReleaseContext } from '@/context/release';
-import { CreateReviewFormValues, onCreateReview } from '@/context/release/api';
+import {
+  CreateReviewFormValues,
+  onCreateReview,
+  onEditReview,
+} from '@/context/release/api';
 import { Input } from '@/components/Atoms/InputField';
 import { ReviewItemContent } from '@/components/Release/Reviews';
 import { VALIDATIONS, DEFAULT_RICH_TEXT_EDITOR_COPY } from '@/util/constants';
@@ -21,8 +25,9 @@ export const CreateReviewForm = () => {
   const { isEditing, setIsEditing } = useFormContext();
   const previousEditing = usePrevious(isEditing);
   const {
-    state: { errors: serverErrors },
+    state: { review, errors: serverErrors },
   } = useReleaseContext();
+  const previousReview = usePrevious(review);
   const {
     dispatch: appDispatch,
     state: { user },
@@ -35,6 +40,12 @@ export const CreateReviewForm = () => {
     }
   }, [isEditing, previousEditing]);
 
+  useEffect(() => {
+    if (previousReview?.id !== review?.id && review) {
+      setIsEditing(true);
+    }
+  }, [isEditing, previousEditing, previousReview?.id, review, setIsEditing]);
+
   const {
     dispatch,
     state: { release },
@@ -42,13 +53,16 @@ export const CreateReviewForm = () => {
 
   const formik = useFormik<CreateReviewFormValues>({
     initialValues: {
-      id: ``,
-      name: ``,
-      content: ``,
-      score: ``,
+      id: review?.id ? `${review?.id}` : ``,
+      name: review?.name || ``,
+      content: review?.content || ``,
+      score: review?.score || ``,
     },
+    enableReinitialize: true,
     onSubmit: async (values) => {
-      await onCreateReview(dispatch, appDispatch)(
+      const action = review ? onEditReview : onCreateReview;
+
+      await action(dispatch, appDispatch)(
         values,
         release?.slug as string,
         () => {

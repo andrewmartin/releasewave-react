@@ -3,6 +3,8 @@ import { globalServerSideProps } from './global';
 import { Artist } from '@/types/Data';
 import { BlankArtist } from '@/util/mock';
 import { serverSideFetch } from './api';
+import { AxiosError } from 'axios';
+import { catchAxiosErrors, baseRedirect } from './api/helpers';
 export interface IArtistServerSideProps extends Partial<IServerSideProps> {
   artist?: Artist;
   isEditing?: boolean;
@@ -27,6 +29,7 @@ export const artistServerSideProps: ServerSideChecks<IArtistServerSideProps> = (
 
     if (checkAdmin) {
       const userIsAdmin = Boolean(globalProps?.user?.is_admin);
+
       if (!userIsAdmin) {
         return {
           redirect: {
@@ -71,7 +74,12 @@ export const artistServerSideProps: ServerSideChecks<IArtistServerSideProps> = (
         },
       };
     } catch (error: any) {
-      console.log(`error`, error.toString());
+      try {
+        catchAxiosErrors.notFound(error as AxiosError);
+      } catch (error: any) {
+        console.log(`error thrown from axiosHelpers`, error.toString());
+        return baseRedirect();
+      }
 
       return {
         props: {

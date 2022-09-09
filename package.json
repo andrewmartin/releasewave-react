@@ -11,7 +11,8 @@
     "typescript"
   ],
   "scripts": {
-    "dev": "next",
+    "clean": "rm -rf .next",
+    "dev": "yarn clean && next",
     "build": "NODE_ENV=production next build",
     "build:start": "NODE_ENV=production yarn build && next start",
     "start": "NODE_ENV=production next start",

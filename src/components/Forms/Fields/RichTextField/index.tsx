@@ -72,8 +72,6 @@ const serialize = (node: any) => {
     }
   });
 
-  console.log(`str`, str);
-
   return str;
 };
 

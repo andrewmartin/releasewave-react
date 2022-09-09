@@ -17,17 +17,23 @@ export type ReleaseAction =
   | { type: 'start'; fetchType: FetchType; isFetching: boolean }
   | { type: 'successEditOrCreate'; fetchType: FetchType; data: Release }
   | { type: 'successCreateReview'; fetchType: FetchType; data: Review }
+  | { type: 'successEditReview'; fetchType: FetchType; data: Review }
   | { type: 'successDeleteReview'; fetchType: FetchType; data: Review }
   | { type: 'done'; fetchType: FetchType }
   | {
       type: 'successGetReleases';
       fetchType: FetchType;
       data?: RailsCollectionResponse<Release>;
+    }
+  | {
+      type: 'setEditingReview';
+      review: Review;
     };
 
 interface ReleaseState {
   releases?: RailsCollectionResponse<Release>;
   reviews?: RailsCollectionResponse<Review>;
+  review?: Review;
   release?: Release;
   fetching: Map<FetchType, boolean>;
   errors: Map<FetchType, string | undefined>;
@@ -48,6 +54,7 @@ const initialState = {
     [`releases` as FetchType, undefined],
   ]),
   releases: undefined,
+  review: undefined,
 };
 
 function releaseReducer(
@@ -74,6 +81,12 @@ function releaseReducer(
         fetching: prevState.fetching.set(action.fetchType, false),
       };
     }
+    case `setEditingReview`: {
+      return {
+        ...prevState,
+        review: action.review,
+      };
+    }
     case `successEditOrCreate`: {
       return {
         ...prevState,
@@ -96,6 +109,36 @@ function releaseReducer(
           items: prevState.reviews?.items
             ? prevState.reviews?.items.concat(action.data)
             : [action.data],
+        },
+      };
+    }
+    case `successEditReview`: {
+      const buildItems = () => {
+        if (prevState.reviews?.items?.length) {
+          const previousItems = prevState.reviews.items
+            .concat()
+            .filter((item) => {
+              return item.id !== action.data.id;
+            });
+          previousItems.unshift(action.data);
+
+          return previousItems;
+        }
+
+        return [];
+      };
+      const items = buildItems();
+
+      return {
+        ...prevState,
+        fetching: prevState.fetching.set(action.fetchType, false),
+        review: undefined,
+        reviews: {
+          ...prevState.reviews,
+          per_page: prevState.reviews?.per_page || 10,
+          current_page: prevState.reviews?.current_page || 1,
+          total_entries: prevState.reviews?.total_entries || 1,
+          items,
         },
       };
     }
@@ -150,6 +193,7 @@ interface ReleaseWrapper extends PropsWithChildren {
   releases?: RailsCollectionResponse<Release>;
   reviews?: RailsCollectionResponse<Review>;
   release?: Release;
+  review?: Review;
 }
 
 export function ReleaseContextContainer(props: ReleaseWrapper) {
