@@ -77,12 +77,14 @@ export const CreateReviewForm = () => {
         errors.name = VALIDATIONS.REQUIRED(`headline`);
       }
 
-      if (!values.score) {
-        errors.score = VALIDATIONS.REQUIRED(`score`);
-      }
+      // if (!values.score) {
+      //   // errors.score = VALIDATIONS.REQUIRED(`score`);
+      // }
 
-      if (parseInt(values.score) > 10 || parseInt(values.score) < 0) {
-        errors.score = VALIDATIONS.SCORE(`score`);
+      if (values.score) {
+        if (parseInt(values.score) > 10 || parseInt(values.score) < 0) {
+          errors.score = VALIDATIONS.SCORE(`score`);
+        }
       }
 
       if (!values.content || values.content === DEFAULT_RICH_TEXT_EDITOR_COPY) {

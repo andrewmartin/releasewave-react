@@ -1,6 +1,5 @@
 import { RailsCollectionResponse, Release, Review } from '@/types/Data';
 import { assertUnreachable } from '@/util/unreachable';
-import { release } from 'os';
 import {
   createContext,
   Dispatch,

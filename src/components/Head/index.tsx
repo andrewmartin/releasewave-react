@@ -18,6 +18,9 @@ export const Head = (props: SeoProps) => {
   const { ogImageWidth, ogImageHeight } = props;
   const description = props?.description || defaultDescription;
   const ogImage = props?.ogImage || defaultOGImage;
+  const ogImageAlt = props?.ogImage
+    ? `Image of ${props.ogImage}`
+    : `Release Wave Logo`;
   const url = props?.url || process.env.SITE_ROOT;
 
   const title = props.title ? `${props.title} | ${defaultTitle}` : defaultTitle;
@@ -154,6 +157,7 @@ export const Head = (props: SeoProps) => {
         property="og:image:height"
         content={`article`}
       />
+      <meta key="og:image:alt" property="og:image:alt" content={ogImageAlt} />
       <meta name="twitter:card" content={description} />
       <meta name="twitter:site" content="@releasewave" />
     </NextHead>

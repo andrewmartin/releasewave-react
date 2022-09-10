@@ -102,8 +102,6 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
         errors.description = VALIDATIONS.REQUIRED(`Release Description`);
       }
 
-      console.log(`errors`, errors);
-
       return errors;
     },
   });
