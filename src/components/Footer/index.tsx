@@ -76,10 +76,12 @@ export const Footer: FC = () => {
         />
       </div>
       <div className={classNames(styles.FooterBottom, styles.FooterEmphasis)}>
-        <h3>Curating the best new music since 2000.</h3>
+        <h3 className="text-gray-500 hover:text-gray-400 transition-all">
+          Curating the best new music since 2000.
+        </h3>
         <cite
           title="Yes, ReleaseWave was formerly a great website called EmotionalPunk.com, renamed sometime in the mid 2000's..."
-          className="block text-center text-xl"
+          className="block text-center text-lg font-heading"
         >
           Formerly EmotionalPunk.com
         </cite>

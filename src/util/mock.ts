@@ -56,7 +56,7 @@ export const BlankRelease: Release = {
   embeds: [
     {
       id: 914,
-      content: `<iframe width="560" height="315" src="https://www.youtube.com/embed/m-ivNAPbHTQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+      content: ``,
       created_at: `2022-08-16T02:44:47.019Z`,
       updated_at: `2022-08-16T02:44:47.019Z`,
     },

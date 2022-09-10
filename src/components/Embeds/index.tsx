@@ -20,6 +20,10 @@ interface EmbedsProps {
 }
 
 export const Embeds: FC<EmbedsProps> = ({ embeds }) => {
+  if (!embeds.filter((embed) => embed.content !== `` && embed.content).length) {
+    return null;
+  }
+
   return (
     <div className="md:grid md:grid-cols-2 gap-2">
       {embeds.map((embed) => {

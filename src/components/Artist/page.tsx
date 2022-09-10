@@ -18,7 +18,11 @@ import classNames from 'classnames';
 import { FullBgImage } from '../Atoms/FullBgImage';
 import { useReleaseContext } from '@/context/release';
 import { ReleaseItem } from '../Release/item';
-import { ArtistFormValues, onEditArtist } from '@/context/artist/api';
+import {
+  ArtistFormValues,
+  onCreateArtist,
+  onEditArtist,
+} from '@/context/artist/api';
 import { DEFAULT_RICH_TEXT_EDITOR_COPY, VALIDATIONS } from '@/util/constants';
 import { Input } from '../Atoms/InputField';
 import { ServerSideWithAdminArgs } from '@/types/App';
@@ -54,6 +58,13 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
       instagram: artist?.instagram || ``,
     },
     onSubmit: async (values) => {
+      if (isNew) {
+        return await onCreateArtist(dispatch, appDispatch)(values, (slug) => {
+          setIsEditing(false);
+          push(`/artists/${slug}`);
+        });
+      }
+
       await onEditArtist(dispatch, appDispatch)(values, (slug) => {
         console.log(`onsuccess`, slug);
         setIsEditing(false);
@@ -161,6 +172,13 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                 />
               </MaybeField>
               <SocialLinks {...artist} />
+              <cite className="w-full text-gray-500 mb-8 block">
+                If you have issues seeing items load in the dropdowns, please
+                wait a moment or two. You may be hitting API limits since we are
+                on the free Google API plan. It should clear up in 1 minute or
+                so (just try clicking on and off of the {`"name"`} field for the
+                artist for them to refresh)
+              </cite>
               {SOCIALS.map((socialName) => (
                 <MaybeField<ArtistFormValues>
                   formik={formik}
@@ -194,7 +212,7 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
             })}
           >
             {short_description && (
-              <h2 className="text-[1.5em] md:!text-[2em] font-bold tracking-[-0.045em] mb-6">
+              <h2 className="text-[1.5em] md:!text-[2em] font-bold tracking-[-0.045em] mb-6 border-b-2 border-b-gray-300 inline-block">
                 About this Artist
               </h2>
             )}
@@ -214,14 +232,24 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
           </article>
 
           {!isEditing && (
-            <div className="mb-8 p-8 md:mb-16 w-full bg-white md:p-16 box-item">
+            <div className="mb-8 p-16 md:mb-16 w-full bg-white md:p-16 box-item">
               <section className="mb-24">
-                <h2 className="text-[1.5em] md:!text-[2em] font-bold tracking-[-0.045em] mb-6">
+                <h2 className="text-[1.5em] md:!text-[2em] font-bold tracking-[-0.045em] mb-6 border-b-2 border-b-gray-300 inline-block">
                   Releases
                 </h2>
-                <cite className="text-base text-gray-500">
-                  Releases we have curated and recommend to yours truly.
-                </cite>
+                <div className="w-full">
+                  {releases?.items?.length ? (
+                    <cite className="text-base text-gray-500">
+                      Releases we have curated and recommend to yours truly.
+                    </cite>
+                  ) : (
+                    <cite className="text-base text-gray-500">
+                      We are working on finding releases to recommend to you by
+                      {` `}
+                      {artist.name}.
+                    </cite>
+                  )}
+                </div>
               </section>
               <div className="bg-white">
                 {releases?.items.map((release) => {

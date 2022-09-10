@@ -72,32 +72,24 @@ export const onEditArtist: OnEditArtist<ArtistAction, ArtistFormValues> =
 type OnCreateArtist<Action, Values> = (
   dispatch: Dispatch<Action>,
   appDispatch: Dispatch<AppAction>,
-) => (values: Values, slug: string, onSuccess: () => void) => Promise<void>;
+) => (values: Values, onSuccess: (slug: string) => void) => Promise<void>;
 
-export const onCreateArtist: OnCreateArtist<
-  ArtistAction,
-  CreateReviewFormValues
-> =
-  (dispatch, appDispatch) =>
-  async (
-    values: CreateReviewFormValues,
-    slug: string,
-    onSuccess: () => void,
-  ) => {
+export const onCreateArtist: OnCreateArtist<ArtistAction, ArtistFormValues> =
+  (dispatch, appDispatch) => async (values, onSuccess) => {
     dispatch({
       type: `start`,
-      fetchType: `review`,
+      fetchType: `artist`,
       isFetching: true,
     });
 
     console.log(`values`, values);
 
     try {
-      await AXIOS().instance.post<Review>(`artists/${slug}/reviews`, {
-        review: values,
+      const { data: artist } = await AXIOS().instance.post<Artist>(`artists`, {
+        artist: values,
       });
 
-      onSuccess();
+      onSuccess(artist.slug as string);
       toast(`artist created!`);
     } catch (error: any) {
       actionHelperCatch(error, appDispatch, () => {

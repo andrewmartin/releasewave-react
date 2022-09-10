@@ -11,7 +11,7 @@
 }
 
 .FooterNavItem {
-  @apply text-sm uppercase tracking-wider  block;
+  @apply text-tiny uppercase tracking-wider  block;
 }
 
 .FooterBottom {
