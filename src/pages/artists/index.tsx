@@ -10,8 +10,8 @@ export default function Artists(props: IArtistsServerSideProps) {
   const { fullUrl } = props;
   const seo = {
     url: fullUrl,
-    title: `Releases`,
-    description: `Discover new music by viewing all the Releases on ReleaseWave.`,
+    title: `Artists`,
+    description: ` Discover new music: by reading our curated releases by your favorite new artists. These are the Artists featured on Release Wave.`,
   };
 
   return (
