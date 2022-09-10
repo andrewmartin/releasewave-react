@@ -21,7 +21,7 @@ body {
   /* font-family: 'droid-sans-mono', 'Helvetica Neue', system-ui, sans-serif; */
   /* font-family: 'jubilat', 'Helvetica Neue', system-ui, sans-serif; */
   font-weight: normal;
-  font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif;
+  /* font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif; */
 }
 
 h1,
@@ -30,7 +30,11 @@ h3,
 h4,
 h5,
 h6 {
-  /* font-family: 'futura-pt', 'Helvetica Neue', system-ui, sans-serif; */
+  @apply font-heading;
+}
+
+p {
+  /* font-family: 'Mulish', 'Helvetica Neue', system-ui, sans-serif !important; */
 }
 
 a {
@@ -43,7 +47,7 @@ a {
 }
 
 .btn {
-  @apply py-2 px-6 transition-all text-sm font-semibold uppercase;
+  @apply font-heading py-2 px-6 transition-all text-sm font-semibold uppercase;
 }
 .btn-primary {
   @apply bg-pink text-white hover:bg-pink-400 hover:scale-105;

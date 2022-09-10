@@ -7,7 +7,7 @@ class MyDocument extends Document {
         <Head>
           {/* <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> */}
           <link
-            href="https://fonts.googleapis.com/css2?family=Inter&display=optional"
+            href="https://fonts.googleapis.com/css?family=Inter|Mulish&display=optional"
             rel="stylesheet"
           />
         </Head>

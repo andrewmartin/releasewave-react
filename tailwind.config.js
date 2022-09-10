@@ -1,5 +1,5 @@
 const colors = require('tailwindcss/colors');
-// const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 const fontSize = (multiplier = 1) => {
   const base = 1.2;
@@ -16,6 +16,12 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Mulish', ...defaultTheme.fontFamily.sans],
+        heading: ['Inter', ...defaultTheme.fontFamily.sans],
+      },
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',

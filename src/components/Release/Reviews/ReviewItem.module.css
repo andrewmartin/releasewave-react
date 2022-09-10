@@ -12,8 +12,10 @@
 .ReviewItemHeadline > h2 {
   @apply text-[2em] leading-[1.2] font-bold tracking-[-0.045em] m-0 w-full;
 }
+
+/* score item */
 .ReviewItemHeadline > span {
-  @apply flex text-2xl font-semibold border-3 rounded-full p-4 border-gray-200 w-[80px] h-[80px] items-center justify-center transition-all;
+  @apply font-heading flex text-2xl font-extrabold border-3 rounded-full p-4 border-gray-200 w-[80px] h-[80px] items-center justify-center transition-all;
 }
 
 .ReviewItemHeadline > span.ReviewItemHighScore {
