@@ -30,6 +30,7 @@ import { BlankArtist } from '@/util/mock';
 import { useAppContext } from '@/context/app';
 import { ReleaseContent } from '../Atoms/ReleaseMeta';
 import { Head, SeoProps } from '../Head';
+import { WithCurrentUser } from '@/hooks/user';
 
 export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
   const {
@@ -172,13 +173,17 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                 />
               </MaybeField>
               <SocialLinks {...artist} />
-              <cite className="w-full text-gray-500 mb-8 block">
-                If you have issues seeing items load in the dropdowns, please
-                wait a moment or two. You may be hitting API limits since we are
-                on the free Google API plan. It should clear up in 1 minute or
-                so (just try clicking on and off of the {`"name"`} field for the
-                artist for them to refresh)
-              </cite>
+              {isEditing && (
+                <WithCurrentUser>
+                  <cite className="w-full text-gray-500 mb-8 block">
+                    If you have issues seeing items load in the dropdowns,
+                    please wait a moment or two. You may be hitting API limits
+                    since we are on the free Google API plan. It should clear up
+                    in 1 minute or so (just try clicking on and off of the{` `}
+                    {`"name"`} field for the artist for them to refresh)
+                  </cite>
+                </WithCurrentUser>
+              )}
               {SOCIALS.map((socialName) => (
                 <MaybeField<ArtistFormValues>
                   formik={formik}
