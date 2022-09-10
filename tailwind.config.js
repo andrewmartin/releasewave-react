@@ -2,7 +2,7 @@ const colors = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const fontSize = (multiplier = 1) => {
-  const base = 1.2;
+  const base = 1.3;
   const number = base * multiplier;
   return number + `rem`;
 };
@@ -56,9 +56,9 @@ module.exports = {
       8: '8px',
     },
     fontSize: {
-      xs: '.75rem',
-      sm: '.875rem',
-      tiny: '.875rem',
+      xs: '.9rem',
+      sm: '1.2rem',
+      tiny: '1rem',
       base: fontSize(1),
       lg: '1.125rem',
       xl: '1.25rem',

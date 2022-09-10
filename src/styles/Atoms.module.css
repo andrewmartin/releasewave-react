@@ -17,7 +17,7 @@
 }
 
 .ReleaseDate {
-  @apply uppercase text-sm text-gray-500 not-italic mt-6 block tracking-widest;
+  @apply uppercase text-xs text-gray-500 not-italic mt-6 block tracking-widest;
 }
 
 .FeaturedText {

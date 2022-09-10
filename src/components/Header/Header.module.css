@@ -12,5 +12,5 @@
 }
 
 .NavItem {
-  @apply text-sm uppercase tracking-wider;
+  @apply text-[0.9rem] uppercase tracking-wider;
 }

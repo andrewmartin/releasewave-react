@@ -9,7 +9,8 @@
 }
 
 .NavItem {
-  @apply hover:text-pink transition-all;
+  @apply hover:text-pink transition-all text-tiny uppercase tracking-wider;
+  box-shadow: none !important;
 }
 
 .NavItemActive {
@@ -28,13 +29,8 @@
   @apply px-4 py-2 block;
 }
 
-.NavItem {
-  @apply text-sm uppercase tracking-wider;
-  box-shadow: none !important;
-}
-
 .MobileNavList {
-  @apply flex-wrap;
+  @apply flex-wrap font-heading;
 }
 
 .MobileNavItem {

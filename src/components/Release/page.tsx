@@ -257,7 +257,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                   name="release_date"
                   value={release_date}
                   element={
-                    <h2 className="p-5 w-full transition-all text-center  tracking-wider text-xl lg:text-2xl uppercase">
+                    <h2 className="p-5 w-full transition-all text-center  tracking-wider text-xl lg:text-2xl uppercase font-heading">
                       {formatDate(release_date)}
                     </h2>
                   }
@@ -286,7 +286,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                           target="_blank"
                           title={`${purchaseText} ${name}`}
                           href={buy}
-                          className="bg-pink p-5 w-full text-white transition-all hover:bg-pink-400 text-center  tracking-wider text-xl lg:text-2xl uppercase"
+                          className="bg-pink p-5 w-full text-white transition-all hover:bg-pink-400 text-center   text-xl lg:text-2xl uppercase font-heading  tracking-widest"
                           rel="noreferrer"
                         >
                           {purchaseText}
