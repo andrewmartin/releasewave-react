@@ -1,10 +1,10 @@
 .Logo {
   line-height: 1;
-  @apply m-0 self-center p-4 md:w-auto w-full;
+  @apply m-0 self-center py-2 md:w-auto w-full;
 }
 
 .Logo h1 {
-  @apply flex items-center justify-start text-4xl tracking-[-0.045em];
+  @apply flex items-center justify-start text-4xl tracking-[-0.05em] leading-[1];
   font-family: 'Inter', 'Helvetica Neue', system-ui, sans-serif;
 }
 
@@ -25,5 +25,5 @@
 }
 
 .Logo strong {
-  @apply text-pink block;
+  @apply text-pink block font-extrabold;
 }

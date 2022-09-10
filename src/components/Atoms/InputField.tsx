@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { PropsWithChildren } from 'react';
 
-export const INPUT_BASE_STYLES = `w-full text-base border-gray-200 border-spacing-2 border-2 p-6 leading-8`;
+export const INPUT_BASE_STYLES = `w-full text-base border-gray-200 border-spacing-2 border-2 px-6 py-4 leading-8`;
 
 export const Input = (
   props: React.DetailedHTMLProps<
@@ -71,7 +71,7 @@ export const Select = (
 
   return (
     <select
-      className={classNames(`p-6 w-full`, {
+      className={classNames(INPUT_BASE_STYLES, `p-6 w-full`, {
         [`${className}`]: Boolean(className),
       })}
       {...restProps}

@@ -7,7 +7,7 @@ import styles from './Release.module.css';
 import Link from 'next/link';
 import { appendHostToImage } from '@/util/image';
 import { useReleaseContext } from '@/context/release';
-import { ReleaseContent } from '../Atoms/ReleaseMeta';
+import { ReleaseContent, ReleaseDate } from '../Atoms/ReleaseMeta';
 
 export const FeaturedRelease = (release: Release) => {
   const linkHref = `/releases/${release.slug}`;
@@ -35,6 +35,7 @@ export const FeaturedRelease = (release: Release) => {
         <span>
           <FirstArtistForRelease {...release} />
         </span>
+        <ReleaseDate {...release} />
         <ReleaseContent
           className={styles.HomeReleaseContent}
           content={release.description}
@@ -57,12 +58,12 @@ export const FeaturedReleaseContainer: FC<PropsWithChildren> = () => {
           The Wave
         </h2>
         <p className="text-gray-500 italic w-full text-[1.4em] leading-[1.5]">
-          <span className="font-bold tracking-[-0.045em] not-italic">
+          <span className="uppercase font-bold tracking-[0.045em] not-italic text-gray-400">
             Release Wave
           </span>
           {` `}
-          highlights the best in upcoming releases by the artists we love. Here
-          are some of our most recommended releases.
+          highlights the best in new music by the artists we love. <br />
+          Here are some of our most recommended upcoming releases.
         </p>
       </div>
       {releases?.items?.map((release) => (

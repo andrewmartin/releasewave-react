@@ -22,11 +22,11 @@
 }
 
 .FeaturedReleaseContent cite {
-  @apply block italic text-lg text-right;
+  @apply block mb-8;
 }
 
 .UpcomingRelease {
-  @apply w-full my-5 mb-0 p-6;
+  @apply w-full my-5 mb-0 p-4;
 }
 
 .UpcomingRelease p {
