@@ -1,4 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { Tracking } from '@/components/Tracking';
+import Script from 'next/script';
 
 class MyDocument extends Document {
   render() {
@@ -17,6 +19,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
+        <Tracking />
         <body>
           <Main />
           <NextScript />
