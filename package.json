@@ -43,6 +43,7 @@
     "js-cookie": "3.0.1",
     "moment": "2.29.4",
     "next": "12.1.6",
+    "nextjs-progressbar": "0.0.14",
     "react": "18.2.0",
     "react-burger-menu": "3.0.8",
     "react-cookie": "4.1.1",
