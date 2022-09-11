@@ -31,8 +31,9 @@ export default function About(props: IAboutServerSideProps) {
           </strong>
           {` `}
           is a music website curating the word about essential new and upcoming
-          music. Originally formed in 2000 under the name EmotionalPunk.com, the
-          site has reformed to encompass a wide array of genres.{` `}
+          music releases. Originally formed in 2000 under the name
+          EmotionalPunk.com, the site has reformed to encompass a wide array of
+          genres.{` `}
         </p>
 
         <h3 className="font-bold tracking-[-0.045em] text-[1.5em] md:!text-[2em] border-b-2 border-b-gray-300 mb-4 inline-block mt-16 leading-[1]">

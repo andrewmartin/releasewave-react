@@ -88,13 +88,6 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
         );
       }
 
-      if (
-        !values.short_description ||
-        values.short_description === DEFAULT_RICH_TEXT_EDITOR_COPY
-      ) {
-        errors.short_description = VALIDATIONS.REQUIRED(`Artist description`);
-      }
-
       return errors;
     },
   });
@@ -179,8 +172,10 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                     If you have issues seeing items load in the dropdowns,
                     please wait a moment or two. You may be hitting API limits
                     since we are on the free Google API plan. It should clear up
-                    in 1 minute or so (just try clicking on and off of the{` `}
-                    {`"name"`} field for the artist for them to refresh)
+                    in 1 minute or so (just try adding an empty space to the
+                    {` `}
+                    {`"name"`} field, then remove it; this will force the links
+                    below to refresh)
                   </cite>
                 </WithCurrentUser>
               )}

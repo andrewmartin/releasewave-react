@@ -37,6 +37,12 @@ p {
   /* font-family: 'Mulish', 'Helvetica Neue', system-ui, sans-serif !important; */
 }
 
+*:focus,
+button:focus,
+a:focus {
+  box-shadow: none;
+}
+
 a {
   color: inherit;
   text-decoration: none;
