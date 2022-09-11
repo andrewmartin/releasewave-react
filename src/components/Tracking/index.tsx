@@ -7,7 +7,9 @@ const tagManagerArgs = {
 
 export const Tracking = () => {
   useEffect(() => {
-    TagManager.initialize(tagManagerArgs);
+    if (process.env.NODE_ENV === `production`) {
+      TagManager.initialize(tagManagerArgs);
+    }
   }, []);
 
   return <></>;
