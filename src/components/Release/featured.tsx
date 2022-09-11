@@ -1,34 +1,36 @@
 import { Release } from '@/types/Data';
-import React, { FC, PropsWithChildren } from 'react';
-import Image from 'next/image';
+import React, { FC, PropsWithChildren, Suspense } from 'react';
 import { FirstArtistForRelease } from '../Atoms/FirstArtistForRelease';
 import atomStyles from '@/styles/Atoms.module.css';
 import styles from './Release.module.css';
 import Link from 'next/link';
-import { appendHostToImage } from '@/util/image';
 import { useReleaseContext } from '@/context/release';
 import { ReleaseContent, ReleaseDate } from '../Atoms/ReleaseMeta';
+import dynamic from 'next/dynamic';
+
+const DynamicImage = dynamic(() => import(`@/components/Dynamic/Image`), {
+  suspense: true,
+});
 
 export const FeaturedRelease = (release: Release) => {
-  const linkHref = `/releases/${release.slug}`;
+  const href = `/releases/${release.slug}`;
 
   return (
     <div className={styles.FeaturedRelease} key={release.id}>
       <div className={styles.FeaturedReleaseImage}>
-        <Link href={linkHref}>
-          <a href={linkHref}>
-            <Image
-              src={appendHostToImage(release.image.large)}
-              alt={`${release.name}`}
-              width={400}
-              height={400}
-            />
-          </a>
-        </Link>
+        <Suspense fallback={`Loading...`}>
+          <DynamicImage
+            href={href}
+            alt={`${release.name}`}
+            width={400}
+            height={400}
+            src={release.image.large}
+          />
+        </Suspense>
       </div>
       <div className={styles.FeaturedReleaseContent}>
-        <Link href={linkHref}>
-          <a href={linkHref}>
+        <Link href={href}>
+          <a href={href}>
             <h2 className={atomStyles.ReleaseLink}>{release.name}</h2>
           </a>
         </Link>
