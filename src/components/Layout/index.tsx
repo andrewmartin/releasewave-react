@@ -5,6 +5,7 @@ import Header from '../Header';
 import { LoadingContainer } from '../Loading';
 import styles from './Layout.module.css';
 import { Toaster } from 'react-hot-toast';
+import { Tracking } from '../Tracking';
 
 export interface LayoutProps extends IServerSideProps {
   children: ReactNode;
@@ -15,6 +16,7 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
 
   return (
     <>
+      <Tracking />
       <div className={styles.LayoutWrapper}>
         <Header />
         <div className={styles.LayoutContent}>{children}</div>
