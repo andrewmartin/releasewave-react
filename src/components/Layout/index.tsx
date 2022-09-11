@@ -23,7 +23,7 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         stopDelayMs={200}
         height={3}
         showOnShallow={true}
-        options={{ easing: `ease`, speed: 250 }}
+        options={{ showSpinner: false, easing: `ease`, speed: 250 }}
       />
       <Tracking />
       <div className={styles.LayoutWrapper}>
