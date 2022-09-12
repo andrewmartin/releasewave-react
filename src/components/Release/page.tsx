@@ -43,6 +43,7 @@ import { PictureImage } from '../Image';
 import { ReleaseContent, ReleaseFeaturedBanner } from '../Atoms/ReleaseMeta';
 import { Head, SeoProps } from '../Head';
 import { PLAYLIST_URL } from '../Playlist';
+import moment from 'moment';
 const Calendar =
   ReactInfiniteCalendar as unknown as FC<ReactInfiniteCalendarProps>;
 
@@ -124,7 +125,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
   const { description, name, image, embeds, release_date, buy } = release;
 
   const today = getToday();
-  const futureDate = isFutureDate(today);
+  const futureDate = isFutureDate(moment(release_date));
   const purchaseText = futureDate ? `Pre-Order` : `Purchase`;
   const title =
     artist && artist.name ? `${name} by ${artist.name}` : name || ``;
