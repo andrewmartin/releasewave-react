@@ -89,7 +89,7 @@
   @apply md:px-12 py-20 flex w-full flex-wrap justify-center;
 }
 .ReleasePageContent {
-  @apply p-6 md:p-0 md:py-12 w-full;
+  @apply p-6 md:p-0 w-full;
 }
 .ReleasePageContent p {
   @apply mb-6 text-xl;

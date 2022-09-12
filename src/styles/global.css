@@ -55,6 +55,9 @@ a {
 .btn {
   @apply font-heading py-2 px-6 transition-all text-sm font-semibold uppercase;
 }
+.btn-sm {
+  @apply py-2 px-6 transition-all text-xs font-semibold uppercase tracking-tighter;
+}
 .btn-primary {
   @apply bg-pink text-white hover:bg-pink-400 hover:scale-105;
 }

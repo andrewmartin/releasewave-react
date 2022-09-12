@@ -258,6 +258,7 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                       key={release.id}
                       showArtist={false}
                       showContentDefault
+                      showReadMore
                       classNames={{
                         container: styles.ReleaseItem,
                       }}

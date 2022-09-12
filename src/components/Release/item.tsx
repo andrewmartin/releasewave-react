@@ -15,6 +15,7 @@ import { ItemWrapper } from '@/types/Components';
 interface ReleaseItem extends Release, ItemWrapper, ReleaseFeaturedBanner {
   showArtist?: boolean;
   href?: string;
+  showReadMore?: boolean;
 }
 
 export const ReleaseItem: FC<ReleaseItem> = (props) => {
@@ -28,6 +29,7 @@ export const ReleaseItem: FC<ReleaseItem> = (props) => {
     classNames,
     Content,
     showContentDefault,
+    showReadMore,
     ...release
   } = props;
 
@@ -68,6 +70,15 @@ export const ReleaseItem: FC<ReleaseItem> = (props) => {
               release.description ? `${release.description.slice(0, 300)}` : ``
             }
           />
+        )}
+        {showReadMore && (
+          <div className="mt-8 w-full">
+            <Link href={linkHref}>
+              <a className="btn btn-sm btn-secondary" href={linkHref}>
+                Read More
+              </a>
+            </Link>
+          </div>
         )}
       </div>
     </div>
