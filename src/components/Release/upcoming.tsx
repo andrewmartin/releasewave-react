@@ -100,7 +100,7 @@ export const ReleasesCollectionContainer: FC<PropsWithChildren> = () => {
   };
 
   return (
-    <div className="p-6 md:p-12">
+    <div className="py-6 px-4 md:p-12">
       <h2
         ref={titleRef}
         className="font-extrabold tracking-[-0.045em] text-2xl md:!text-3xl"

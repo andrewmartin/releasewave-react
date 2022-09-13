@@ -14,7 +14,7 @@ export const Header: FC = () => {
     <>
       <MobileNavMenu onClose={() => setOpen(false)} isOpen={open} />
       <Headroom pinStart={150}>
-        <div className="mb-12">
+        <div className="mb-6">
           <SearchBarWrapper />
           <div className={styles.Header}>
             <Logo />

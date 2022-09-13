@@ -17,11 +17,11 @@
 }
 
 .ReleaseDate {
-  @apply uppercase text-xs text-gray-500 not-italic mt-6 block tracking-widest;
+  @apply uppercase text-[0.7em] md:text-xs text-gray-500 not-italic tracking-wider md:tracking-widest mt-4 block;
 }
 
 .FeaturedText {
-  @apply uppercase text-xs md:text-sm text-gray-500 not-italic my-6 tracking-widest absolute top-0 md:px-12 bg-white leading-[2] flex items-center justify-center z-10;
+  @apply uppercase text-[0.7em] md:text-xs text-gray-500 not-italic my-6 tracking-widest absolute top-0 px-3 md:px-4 bg-white leading-[2] flex items-center justify-center z-10;
 }
 
 .FeaturedTextDefault {

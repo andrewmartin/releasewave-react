@@ -72,12 +72,16 @@
   @apply w-1/2 px-7;
 }
 
+.ReleaseCollectionItemContent {
+  @apply px-1 md:px-0;
+}
+
 .ReleaseCollectionItemContent > div {
   @apply hidden md:block;
 }
 
 .ReleaseCollectionItemContent h2 {
-  @apply font-extrabold tracking-[-0.045em] text-[1.5em] md:text-[2.5em] w-full mb-3 mt-0 leading-[1];
+  @apply font-extrabold tracking-[-0.045em] text-[1.5em] md:text-[2.5em] w-full mb-3 mt-0 leading-[1.2] md:leading-[1];
 }
 
 .ReleaseCollectionItemContent span {
