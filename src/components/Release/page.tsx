@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import styles from './Release.module.css';
+import atomStyles from '@/styles/Atoms.module.css';
 import {
   FirstArtistForRelease,
   getFirstArtist,
@@ -41,6 +42,8 @@ import { useAppContext } from '@/context/app';
 import { PictureImage } from '../Image';
 import { ReleaseContent, ReleaseFeaturedBanner } from '../Atoms/ReleaseMeta';
 import { Head, SeoProps } from '../Head';
+import { PLAYLIST_URL } from '../Playlist';
+import moment from 'moment';
 const Calendar =
   ReactInfiniteCalendar as unknown as FC<ReactInfiniteCalendarProps>;
 
@@ -122,7 +125,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
   const { description, name, image, embeds, release_date, buy } = release;
 
   const today = getToday();
-  const futureDate = isFutureDate(today);
+  const futureDate = isFutureDate(moment(release_date));
   const purchaseText = futureDate ? `Pre-Order` : `Purchase`;
   const title =
     artist && artist.name ? `${name} by ${artist.name}` : name || ``;
@@ -230,6 +233,18 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                   }}
                   checked={Boolean(formik.values.featured)}
                 />
+                {formik.values.featured && (
+                  <cite className="w-full block  mt-5">
+                    Looks like you have featured this release. You should add a
+                    song or two to the{` `}
+                    <a className="text-pink underline" href={PLAYLIST_URL}>
+                      The Wave
+                    </a>
+                    {` `}
+                    Spotify playlist. Be sure to add it to the beginning! The
+                    default playlist order will add it at the bottom.
+                  </cite>
+                )}
               </MaybeField>
               <MaybeField<ReleaseFormValues>
                 formik={formik}

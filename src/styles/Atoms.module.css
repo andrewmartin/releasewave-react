@@ -37,5 +37,5 @@
 }
 
 .EmphasisContent {
-  @apply leading-[2] text-[1.4em] mt-8;
+  @apply text-[1.1em] leading-[1.5] md:leading-[2] md:text-[1.4em] mt-8;
 }

@@ -1,5 +1,5 @@
 .FeaturedRelease {
-  @apply w-full my-5 mb-8 md:mb-16 text-[1.3em] leading-[1.2];
+  @apply w-full my-5 mb-12 md:mb-16 text-[1.3em] leading-[1.2] border-b-2 border-b-gray-100 pb-8;
 }
 
 .FeaturedReleaseImage {
@@ -93,7 +93,7 @@
   @apply md:px-12 py-20 flex w-full flex-wrap justify-center;
 }
 .ReleasePageContent {
-  @apply p-6 md:p-0 md:py-12 w-full;
+  @apply p-6 md:p-0 w-full;
 }
 .ReleasePageContent p {
   @apply mb-6 text-xl;

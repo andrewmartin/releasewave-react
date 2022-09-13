@@ -17,7 +17,9 @@ export default function About(props: IAboutServerSideProps) {
   };
 
   return (
-    <div className={`p-12 flex justify-start max-w-[800px] flex-wrap m-auto`}>
+    <div
+      className={`pt-12 px-6 md:p-12 flex justify-start max-w-[800px] flex-wrap m-auto`}
+    >
       <Head {...seo} />
       <h3 className="font-bold tracking-[-0.045em] text-[2em] md:!text-[3em] border-b-2 border-b-gray-300 mb-4 inline-block leading-[1]">
         About
@@ -28,8 +30,8 @@ export default function About(props: IAboutServerSideProps) {
             Release Wave
           </strong>
           {` `}
-          is a music dedicated to curating the word about essential new and
-          upcoming music. Originally formed in 2000 under the name
+          is a music website curating the word about essential new and upcoming
+          music releases. Originally formed in 2000 under the name
           EmotionalPunk.com, the site has reformed to encompass a wide array of
           genres.{` `}
         </p>

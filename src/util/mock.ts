@@ -18,7 +18,7 @@ export const BlankArtist: Artist = {
   youtube: ``,
   itunes: ``,
   twitter: ``,
-  short_description: `<p>Write something here.</p>`,
+  short_description: ``,
   instagram: null,
   image: {
     full: `/static/placeholder/missing.png`,

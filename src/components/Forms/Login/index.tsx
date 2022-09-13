@@ -29,7 +29,7 @@ export const LoginForm = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="username"
+            htmlFor="email"
           >
             Username
           </label>
@@ -52,7 +52,7 @@ export const LoginForm = () => {
           <Input
             id="password"
             type="password"
-            placeholder="******************"
+            placeholder="*********"
             name="password"
             onChange={handleChange}
             value={values.password}

@@ -7,6 +7,7 @@ import { ReleaseContextContainer } from '@/context/release';
 import { FeaturedReleaseContainer } from '@/components/Release/featured';
 import { UpcomingReleaseContainer } from '@/components/Release/upcoming';
 import { Head } from '@/components/Head';
+import { Playlist } from '@/components/Playlist';
 
 export default function Home(props: IHomeServerSideProps) {
   return (
@@ -21,6 +22,7 @@ export default function Home(props: IHomeServerSideProps) {
           )}
         </section>
         <aside>
+          <Playlist />
           {props.releases && (
             <ReleaseContextContainer releases={props.releases}>
               <UpcomingReleaseContainer />

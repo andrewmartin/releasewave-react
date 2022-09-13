@@ -1,5 +1,6 @@
 import { default as NextHead } from 'next/head';
 import React from 'react';
+
 import Script from 'next/script';
 
 const defaultTitle = `Release Wave - Curated New Music Releases`;
