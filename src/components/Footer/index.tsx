@@ -11,6 +11,7 @@ import { TbBrandNextjs } from 'react-icons/tb';
 import { SiGithub } from 'react-icons/si';
 import { VscRuby } from 'react-icons/vsc';
 import atomStyles from '@/styles/Atoms.module.css';
+import Link from 'next/link';
 
 export type SetOpen = React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -86,6 +87,11 @@ export const Footer: FC = () => {
           Formerly EmotionalPunk.com
         </cite>
         <BuiltWith />
+        <div className="w-full text-xs text-gray-300 mt-6">
+          <Link href="/privacy">
+            <a>Privacy Policy</a>
+          </Link>
+        </div>
       </div>
     </div>
   );
