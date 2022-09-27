@@ -61,7 +61,7 @@ const BuiltWith: FC = () => {
 
 export const Footer: FC = () => {
   return (
-    <div className="relative z-10">
+    <div className="relative z-10 px-4 md:px-0 bg-gray-50">
       <div className={styles.Footer}>
         <div className="scale-[0.8] relative opacity-50 grayscale">
           <Logo />

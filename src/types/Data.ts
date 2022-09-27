@@ -57,4 +57,12 @@ export type SiteOption = {
   featured_date_window_before: number | null;
   featured_date_window_after: number | null;
   name: string | null;
+  data: string | null;
+};
+
+export type SiteOptionData = {
+  featured_date_before: number;
+  featured_date_after: number;
+  upcoming_date_before: number;
+  upcoming_date_after: number;
 };

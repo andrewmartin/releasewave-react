@@ -24,6 +24,8 @@ export const homeServerSideProps: GetServerSideProps<
     );
   }
 
+  console.log(`globalProps`, globalProps);
+
   const { start_date, end_date } = globalProps.siteOption;
   console.log(
     `fetching releases for start_date: ${start_date} and end date: ${end_date}`,

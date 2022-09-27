@@ -1,5 +1,5 @@
 .Footer {
-  @apply bg-gray-50 flex items-center justify-center p-8;
+  @apply flex items-center justify-center p-8;
 }
 
 .FooterNavList {
@@ -15,7 +15,7 @@
 }
 
 .FooterBottom {
-  @apply bg-gray-50 flex flex-wrap items-center justify-center py-8;
+  @apply flex flex-wrap items-center justify-center py-8;
 }
 
 .FooterEmphasis {

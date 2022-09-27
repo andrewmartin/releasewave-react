@@ -15,6 +15,7 @@ export const globalServerSideProps: GetServerSideProps<
     featured_date_window_after: 15,
     featured_date_window_before: 15,
     name: `staticOptions`,
+    data: ``,
   };
 
   const fullUrl = `${process.env.NEXT_SITE_ROOT}${url}`;
