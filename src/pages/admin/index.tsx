@@ -5,9 +5,9 @@ import Link from 'next/link';
 import IServerSideProps from '@/types/App';
 import { onUpdateOption } from '@/context/option/api';
 import toast from 'react-hot-toast';
-import { OptionKeys, OPTION_DESCRIPTIONS, parseData } from './helpers';
 import moment from 'moment';
 import { FRONTEND_DATE_FORMAT } from '@/util/date';
+import { OptionKeys, OPTION_DESCRIPTIONS, parseData } from '@/util/options';
 
 export default function Admin(props: IServerSideProps) {
   const { siteOption } = props;
