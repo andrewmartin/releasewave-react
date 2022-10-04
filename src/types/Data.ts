@@ -54,8 +54,6 @@ export interface Review extends schema.Review {
 
 export type SiteOption = {
   id: number;
-  featured_date_window_before: number | null;
-  featured_date_window_after: number | null;
   name: string | null;
   data: string | null;
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Artist.module.css';
 import { useArtistContext } from '@/context/artist';
 import { useFormik } from 'formik';
@@ -12,7 +12,10 @@ import {
 import { useRouter } from 'next/router';
 import { RichTextField } from '../Forms/Fields/RichTextField';
 import { FileField } from '../Forms/Fields/FileField';
-import { ArtistSocialSelect } from '../Forms/Fields/Select';
+import {
+  ArtistSocialSelect,
+  SocialSelectContainer,
+} from '../Forms/Fields/Select';
 import { SocialLinks, SOCIALS } from '../SocialLinks';
 import classNames from 'classnames';
 import { FullBgImage } from '../Atoms/FullBgImage';
@@ -43,6 +46,7 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
   } = useArtistContext();
   const { isEditing, setIsEditing } = useFormContext();
   const { push } = useRouter();
+  const [shouldFetch, setShouldFetch] = useState(false);
 
   const formik = useFormik<ArtistFormValues>({
     initialValues: {
@@ -99,7 +103,13 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
         setIsEditing(true);
       });
     }
-  }, [isNew, setIsEditing]);
+
+    if (shouldFetch) {
+      setTimeout(() => {
+        setShouldFetch(false);
+      }, 100);
+    }
+  }, [isNew, setIsEditing, shouldFetch]);
 
   if (!artist) {
     return null; // redirect?
@@ -164,6 +174,17 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                   type="text"
                   value={formik.values[`name`] || ``}
                 />
+                {artist?.name !== formik.values.name && (
+                  <button
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setShouldFetch(true);
+                    }}
+                    className="btn-sm btn-primary mt-4"
+                  >
+                    Fetch Social Links
+                  </button>
+                )}
               </MaybeField>
               <SocialLinks {...artist} />
               {isEditing && (
@@ -180,28 +201,37 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                 </WithCurrentUser>
               )}
               {SOCIALS.map((socialName) => (
-                <MaybeField<ArtistFormValues>
-                  formik={formik}
+                <SocialSelectContainer
+                  artistName={formik.values.name as string}
+                  socialName={socialName}
                   key={socialName}
-                  name={socialName}
-                  value={name}
-                  element={<div></div>}
+                  shouldFetch={shouldFetch}
                 >
-                  <ArtistSocialSelect
-                    artistName={formik.values.name as string}
-                    socialName={socialName}
-                    initialValue={{
-                      value: `${formik.values[socialName]}`,
-                      label: `${formik.values[socialName]}`,
-                    }}
-                    onChange={(optionValue) => {
-                      formik.setFieldValue(socialName, optionValue?.value);
-                    }}
-                    onRemove={() => {
-                      formik.setFieldValue(socialName, ``);
-                    }}
-                  />
-                </MaybeField>
+                  {(options) => (
+                    <MaybeField<ArtistFormValues>
+                      formik={formik}
+                      name={socialName}
+                      value={name}
+                      element={<div></div>}
+                    >
+                      <ArtistSocialSelect
+                        artistName={formik.values.name as string}
+                        socialName={socialName}
+                        options={options || []}
+                        initialValue={{
+                          value: `${formik.values[socialName]}`,
+                          label: `${formik.values[socialName]}`,
+                        }}
+                        onChange={(optionValue) => {
+                          formik.setFieldValue(socialName, optionValue?.value);
+                        }}
+                        onRemove={() => {
+                          formik.setFieldValue(socialName, ``);
+                        }}
+                      />
+                    </MaybeField>
+                  )}
+                </SocialSelectContainer>
               ))}
             </div>
           </header>

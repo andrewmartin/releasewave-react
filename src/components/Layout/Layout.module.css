@@ -1,5 +1,5 @@
 .LayoutWrapper {
-  @apply z-10 relative;
+  @apply z-[15] relative;
 }
 
 .LayoutContent {

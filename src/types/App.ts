@@ -7,7 +7,7 @@ import {
   Release,
   Review,
   User,
-  SiteOption,
+  SiteOptionData,
 } from './Data';
 import { BuildDateRangeResult } from '@/util/date';
 
@@ -17,7 +17,7 @@ export default interface IServerSideProps {
   releases?: RailsCollectionResponse<Release>;
   reviews?: RailsCollectionResponse<Review>;
   fullUrl?: string;
-  siteOption: SiteOption & BuildDateRangeResult;
+  siteOption: SiteOptionData & BuildDateRangeResult;
 }
 
 export interface IPageProps extends IServerSideProps {

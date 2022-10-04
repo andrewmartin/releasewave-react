@@ -8,29 +8,55 @@ export const getToday = () => moment();
 export const isFutureDate = (date: moment.Moment) =>
   moment(date).isAfter(moment());
 
-import { SiteOption } from '@/types/Data';
+import { SiteOptionData } from '@/types/Data';
 
-export interface BuildDateRangeResult {
-  start_date: string;
-  end_date: string;
-}
+export type BuildDateRangeResult = {
+  featured_date_ranges: {
+    start_date: string;
+    end_date: string;
+  };
+  upcoming_date_ranges: {
+    start_date: string;
+    end_date: string;
+  };
+};
 
 export const buildDateRange = (
-  siteOption: SiteOption,
+  siteOption: SiteOptionData,
 ): BuildDateRangeResult => {
-  const { featured_date_window_after, featured_date_window_before } =
-    siteOption;
-  const currentDate = () => moment().clone();
+  const {
+    featured_date_before,
+    featured_date_after,
+    upcoming_date_before,
+    upcoming_date_after,
+  } = siteOption;
 
-  const start_date = moment(currentDate())
-    .subtract(featured_date_window_before, `days`)
-    .format(SERVER_DATE_FORMAT);
-  const end_date = moment(currentDate())
-    .add(featured_date_window_after, `days`)
-    .format(SERVER_DATE_FORMAT);
+  type DateRangeItem = [keyof BuildDateRangeResult, number, number];
 
-  return {
-    start_date,
-    end_date,
-  };
+  const items: DateRangeItem[] = [
+    [`featured_date_ranges`, featured_date_before, featured_date_after],
+    [`upcoming_date_ranges`, upcoming_date_before, upcoming_date_after],
+  ];
+
+  return items
+    .map(([type, before, after]) => {
+      const currentDate = () => moment().clone();
+
+      const start_date = moment(currentDate())
+        .subtract(before, `days`)
+        .format(SERVER_DATE_FORMAT);
+      const end_date = moment(currentDate())
+        .add(after, `days`)
+        .format(SERVER_DATE_FORMAT);
+
+      return {
+        [`${type}`]: {
+          start_date,
+          end_date,
+        },
+      };
+    })
+    .reduce((acc, curr) => {
+      return { ...acc, ...curr };
+    }) as BuildDateRangeResult;
 };

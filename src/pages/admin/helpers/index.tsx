@@ -1,22 +1,12 @@
-import { SiteOption, SiteOptionData } from '@/types/Data';
+import { SiteOptionData } from '@/types/Data';
 
-export const parseData = (data: SiteOption['data']): SiteOptionData => {
-  const fallbackData = {
-    featured_date_before: 25,
-    featured_date_after: 25,
-    upcoming_date_before: 25,
-    upcoming_date_after: 25,
+export const parseData = (siteOption: SiteOptionData): SiteOptionData => {
+  return {
+    featured_date_before: siteOption.featured_date_before || 25,
+    featured_date_after: siteOption.featured_date_after || 25,
+    upcoming_date_before: siteOption.upcoming_date_before || 25,
+    upcoming_date_after: siteOption.upcoming_date_after || 25,
   };
-
-  try {
-    if (data) {
-      return JSON.parse(data) as SiteOptionData;
-    }
-
-    return fallbackData;
-  } catch (error) {
-    return fallbackData;
-  }
 };
 
 export type OptionKeys = keyof SiteOptionData;

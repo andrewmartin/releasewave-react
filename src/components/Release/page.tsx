@@ -81,8 +81,6 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
     validate: (values) => {
       const errors: Record<string, string> = {};
 
-      console.log(`values`, values);
-
       if (!values.name) {
         errors.name = VALIDATIONS.REQUIRED(`name`);
       }

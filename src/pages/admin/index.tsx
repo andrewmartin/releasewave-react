@@ -6,13 +6,13 @@ import IServerSideProps from '@/types/App';
 import { onUpdateOption } from '@/context/option/api';
 import toast from 'react-hot-toast';
 import { OptionKeys, OPTION_DESCRIPTIONS, parseData } from './helpers';
+import moment from 'moment';
+import { FRONTEND_DATE_FORMAT } from '@/util/date';
 
 export default function Admin(props: IServerSideProps) {
-  const {
-    siteOption: { data },
-  } = props;
+  const { siteOption } = props;
 
-  const initialValues = parseData(data);
+  const initialValues = parseData(siteOption);
 
   const formik = useFormik<any>({
     initialValues,
@@ -27,6 +27,7 @@ export default function Admin(props: IServerSideProps) {
   });
 
   const keys = Object.keys(initialValues) as unknown as OptionKeys[];
+  const currentDate = () => moment().clone();
 
   return (
     <div className="w-full p-12">
@@ -55,6 +56,12 @@ export default function Admin(props: IServerSideProps) {
           {keys.map((optionKey) => {
             const label = OPTION_DESCRIPTIONS[optionKey].label;
             const afterInput = OPTION_DESCRIPTIONS[optionKey].afterInput;
+            const start_date = moment(currentDate())
+              .subtract(formik.values[optionKey], `days`)
+              .format(FRONTEND_DATE_FORMAT);
+            const end_date = moment()
+              .add(formik.values[optionKey], `days`)
+              .format(FRONTEND_DATE_FORMAT);
 
             return (
               <div key={optionKey} className="mb-12 flex w-full flex-wrap">
@@ -67,6 +74,11 @@ export default function Admin(props: IServerSideProps) {
                 >
                   <span className="block text-gray-500 italic text-sm">
                     {OPTION_DESCRIPTIONS[optionKey].description}
+                  </span>
+                  <span className="block text-md mt-4">
+                    Current example: releases are shown from{` `}
+                    <strong>{start_date}</strong> to{`  `}
+                    <strong>{end_date}</strong>
                   </span>
                 </label>
                 <div className="flex w-full items-center justify-start">

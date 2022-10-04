@@ -2,7 +2,7 @@ import { GetServerSideProps, GetServerSidePropsResult } from 'next';
 import IServerSideProps from '@/types/App';
 import { serverSideFetch } from './api';
 import { clearServerCookies, hasLoggedInHeaders } from '@/util/cookie';
-import { SiteOption } from '@/types/Data';
+import { SiteOptionData } from '@/types/Data';
 import { buildDateRange } from '@/util/date';
 
 export const globalServerSideProps: GetServerSideProps<
@@ -10,31 +10,32 @@ export const globalServerSideProps: GetServerSideProps<
 > = async (context): Promise<GetServerSidePropsResult<IServerSideProps>> => {
   const url = context.req.url; // e.g. context.req.url = /search/armor
 
-  let siteOption: SiteOption = {
-    id: 999,
-    featured_date_window_after: 15,
-    featured_date_window_before: 15,
-    name: `staticOptions`,
-    data: ``,
+  let siteOption: SiteOptionData = {
+    featured_date_after: 15,
+    featured_date_before: 15,
+    upcoming_date_after: 15,
+    upcoming_date_before: 15,
   };
 
   const fullUrl = `${process.env.NEXT_SITE_ROOT}${url}`;
   try {
     const { data } = await serverSideFetch(context).getOptions();
-    if (data?.id) {
-      siteOption = data;
+    if (data?.id && data?.data) {
+      try {
+        siteOption = JSON.parse(data.data) as SiteOptionData;
+      } catch (error) {}
     }
   } catch (error: any) {
     console.log(`globalServerSideProps getOptions`, error);
   }
-  const dateRange = buildDateRange(siteOption);
+  const dateRanges = buildDateRange(siteOption);
 
   const withoutUser = () => {
     return {
       props: {
         siteOption: {
           ...siteOption,
-          ...dateRange,
+          ...dateRanges,
         },
         fullUrl,
         user: null,
@@ -52,7 +53,7 @@ export const globalServerSideProps: GetServerSideProps<
       props: {
         siteOption: {
           ...siteOption,
-          ...dateRange,
+          ...dateRanges,
         },
         fullUrl,
         user: data,

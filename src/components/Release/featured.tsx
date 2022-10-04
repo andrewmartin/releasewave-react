@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 
 const DynamicImage = dynamic(() => import(`@/components/Dynamic/Image`), {
   suspense: true,
+  ssr: false,
 });
 
 export const FeaturedRelease = (release: Release) => {
