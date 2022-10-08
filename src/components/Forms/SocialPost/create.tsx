@@ -16,6 +16,7 @@ import { Textarea } from '@/components/Atoms/InputField';
 import { Release, User } from '@/types/Data';
 import { getFirstArtist } from '@/components/Atoms/FirstArtistForRelease';
 import { formatDateSocial } from '@/util/date';
+import { decode } from 'html-entities';
 
 import clipboardy from 'clipboardy';
 import toast from 'react-hot-toast';
@@ -28,7 +29,9 @@ type ContentOption = {
 };
 
 const stripHtml = (string: string) => {
-  return string.replace(/(<([^>]+)>)/gi, ``);
+  const nonHtml = string.replace(/(<([^>]+)>)/gi, ``);
+
+  return decode(nonHtml);
 };
 
 const socialLeadText = (release: Release) => {
