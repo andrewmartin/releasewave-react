@@ -158,7 +158,7 @@ export const CreateSocialForm = () => {
               formik.setFieldValue(`content`, event.currentTarget.value);
             }}
             minLength={200}
-            className="min-h-[300px]"
+            className="min-h-[350px] text-sm"
           />
           <div className="mb-6 mt-4">
             <h3 className="w-full text-[1.5em] font-bold tracking-tight mb-2">
@@ -187,12 +187,12 @@ export const CreateSocialForm = () => {
               }}
             />
           </div>
-          <div className="mb-6 mt-8 w-full space-x-4">
+          <div className="mb-6 mt-8 w-full flex flex-wrap">
             <Link href="https://instagram.com/releasewave">
               <a
                 rel="noopener noreferrer"
                 target="_blank"
-                className="btn btn-primary"
+                className="btn btn-primary block mr-4 mb-2 md:mb-0"
               >
                 Post to Instagram
               </a>
@@ -201,7 +201,7 @@ export const CreateSocialForm = () => {
               <a
                 rel="noopener noreferrer"
                 target="_blank"
-                className="btn btn-primary"
+                className="btn btn-primary block mr-4 mb-2 md:mb-0"
               >
                 Post to Facebook
               </a>

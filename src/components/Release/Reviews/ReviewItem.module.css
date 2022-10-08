@@ -27,5 +27,5 @@
 }
 
 .ReviewItemByline cite {
-  @apply text-xl mr-4 text-gray-500;
+  @apply text-xs md:text-xl mr-4 text-gray-500;
 }

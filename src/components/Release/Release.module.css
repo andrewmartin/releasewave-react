@@ -96,7 +96,7 @@
   @apply p-6 md:p-0 w-full;
 }
 .ReleasePageContent p {
-  @apply mb-6 text-xl;
+  @apply mb-6 text-sm md:text-xl;
 }
 .ReleasePageHeader {
   @apply flex w-full flex-wrap;
