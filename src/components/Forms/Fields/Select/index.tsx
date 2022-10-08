@@ -97,7 +97,9 @@ const buildSocialOptions = (
 // leaving this wonky format to match the expectations of react-async select if we ever go back to that.
 const loadSocialOptions =
   (socialName: string, searchTerm: string) => async () => {
-    const searchValue = `${searchTerm} ${socialName}`;
+    const suffix =
+      socialName === `website` ? ` official website` : `on ${socialName}`;
+    const searchValue = encodeURIComponent(`"${searchTerm}" ${suffix}`);
 
     const { data } = await AXIOS().instance.get<SearchResultResponse>(
       `artist-search/${searchValue}`,

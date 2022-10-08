@@ -190,13 +190,11 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
               {isEditing && (
                 <WithCurrentUser>
                   <cite className="w-full text-gray-500 mb-8 block">
-                    If you have issues seeing items load in the dropdowns,
-                    please wait a moment or two. You may be hitting API limits
-                    since we are on the free Google API plan. It should clear up
-                    in 1 minute or so (just try adding an empty space to the
-                    {` `}
-                    {`"name"`} field, then remove it; this will force the links
-                    below to refresh)
+                    If you have issues seeing items load in the dropdowns, try
+                    using the `Manual Link` option below. Please note that the
+                    `Fetch Social Links` button only shows up initially when
+                    creating a new artist, or when an artist&apos;s name is
+                    being changed.
                   </cite>
                 </WithCurrentUser>
               )}

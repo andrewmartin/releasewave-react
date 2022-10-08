@@ -20,6 +20,10 @@ export type CreateReviewFormValues = {
   score: string;
 };
 
+export type CreateSocialFormValues = {
+  content: string;
+};
+
 export type DeleteReviewFormValues = {
   id: Review['id'];
   releaseSlug: Release['slug'];

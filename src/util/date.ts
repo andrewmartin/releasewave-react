@@ -1,9 +1,12 @@
 import moment from 'moment';
 export const SERVER_DATE_FORMAT = `YYYY-MM-DD`;
 export const FRONTEND_DATE_FORMAT = `MMMM Do, YYYY`;
+export const SOCIAL_DATE_FORMAT = `MM.DD.YY`;
 
 export const formatDate = (date: string) =>
   moment(date).format(FRONTEND_DATE_FORMAT);
+export const formatDateSocial = (date: string) =>
+  moment(date).format(SOCIAL_DATE_FORMAT);
 export const getToday = () => moment();
 export const isFutureDate = (date: moment.Moment) =>
   moment(date).isAfter(moment());

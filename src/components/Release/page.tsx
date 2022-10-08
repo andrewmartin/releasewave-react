@@ -44,6 +44,7 @@ import { ReleaseContent, ReleaseFeaturedBanner } from '../Atoms/ReleaseMeta';
 import { Head, SeoProps } from '../Head';
 import { PLAYLIST_URL } from '../Playlist';
 import moment from 'moment';
+import { CreateSocialFormContainer } from '../Forms/SocialPost/create';
 const Calendar =
   ReactInfiniteCalendar as unknown as FC<ReactInfiniteCalendarProps>;
 
@@ -354,6 +355,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
       {!isNew && (
         <WithCurrentUser>
           <CreateReviewFormContainer />
+          <CreateSocialFormContainer />
         </WithCurrentUser>
       )}
     </>

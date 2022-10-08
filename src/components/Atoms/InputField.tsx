@@ -33,7 +33,7 @@ export const Textarea = (
   return (
     <textarea
       className={classNames(INPUT_BASE_STYLES, {
-        className: Boolean(className),
+        [`${className}`]: className,
       })}
       {...restProps}
     />
