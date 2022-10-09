@@ -22,26 +22,26 @@ export const CurrentUser: FC<WithUser> = (props) => {
   return Fallback ? <Fallback {...restProps} /> : null;
 };
 
-const Logout: FC<{
-  itemClassName: string;
-}> = ({ itemClassName }) => {
-  const { dispatch } = useAppContext();
+// const Logout: FC<{
+//   itemClassName: string;
+// }> = ({ itemClassName }) => {
+//   const { dispatch } = useAppContext();
 
-  return (
-    <button
-      onClick={(event) => {
-        dispatch({
-          type: `logout`,
-        });
-        closeModal(dispatch)(event);
-        toast(`logged out!`);
-      }}
-      className={itemClassName}
-    >
-      Logout
-    </button>
-  );
-};
+//   return (
+//     <button
+//       onClick={(event) => {
+//         dispatch({
+//           type: `logout`,
+//         });
+//         closeModal(dispatch)(event);
+//         toast(`logged out!`);
+//       }}
+//       className={itemClassName}
+//     >
+//       Logout
+//     </button>
+//   );
+// };
 
 interface DropdownNavList {
   onChange: (option: Option) => void;
@@ -52,6 +52,9 @@ export const DropdownNavList: FC<PropsWithChildren<DropdownNavList>> = ({
 }) => {
   const [value, setValue] = useState(``);
   const router = useRouter();
+  const {
+    state: { user },
+  } = useAppContext();
 
   useEffect(() => {
     setTimeout(() => {
@@ -77,11 +80,15 @@ export const DropdownNavList: FC<PropsWithChildren<DropdownNavList>> = ({
           label: `Create Artist`,
           value: `/admin/artists/new`,
         },
+        {
+          label: `Logout`,
+          value: `LOGOUT`,
+        },
       ]}
       onChange={(option) => {
         onChange(option);
       }}
-      placeholder="Admin"
+      placeholder={user?.name}
     />
   );
 };
@@ -93,6 +100,14 @@ export const AdminNav: FC<{
 }> = ({ itemClassName, onClose, hideLogin }) => {
   const { dispatch } = useAppContext();
   const { push } = useRouter();
+
+  const logout = () => {
+    dispatch({
+      type: `logout`,
+    });
+    closeModal(dispatch)();
+    toast(`logged out!`);
+  };
 
   return (
     <CurrentUser
@@ -109,12 +124,13 @@ export const AdminNav: FC<{
         )
       }
     >
-      <li onClick={onClose && onClose}>
-        <Logout itemClassName={itemClassName} />
-      </li>
       <li className="px-2" onClick={onClose && onClose}>
         <DropdownNavList
           onChange={({ value }) => {
+            if (value === `LOGOUT`) {
+              return logout();
+            }
+
             push(value);
           }}
         />
