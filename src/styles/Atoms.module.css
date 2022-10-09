@@ -39,3 +39,23 @@
 .EmphasisContent {
   @apply text-[1.1em] leading-[1.5] md:leading-[2] md:text-[1.4em] mt-8;
 }
+
+.DropdownNavListControl {
+  @apply bg-transparent uppercase;
+}
+
+.DropdownNavListMenu {
+  @apply text-left;
+}
+
+.DropdownNavListMenu > div {
+  @apply transition-all text-xs;
+}
+
+.DropdownNavListMenu > div:not(:global(.is-selected)):hover {
+  @apply bg-pink text-white;
+}
+
+.DropdownNavListMenu :global(.is-selected) {
+  @apply bg-pink text-white;
+}

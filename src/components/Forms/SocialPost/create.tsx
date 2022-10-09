@@ -173,7 +173,6 @@ export const CreateSocialForm = () => {
               isSearchable={false}
               options={options}
               onChange={(value) => {
-                console.log(`value`, value);
                 if (value?.type === `review`) {
                   return formik.setFieldValue(
                     `content`,

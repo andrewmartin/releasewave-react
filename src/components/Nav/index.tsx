@@ -25,12 +25,14 @@ export const NavList: FC<{
   ulClassName: string;
   itemClassName: string;
   itemActiveClassName: string;
-  showLogin?: boolean;
+  showAdminNav?: boolean;
+  hideLogin?: boolean;
   onClose?: () => void;
 }> = ({
   ulClassName,
   itemClassName,
-  showLogin,
+  showAdminNav,
+  hideLogin,
   itemActiveClassName,
   onClose,
 }) => {
@@ -72,8 +74,12 @@ export const NavList: FC<{
           </button>
         </li>
       )}
-      {showLogin && (
-        <AdminNav onClose={onClose} itemClassName={itemClassName} />
+      {showAdminNav && (
+        <AdminNav
+          hideLogin={Boolean(hideLogin)}
+          onClose={onClose}
+          itemClassName={itemClassName}
+        />
       )}
     </ul>
   );
@@ -108,7 +114,7 @@ export const MobileNavMenu: FC<{
         itemClassName={styles.MobileNavItem}
         itemActiveClassName={styles.MobileNavItemActive}
         ulClassName={styles.MobileNavList}
-        showLogin
+        showAdminNav
         onClose={onClose}
       />
     </BurgerMenu>
@@ -122,6 +128,8 @@ export const NavContainer: FC = () => {
         itemClassName={styles.NavItem}
         ulClassName={styles.NavList}
         itemActiveClassName={styles.NavItemActive}
+        showAdminNav
+        hideLogin
       />
     </div>
   );

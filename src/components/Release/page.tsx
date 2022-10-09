@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import styles from './Release.module.css';
-import atomStyles from '@/styles/Atoms.module.css';
 import {
   FirstArtistForRelease,
   getFirstArtist,

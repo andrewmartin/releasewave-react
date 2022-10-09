@@ -73,7 +73,7 @@ export const Footer: FC = () => {
           itemClassName={styles.FooterNavItem}
           ulClassName={styles.FooterNavList}
           itemActiveClassName={styles.FooterNavItemActive}
-          showLogin
+          showAdminNav
         />
       </div>
       <div className={classNames(styles.FooterBottom, styles.FooterEmphasis)}>

@@ -1,8 +1,10 @@
 import { useAppContext } from '@/context/app';
-import { FC, ReactNode } from 'react';
+import { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import { showLoginModal, closeModal } from '@/context/app/actions';
-import Link from 'next/link';
 import toast from 'react-hot-toast';
+import Dropdown, { Option } from 'react-dropdown';
+import atomStyles from '@/styles/Atoms.module.css';
+import { useRouter } from 'next/router';
 
 interface WithUser {
   children: ReactNode;
@@ -41,29 +43,81 @@ const Logout: FC<{
   );
 };
 
+interface DropdownNavList {
+  onChange: (option: Option) => void;
+}
+
+export const DropdownNavList: FC<PropsWithChildren<DropdownNavList>> = ({
+  onChange,
+}) => {
+  const [value, setValue] = useState(``);
+  const router = useRouter();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setValue(``);
+    }, 1000);
+  }, [router.asPath]);
+
+  return (
+    <Dropdown
+      controlClassName={atomStyles.DropdownNavListControl}
+      menuClassName={atomStyles.DropdownNavListMenu}
+      value={value}
+      options={[
+        {
+          label: `Admin Settings`,
+          value: `/admin`,
+        },
+        {
+          label: `Create Release`,
+          value: `/admin/releases/new`,
+        },
+        {
+          label: `Create Artist`,
+          value: `/admin/artists/new`,
+        },
+      ]}
+      onChange={(option) => {
+        onChange(option);
+      }}
+      placeholder="Admin"
+    />
+  );
+};
+
 export const AdminNav: FC<{
   itemClassName: string;
   onClose?: () => void;
-}> = ({ itemClassName, onClose }) => {
+  hideLogin: boolean;
+}> = ({ itemClassName, onClose, hideLogin }) => {
   const { dispatch } = useAppContext();
+  const { push } = useRouter();
 
   return (
     <CurrentUser
-      Fallback={() => (
-        <li>
-          <button onClick={showLoginModal(dispatch)} className={itemClassName}>
-            Login
-          </button>
-        </li>
-      )}
+      Fallback={() =>
+        hideLogin ? null : (
+          <li>
+            <button
+              onClick={showLoginModal(dispatch)}
+              className={itemClassName}
+            >
+              Login
+            </button>
+          </li>
+        )
+      }
     >
       <li onClick={onClose && onClose}>
         <Logout itemClassName={itemClassName} />
       </li>
-      <li onClick={onClose && onClose}>
-        <Link href="/admin">
-          <a className={itemClassName}>Admin</a>
-        </Link>
+      <li className="px-2" onClick={onClose && onClose}>
+        <DropdownNavList
+          onChange={({ value }) => {
+            push(value);
+          }}
+        />
       </li>
     </CurrentUser>
   );

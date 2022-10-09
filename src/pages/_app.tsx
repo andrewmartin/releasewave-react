@@ -1,6 +1,8 @@
 import { AppProps } from 'next/app';
 import '@/styles/global.css';
 import 'react-infinite-calendar/styles.css';
+import 'react-dropdown/style.css';
+
 import { AppWrapper } from '@/context/app';
 import { Layout } from '@/components/Layout';
 import { ModalContainer } from '@/components/Modal';

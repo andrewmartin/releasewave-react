@@ -141,5 +141,5 @@ a {
 
 /* headroom */
 .headroom-wrapper {
-  @apply overflow-hidden;
+  /* @apply overflow-hidden; */
 }
