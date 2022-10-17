@@ -88,7 +88,7 @@ export const DropdownNavList: FC<PropsWithChildren<DropdownNavList>> = ({
       onChange={(option) => {
         onChange(option);
       }}
-      placeholder={user?.name}
+      placeholder={user?.name || `Settings`}
     />
   );
 };
