@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 
 const DynamicImage = dynamic(() => import(`@/components/Dynamic/Image`), {
   suspense: true,
-  ssr: false,
+  ssr: true,
 });
 
 export const FeaturedRelease = (release: Release) => {
@@ -21,6 +21,7 @@ export const FeaturedRelease = (release: Release) => {
       <div className={styles.FeaturedReleaseImage}>
         <Suspense fallback={`Loading...`}>
           <DynamicImage
+            placeholder="blur"
             href={href}
             alt={`${release.name}`}
             width={400}

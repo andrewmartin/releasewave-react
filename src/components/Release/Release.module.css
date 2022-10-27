@@ -45,6 +45,10 @@
   @apply mt-4 text-sm md:text-base leading-[2];
 }
 
+.HomeReleaseContent p {
+  @apply text-xs md:text-base;
+}
+
 .UpcomingReleaseContent {
 }
 
