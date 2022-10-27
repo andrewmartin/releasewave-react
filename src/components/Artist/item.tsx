@@ -34,20 +34,16 @@ export const ArtistItem: FC<ArtistItem> = (props) => {
         className={`${image} cursor-pointer hover:scale-110 transition-all transform-gpu`}
       >
         <Link href={linkHref}>
-          <a href={linkHref}>
-            <Image
-              src={appendHostToImage(artist.image.large)}
-              alt={`${name}`}
-              {...imageProps}
-            />
-          </a>
+          <Image
+            src={appendHostToImage(artist.image.large)}
+            alt={`${name}`}
+            {...imageProps}
+          />
         </Link>
       </div>
       <div className={content}>
         <Link href={linkHref}>
-          <a href={linkHref}>
-            <h2 className={atomStyles.ArtistLink}>{name}</h2>
-          </a>
+          <h2 className={atomStyles.ArtistLink}>{name}</h2>
         </Link>
         {!showContentDefault && Content && Content}
         {showContentDefault && !Content && (

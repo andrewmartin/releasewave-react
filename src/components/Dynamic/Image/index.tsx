@@ -15,14 +15,12 @@ interface Props {
 export const ImageWithLink = ({ href, src, alt, width, height }: Props) => {
   return (
     <Link href={href}>
-      <a href={href}>
-        <Image
-          src={appendHostToImage(src)}
-          alt={`${alt}`}
-          width={width}
-          height={height}
-        />
-      </a>
+      <Image
+        src={appendHostToImage(src)}
+        alt={`${alt}`}
+        width={width}
+        height={height}
+      />
     </Link>
   );
 };

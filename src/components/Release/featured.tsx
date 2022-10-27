@@ -31,9 +31,7 @@ export const FeaturedRelease = (release: Release) => {
       </div>
       <div className={styles.FeaturedReleaseContent}>
         <Link href={href}>
-          <a href={href}>
-            <h2 className={atomStyles.ReleaseLink}>{release.name}</h2>
-          </a>
+          <h2 className={atomStyles.ReleaseLink}>{release.name}</h2>
         </Link>
         <span>
           <FirstArtistForRelease {...release} />

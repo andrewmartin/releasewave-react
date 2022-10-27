@@ -17,21 +17,17 @@ const ArtistCollectionItem = (artist: Artist) => {
     <div className={styles.ArtistCollectionItem} key={artist.id}>
       <div className={styles.ArtistCollectionItemImage}>
         <Link href={linkHref}>
-          <a href={linkHref}>
-            <Image
-              src={appendHostToImage(artist.image.large)}
-              alt={`${artist.name}`}
-              width={500}
-              height={500}
-            />
-          </a>
+          <Image
+            src={appendHostToImage(artist.image.large)}
+            alt={`${artist.name}`}
+            width={500}
+            height={500}
+          />
         </Link>
       </div>
       <div className={styles.ArtistCollectionItemContent}>
         <Link href={linkHref}>
-          <a href={linkHref}>
-            <h2 className={atomStyles.ArtistLink}>{artist.name}</h2>
-          </a>
+          <h2 className={atomStyles.ArtistLink}>{artist.name}</h2>
         </Link>
       </div>
     </div>

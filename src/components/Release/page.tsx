@@ -185,15 +185,13 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                           : null
                       }
                     />
-                    <Link href="/admin/artists/new">
-                      <a
-                        target="_blank"
-                        className="mt-2 text-pink hover:underline hover:text-pink-500 transition-all flex items-center space-x-2 text-sm"
-                        href="/admin/artists/new"
-                      >
-                        <FaLink></FaLink>
-                        <em>Create an Artist</em>
-                      </a>
+                    <Link
+                      href="/admin/artists/new"
+                      target="_blank"
+                      className="mt-2 text-pink hover:underline hover:text-pink-500 transition-all flex items-center space-x-2 text-sm"
+                    >
+                      <FaLink></FaLink>
+                      <em>Create an Artist</em>
                     </Link>
                   </>
                 </MaybeField>
@@ -205,16 +203,15 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                 >
                   <>
                     {artist ? <SocialLinks {...artist} /> : null}
-                    <Link href={`/artists/${artist?.slug}`}>
-                      <a
-                        target="_blank"
-                        className="mt-2 text-pink hover:underline hover:text-pink-500 transition-all flex items-center space-x-2 text-sm"
-                      >
-                        <FaLink></FaLink>
-                        <em className="text-sm">
-                          Edit Socials on the Artist Page
-                        </em>
-                      </a>
+                    <Link
+                      href={`/artists/${artist?.slug}`}
+                      target="_blank"
+                      className="mt-2 text-pink hover:underline hover:text-pink-500 transition-all flex items-center space-x-2 text-sm"
+                    >
+                      <FaLink></FaLink>
+                      <em className="text-sm">
+                        Edit Socials on the Artist Page
+                      </em>
                     </Link>
                   </>
                 </MaybeField>

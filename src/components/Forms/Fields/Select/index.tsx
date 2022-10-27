@@ -181,16 +181,14 @@ export const ArtistSocialSelect = (props: ArtistSocialSelectProps) => {
       </div>
       {link && (
         <pre className="mt-4 text-pink hover:text-black">
-          <Link href={link}>
-            <a
-              className="flex items-center"
-              rel="noreferrer"
-              href={link}
-              target="_blank"
-            >
-              <FaExternalLinkAlt className="mr-3" />
-              {link}
-            </a>
+          <Link
+            href={link}
+            className="flex items-center"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <FaExternalLinkAlt className="mr-3" />
+            {link}
           </Link>
         </pre>
       )}

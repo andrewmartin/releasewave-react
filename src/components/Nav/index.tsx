@@ -45,16 +45,14 @@ export const NavList: FC<{
       {NAV_PAGES.map(([name, href]) => {
         return (
           <li key={href}>
-            <Link href={href}>
-              <a
-                onClick={onClose && onClose}
-                href={href}
-                className={classNames(itemClassName, {
-                  [itemActiveClassName]: pathname === href,
-                })}
-              >
-                {name}
-              </a>
+            <Link
+              href={href}
+              onClick={onClose && onClose}
+              className={classNames(itemClassName, {
+                [itemActiveClassName]: pathname === href,
+              })}
+            >
+              {name}
             </Link>
           </li>
         );

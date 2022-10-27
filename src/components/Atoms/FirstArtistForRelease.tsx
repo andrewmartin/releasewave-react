@@ -14,10 +14,8 @@ const ArtistLink = (props: schema.Artist) => {
   const { name, slug } = props;
   const href = `/artists/${slug}`;
   return (
-    <Link href={href}>
-      <a href={href} className={atomStyles.Link}>
-        <span>{name}</span>
-      </a>
+    <Link href={href} className={atomStyles.Link}>
+      <span>{name}</span>
     </Link>
   );
 };

@@ -45,20 +45,16 @@ export const ReleaseItem: FC<ReleaseItem> = (props) => {
       >
         <ReleaseFeaturedBanner {...release} />
         <Link href={linkHref}>
-          <a href={linkHref}>
-            <Image
-              src={appendHostToImage(release.image.large)}
-              alt={`${release.name}`}
-              {...imageProps}
-            />
-          </a>
+          <Image
+            src={appendHostToImage(release.image.large)}
+            alt={`${release.name}`}
+            {...imageProps}
+          />
         </Link>
       </div>
       <div className={content}>
         <Link href={linkHref}>
-          <a href={linkHref}>
-            <h2 className={atomStyles.ReleaseLink}>{release.name}</h2>
-          </a>
+          <h2 className={atomStyles.ReleaseLink}>{release.name}</h2>
         </Link>
         {showArtist && <FirstArtistForRelease {...release} />}
         <ReleaseDate {...release} />
@@ -73,10 +69,8 @@ export const ReleaseItem: FC<ReleaseItem> = (props) => {
         )}
         {showReadMore && (
           <div className="mt-8 w-full">
-            <Link href={linkHref}>
-              <a className="btn btn-sm btn-secondary" href={linkHref}>
-                Read More
-              </a>
+            <Link href={linkHref} className="btn btn-sm btn-secondary">
+              Read More
             </Link>
           </div>
         )}

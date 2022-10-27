@@ -37,10 +37,10 @@ export default function Admin(props: IServerSideProps) {
       <h3 className="text-xl font-bold mb-12">Create Content</h3>
       <div className="mb-12 w-full flex-wrap">
         <div className="flex w-full space-x-10">
-          <Link href="/admin/releases/new">
+          <Link href="/admin/releases/new" legacyBehavior>
             <button className="btn btn-primary">Create a Release</button>
           </Link>
-          <Link href="/admin/artists/new">
+          <Link href="/admin/artists/new" legacyBehavior>
             <button className="btn btn-primary">Create an Artist</button>
           </Link>
         </div>

@@ -88,9 +88,7 @@ export const Footer: FC = () => {
         </cite>
         <BuiltWith />
         <div className="w-full text-xs text-gray-300 mt-6">
-          <Link href="/privacy">
-            <a>Privacy Policy</a>
-          </Link>
+          <Link href="/privacy">Privacy Policy</Link>
         </div>
       </div>
     </div>

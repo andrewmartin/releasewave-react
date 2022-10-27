@@ -45,8 +45,8 @@ export const UpcomingReleaseContainer: FC<PropsWithChildren> = () => {
         ))}
       </div>
       <div className="flex w-full items-center justify-center my-8">
-        <Link href="/releases">
-          <a className="btn btn-primary">View All Releases</a>
+        <Link href="/releases" className="btn btn-primary">
+          View All Releases
         </Link>
       </div>
     </>

@@ -187,23 +187,21 @@ export const CreateSocialForm = () => {
             />
           </div>
           <div className="mb-6 mt-8 w-full flex flex-wrap">
-            <Link href="https://instagram.com/releasewave">
-              <a
-                rel="noopener noreferrer"
-                target="_blank"
-                className="btn btn-primary block mr-4 mb-2 md:mb-0"
-              >
-                Post to Instagram
-              </a>
+            <Link
+              href="https://instagram.com/releasewave"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="btn btn-primary block mr-4 mb-2 md:mb-0"
+            >
+              Post to Instagram
             </Link>
-            <Link href="https://facebook.com/releasewave">
-              <a
-                rel="noopener noreferrer"
-                target="_blank"
-                className="btn btn-primary block mr-4 mb-2 md:mb-0"
-              >
-                Post to Facebook
-              </a>
+            <Link
+              href="https://facebook.com/releasewave"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="btn btn-primary block mr-4 mb-2 md:mb-0"
+            >
+              Post to Facebook
             </Link>
           </div>
         </div>
