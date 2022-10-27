@@ -1,5 +1,5 @@
 import { appendHostToImage } from '@/util/image';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Link from 'next/link';
 import { release } from 'os';
 import React from 'react';

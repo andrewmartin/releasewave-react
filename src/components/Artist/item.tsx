@@ -1,6 +1,6 @@
 import { Artist } from '@/types/Data';
 import { appendHostToImage } from '@/util/image';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import Link from 'next/link';
 import React, { FC } from 'react';
 import styles from './Artist.module.css';

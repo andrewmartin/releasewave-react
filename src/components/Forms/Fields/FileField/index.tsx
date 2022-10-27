@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import cx from 'classnames';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import styles from './FileField.module.css';
 import { appendHostToImage } from '@/util/image';
 

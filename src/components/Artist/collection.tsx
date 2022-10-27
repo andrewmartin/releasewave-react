@@ -3,7 +3,7 @@ import { getArtists } from '@/context/artist/api';
 import { Artist } from '@/types/Data';
 import { appendHostToImage } from '@/util/image';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { FC, PropsWithChildren, useRef, useEffect } from 'react';
 import { usePrevious } from 'react-use';
 import styles from './Artist.module.css';

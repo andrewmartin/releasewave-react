@@ -1,6 +1,6 @@
 import { Release } from '@/types/Data';
 import React, { FC } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { FirstArtistForRelease } from '../Atoms/FirstArtistForRelease';
 import styles from './Release.module.css';
 import Link from 'next/link';

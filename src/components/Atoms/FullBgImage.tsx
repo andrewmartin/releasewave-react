@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { ReactPortal } from '../Layout/Portal';
 import { appendHostToImage } from '@/util/image';
 import { sentenceCase } from 'change-case';

@@ -44,7 +44,7 @@ import { Head, SeoProps } from '../Head';
 import { PLAYLIST_URL } from '../Playlist';
 import moment from 'moment';
 import { CreateSocialFormContainer } from '../Forms/SocialPost/create';
-import ImagesExample from '../Forms/Fields/RichTextField/images';
+// import ImagesExample from '../Forms/Fields/RichTextField/images';
 
 const Calendar =
   ReactInfiniteCalendar as unknown as FC<ReactInfiniteCalendarProps>;
@@ -346,7 +346,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                   }}
                 />
               </MaybeEmbedField>
-              <ImagesExample />
+              {/* <ImagesExample /> */}
             </article>
           </section>
         </div>
