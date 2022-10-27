@@ -13,22 +13,31 @@ import {
   ReactEditor,
 } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { css, cx } from '@emotion/css';
-import { Node as SlateNode } from 'slate';
 import { Button, Icon, Toolbar } from './lib/components';
 import { ImageElement } from './lib/custom-types';
 import { CustomNode, serialize } from './util';
 import { Input } from '@/components/Atoms/InputField';
 import classNames from 'classnames';
 
-const withImages = (editor) => {
+const insertImage = (editor: any, url: any, caption?: string) => {
+  const text = { text: `` };
+  const image: ImageElement = {
+    type: `image`,
+    url,
+    children: [text],
+    caption: `${caption}`,
+  };
+  Transforms.insertNodes(editor, image);
+};
+
+const withImages = (editor: any) => {
   const { insertData, isVoid } = editor;
 
-  editor.isVoid = (element) => {
+  editor.isVoid = (element: any) => {
     return element.type === `image` ? true : isVoid(element);
   };
 
-  editor.insertData = (data) => {
+  editor.insertData = (data: any) => {
     const text = data.getData(`text/plain`);
     const { files } = data;
 
@@ -57,7 +66,7 @@ const withImages = (editor) => {
 };
 
 export const ImagesExample = () => {
-  const editor = useMemo(
+  const editor = useMemo<ReactEditor>(
     () => withImages(withHistory(withReact(createEditor()))),
     [],
   );
@@ -83,17 +92,7 @@ export const ImagesExample = () => {
   );
 };
 
-const insertImage = (editor, url, caption: string) => {
-  const text = { text: `` };
-  const image: ImageElement = {
-    type: `image`,
-    url,
-    children: [text],
-    caption,
-  };
-  Transforms.insertNodes(editor, image);
-};
-const updateImage = (editor, url: string, caption: string, path: Path) => {
+const updateImage = (editor: any, url: string, caption: string, path: Path) => {
   const text = { text: caption || `` };
   const image: ImageElement = {
     type: `image`,
@@ -110,7 +109,7 @@ const updateImage = (editor, url: string, caption: string, path: Path) => {
   });
 };
 
-const Element = (props) => {
+const Element = (props: any) => {
   const { attributes, children, element } = props;
 
   switch (element.type) {
@@ -173,30 +172,34 @@ const Image: FC<
   );
 };
 
+const isImageUrl = (url?: string) => {
+  if (!url) {
+    return false;
+  }
+  if (!isUrl(url)) {
+    return false;
+  }
+  const ext = new URL(url).pathname.split(`.`).pop();
+  return imageExtensions.includes(`${ext}`);
+};
+
 const InsertImageButton = () => {
   const editor = useSlateStatic();
   return (
     <Button
-      onMouseDown={(event) => {
+      onMouseDown={(event: any) => {
         event.preventDefault();
         const url = window.prompt(`Enter the URL of the image:`);
         if (url && !isImageUrl(url)) {
           alert(`URL is not an image`);
           return;
         }
-        url && insertImage(editor, url);
+        url && insertImage(editor, url, `caption`);
       }}
     >
       <Icon>image</Icon>
     </Button>
   );
-};
-
-const isImageUrl = (url) => {
-  if (!url) return false;
-  if (!isUrl(url)) return false;
-  const ext = new URL(url).pathname.split(`.`).pop();
-  return imageExtensions.includes(ext);
 };
 
 const initialValue: Descendant[] = [
