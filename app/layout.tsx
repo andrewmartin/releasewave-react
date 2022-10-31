@@ -2,7 +2,7 @@ import { FC, PropsWithChildren } from 'react';
 
 const RootLayout: FC<PropsWithChildren> = (props) => {
   const { children } = props;
-  console.log(`props2`, props);
+  console.log(`RootLayout props:`, props);
 
   return (
     <html lang="en">
