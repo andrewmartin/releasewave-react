@@ -1,3 +1,5 @@
+'use client';
+
 import styles from '@/styles/Home.module.css';
 import {
   homeServerSideProps,
@@ -34,4 +36,4 @@ export default function Home(props: IHomeServerSideProps) {
   );
 }
 
-export const getServerSideProps = homeServerSideProps;
+// export const getServerSideProps = homeServerSideProps;
