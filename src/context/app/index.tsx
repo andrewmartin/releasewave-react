@@ -1,3 +1,4 @@
+import { CustomEditor } from '@/components/Forms/Fields/RichTextField/lib/custom-types';
 import { User } from '@/types/Data';
 import { clearBrowserCookies } from '@/util/cookie';
 import { assertUnreachable } from '@/util/unreachable';
@@ -11,7 +12,7 @@ import {
 } from 'react';
 
 export type FetchType = 'user';
-export type ModalType = 'login' | 'debug';
+export type ModalType = 'login' | 'debug' | 'media';
 
 export type AppAction =
   | { type: 'logout' }
@@ -23,7 +24,8 @@ export type AppAction =
   | { type: 'search'; searchTerm: string }
   | { type: 'search:show' }
   | { type: 'search:close' }
-  | { type: 'done'; fetchType: FetchType };
+  | { type: 'done'; fetchType: FetchType }
+  | { type: 'setSlateEditor'; editor: CustomEditor };
 
 interface AppState {
   user?: User;
@@ -33,6 +35,7 @@ interface AppState {
   modalMessage?: string;
   searchActive: boolean;
   searchTerm: string;
+  editor?: CustomEditor;
 }
 
 interface AppContext {
@@ -48,6 +51,7 @@ const initialState: AppState = {
   user: undefined,
   searchTerm: ``,
   searchActive: false,
+  editor: undefined,
 };
 
 interface AppWrapperProps {
@@ -120,6 +124,12 @@ function appReducer(prevState: AppState, action: AppAction): AppState {
       return {
         ...prevState,
         searchActive: false,
+      };
+    }
+    case `setSlateEditor`: {
+      return {
+        ...prevState,
+        editor: action.editor,
       };
     }
 

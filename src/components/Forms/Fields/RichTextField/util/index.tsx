@@ -31,6 +31,21 @@ export const deserialize = (el: any, markAttributes = {}): any => {
       return jsx(`fragment`, {}, children);
     case `BR`:
       return `\n`;
+    case `DIV`:
+      console.log(`img!!!\n`, el.getAttributeNames());
+      const isImage = el.classList.contains(`editor-image`);
+      if (!isImage) return jsx(`fragment`, {}, children);
+      const url = el.getElementsByTagName(`img`).item(0).getAttribute(`src`);
+      const caption = el.getElementsByTagName(`cite`).item(0).innerHTML;
+      return jsx(
+        `element`,
+        {
+          type: `image`,
+          url,
+          caption,
+        } as ImageNode,
+        children,
+      );
     case `BLOCKQUOTE`:
       return jsx(
         `element`,
@@ -84,7 +99,6 @@ export const serialize = (node: CustomNode[]) => {
             if (n.text) {
               return escapeHtml(n.text);
             }
-            console.log(`n`, n);
             return n;
           })
           .join(``);
@@ -95,7 +109,7 @@ export const serialize = (node: CustomNode[]) => {
       case `image`:
         const { url, caption } = item as ImageNode;
         str += `
-        <div>
+        <div class="editor-image">
           <img src="${url}" />
           ${caption ? `<cite>${caption}</cite>` : ``}
         </div>

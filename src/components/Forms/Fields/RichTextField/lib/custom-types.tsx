@@ -40,8 +40,8 @@ export type HeadingTwoElement = {
 export type ImageElement = {
   type: 'image';
   url: string;
-  caption: string;
-  children: EmptyText[];
+  caption?: string;
+  children: Descendant[];
 };
 
 export type LinkElement = { type: 'link'; url: string; children: Descendant[] };

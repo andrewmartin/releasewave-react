@@ -14,10 +14,18 @@ import { closeModal } from '@/context/app/actions';
 import { Debug } from '../Debug';
 import { ReactPortal } from '../Layout/Portal';
 import { LayoutProps } from '../Layout';
+import { MediaModal } from './media';
 
 const CONTENT_DELAY = 250;
 
-const ModalWrapper = (props: { children: ReactNode; isActive: boolean }) => {
+interface ModalWrapper {
+  children: ReactNode;
+  isActive: boolean;
+  className?: string;
+}
+
+const ModalWrapper: FC<ModalWrapper> = (props) => {
+  const { className, isActive, children } = props;
   const [contentIn, setContentIn] = useState(false);
 
   useEffect(() => {
@@ -30,17 +38,18 @@ const ModalWrapper = (props: { children: ReactNode; isActive: boolean }) => {
     <ReactPortal wrapperId="_modal">
       <div
         className={cx(styles.Backdrop, {
-          [styles.BackdropActive]: props.isActive,
-          [styles.BackdropInactive]: !props.isActive,
+          [styles.BackdropActive]: isActive,
+          [styles.BackdropInactive]: !isActive,
         })}
       >
         <div
-          className={cx(styles.Content, {
+          className={cx(styles.Content, className, {
             [styles.ContentActive]: contentIn,
             [styles.ContentInactive]: !contentIn,
+            [styles.ContentHalf]: !className,
           })}
         >
-          {props.children}
+          {children}
         </div>
       </div>
     </ReactPortal>
@@ -82,6 +91,8 @@ export const ModalContainer = ({ layoutProps }: ModalContainerProps) => {
     switch (state.activeModal) {
       case `login`:
         return <LoginForm />;
+      case `media`:
+        return <MediaModal />;
       case `debug`:
         return <Debug layoutProps={layoutProps} />;
       default:
@@ -89,8 +100,16 @@ export const ModalContainer = ({ layoutProps }: ModalContainerProps) => {
     }
   };
 
+  const modalClassName =
+    state.activeModal && [`media`].includes(state.activeModal)
+      ? `w-[90%] h-full`
+      : undefined;
+
   return (
-    <ModalWrapper isActive={Boolean(state.activeModal)}>
+    <ModalWrapper
+      className={modalClassName}
+      isActive={Boolean(state.activeModal)}
+    >
       <OutsideClick
         onClick={closeModal(dispatch)}
         show={Boolean(state.activeModal)}

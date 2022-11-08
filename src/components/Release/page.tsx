@@ -44,6 +44,7 @@ import { Head, SeoProps } from '../Head';
 import { PLAYLIST_URL } from '../Playlist';
 import moment from 'moment';
 import { CreateSocialFormContainer } from '../Forms/SocialPost/create';
+import ImagesExample from '../Forms/Fields/RichTextField/images';
 // import ImagesExample from '../Forms/Fields/RichTextField/images';
 
 const Calendar =
@@ -146,6 +147,7 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
         handleSubmit={formik.handleSubmit}
       >
         <div className={styles.ReleasePage}>
+          <ImagesExample />
           <header className={styles.ReleasePageHeader}>
             <div className={styles.ReleasePageTitle}>
               <MaybeField<ReleaseFormValues>

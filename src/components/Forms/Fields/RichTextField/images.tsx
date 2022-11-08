@@ -1,5 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { FC, PropsWithChildren, useMemo, useState } from 'react';
+import React, {
+  FC,
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import imageExtensions from 'image-extensions';
 import isUrl from 'is-url';
 import { Transforms, createEditor, Descendant, Path } from 'slate';
@@ -13,19 +19,21 @@ import {
   ReactEditor,
 } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { Button, Icon, Toolbar } from './lib/components';
+import { Icon, Toolbar } from './lib/components';
 import { ImageElement } from './lib/custom-types';
-import { CustomNode, serialize } from './util';
+import { CustomNode, deserialize, serialize } from './util';
 import { Input } from '@/components/Atoms/InputField';
 import classNames from 'classnames';
+import { ImageWithCaption } from '@/components/User/atoms';
+import { MdAddToPhotos } from 'react-icons/md';
+import { useAppContext } from '@/context/app';
 
 const insertImage = (editor: any, url: any, caption?: string) => {
-  const text = { text: `` };
   const image: ImageElement = {
     type: `image`,
     url,
-    children: [text],
     caption: `${caption}`,
+    children: [{ text: `` }],
   };
   Transforms.insertNodes(editor, image);
 };
@@ -71,12 +79,27 @@ export const ImagesExample = () => {
     [],
   );
 
+  const html =
+    `<p>lorem</p><div class="editor-image"><img src="/static/placeholder/missing.png" /><cite>Some caption!</cite></div>`.trim();
+  const [initialHTML, setInitialHTML] = useState<Descendant[]>();
+
+  useEffect(() => {
+    const document = new DOMParser().parseFromString(html, `text/html`);
+    const slateValues = deserialize(document.body);
+    console.log(`slateValues`, slateValues);
+    setInitialHTML(slateValues);
+  }, [html]);
+
+  if (!initialHTML) {
+    return null;
+  }
+
   return (
     <Slate
       onChange={(value) => {
-        console.log(`value`, value);
+        // console.log(`Slate onChange value:`, value);
         const serializedHTML = serialize(value as any as CustomNode[]);
-        console.log(`serializedHTML`, serializedHTML);
+        console.log(`Slate onChange serializedHTML`, serializedHTML);
       }}
       editor={editor}
       value={initialValue}
@@ -84,25 +107,23 @@ export const ImagesExample = () => {
       <Toolbar>
         <InsertImageButton />
       </Toolbar>
-      <Editable
-        renderElement={(props) => <Element {...props} />}
-        placeholder="Enter some text..."
-      />
+      <div className="w-full p-6 border-2 border-dashed mb-12">
+        <Editable
+          renderElement={(props) => <Element {...props} />}
+          placeholder="Enter some text..."
+        />
+      </div>
     </Slate>
   );
 };
 
 const updateImage = (editor: any, url: string, caption: string, path: Path) => {
-  const text = { text: caption || `` };
   const image: ImageElement = {
     type: `image`,
     caption,
     url,
-    children: [text],
+    children: [{ text: `` }],
   };
-
-  console.log(`image`, image);
-  console.log(`path`, path);
 
   Transforms.setNodes(editor, image, {
     at: path,
@@ -114,7 +135,7 @@ const Element = (props: any) => {
 
   switch (element.type) {
     case `image`:
-      return <Image {...props} />;
+      return <Image alt={element.caption} {...props} />;
     default:
       return <p {...attributes}>{children}</p>;
   }
@@ -130,8 +151,7 @@ const Image: FC<
   const path = ReactEditor.findPath(editor, element);
   const [caption, setCaption] = useState(element.caption || ``);
 
-  const selected = useSelected();
-  const focused = useFocused();
+  const [selected, focused] = [useSelected(), useFocused()];
 
   const updateCaption = (caption: string) => {
     setCaption(caption);
@@ -141,32 +161,41 @@ const Image: FC<
   return (
     <div {...attributes}>
       {children}
-      <div contentEditable={false} className="relative">
-        <img
-          alt="contentEditable image"
-          src={element.url}
-          className={classNames(`block max-w-full max-h-[20em]`, {
-            'shadow-md': selected && focused,
-          })}
-        />
-        <Button
-          active
-          onClick={() => Transforms.removeNodes(editor, { at: path })}
-          className={classNames(`absolute top-[0.5em] left-[0.5em] bg-white`, {
-            inline: selected && focused,
-            none: !selected || !focused,
-          })}
+      <div contentEditable={false}>
+        <ImageWithCaption
+          className="relative"
+          caption={!selected && <>{element.caption}</>}
         >
-          <Icon>delete</Icon>
-        </Button>
-        {selected && (
-          <Input
-            onChange={(event) => updateCaption(event.currentTarget.value)}
-            type="text"
-            value={caption}
+          <span
+            onClick={() => {
+              Transforms.removeNodes(editor, {
+                at: path,
+              });
+            }}
+            className={classNames(`btn btn-xs absolute top-[2em]`, {
+              inline: selected && focused,
+              none: !selected || !focused,
+            })}
+          >
+            <Icon>Delete</Icon>
+          </span>
+          <img
+            alt="contentEditable image"
+            src={element.url}
+            className={classNames(`shadow-md block max-w-full max-h-[20em]`, {
+              'shadow-md': selected && focused,
+            })}
           />
-        )}
-        {!selected && <div>{element.caption}</div>}
+
+          {selected && (
+            <Input
+              onChange={(event) => updateCaption(event.currentTarget.value)}
+              type="text"
+              value={caption}
+              className="w-1/2 mx-auto my-4 text-xs"
+            />
+          )}
+        </ImageWithCaption>
       </div>
     </div>
   );
@@ -185,20 +214,31 @@ const isImageUrl = (url?: string) => {
 
 const InsertImageButton = () => {
   const editor = useSlateStatic();
+  const { dispatch } = useAppContext();
   return (
-    <Button
-      onMouseDown={(event: any) => {
+    <button
+      className="btn btn-xs btn-secondary flex items-center space-x-2"
+      onClick={(event: any) => {
         event.preventDefault();
-        const url = window.prompt(`Enter the URL of the image:`);
-        if (url && !isImageUrl(url)) {
-          alert(`URL is not an image`);
-          return;
-        }
-        url && insertImage(editor, url, `caption`);
+        // const url = window.prompt(`Enter the URL of the image:`);
+        // if (url && !isImageUrl(url)) {
+        //   alert(`URL is not an image`);
+        //   return;
+        // }
+        // url && insertImage(editor, url, `caption`);
+        dispatch({
+          type: `setSlateEditor`,
+          editor,
+        });
+        dispatch({
+          type: `modal:show`,
+          modal: `media`,
+        });
       }}
     >
-      <Icon>image</Icon>
-    </Button>
+      <MdAddToPhotos />
+      <span>Image</span>
+    </button>
   );
 };
 
@@ -215,8 +255,12 @@ const initialValue: Descendant[] = [
     type: `image`,
     /* url: `https://source.unsplash.com/kFrdX5IeQzI`, */
     url: `/static/placeholder/missing.png`,
-    children: [{ text: `` }],
     caption: `Some caption`,
+    children: [
+      {
+        text: ``,
+      },
+    ],
   },
   {
     type: `paragraph`,
@@ -238,8 +282,12 @@ const initialValue: Descendant[] = [
     type: `image`,
     /* url: `https://source.unsplash.com/zOwZKwZOZq8`, */
     url: `/static/placeholder/missing.png`,
-    children: [{ text: `` }],
     caption: `Some caption`,
+    children: [
+      {
+        text: ``,
+      },
+    ],
   },
 ];
 

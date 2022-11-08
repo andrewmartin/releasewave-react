@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import Dropdown, { Option } from 'react-dropdown';
 import atomStyles from '@/styles/Atoms.module.css';
 import { useRouter } from 'next/router';
+import cx from 'classnames';
 
 interface WithUser {
   children: ReactNode;
@@ -136,5 +137,28 @@ export const AdminNav: FC<{
         />
       </li>
     </CurrentUser>
+  );
+};
+
+export const ImageWithCaption: FC<
+  PropsWithChildren<{
+    caption: ReactNode | null;
+    className?: string;
+  }>
+> = (props) => {
+  const { children, caption, className } = props;
+
+  return (
+    <div
+      className={cx(
+        className,
+        `my-4 flex items-center justify-center flex-wrap flex-col`,
+      )}
+    >
+      <div className="flex-col px-4 py-8 w-full flex justify-center items-center">
+        {children}
+      </div>
+      {caption && <div className="text-gray-500 mb-8">{caption}</div>}
+    </div>
   );
 };

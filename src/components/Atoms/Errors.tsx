@@ -7,7 +7,7 @@ interface FormikErrors<Values extends FormikValues = FormikValues> {
   formik: ReturnType<typeof useFormik<Values>>;
 }
 
-const Error: FC<PropsWithChildren> = ({ children }) => {
+export const Error: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="text-sm w-full p-4 text-pink border-2 border-pink mt-4 text-left flex justify-start tracking-wide">
       {children}

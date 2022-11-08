@@ -9,10 +9,27 @@
 }
 
 .Content {
-  @apply md:w-1/2 mx-5 w-full opacity-0 transition-all duration-500 -translate-y-full cursor-auto ;
+  @apply opacity-0 transition-all duration-500 -translate-y-full cursor-auto;
 }
+
+.ContentHalf {
+  @apply md:w-1/2 mx-5;
+}
+
 .ContentActive {
   @apply opacity-100 -translate-y-0;
 }
 .ContentInactive {
+}
+
+.MediaItem {
+  @apply overflow-y-hidden text-center border-spacing-2 border-3;
+}
+
+.MediaItemActions {
+  @apply w-full my-4 translate-y-72 transition-transform opacity-50;
+}
+
+.MediaItem:hover .MediaItemActions {
+  @apply opacity-100 translate-y-0;
 }

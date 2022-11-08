@@ -42,12 +42,14 @@ export const FileField = (props: FileFieldProps) => {
         maxWidth: `100%`,
       }}
     >
-      <Image
-        src={appendHostToImage(imageSrc)}
-        width={width}
-        height={height}
-        alt=""
-      />
+      {imageSrc && (
+        <Image
+          src={appendHostToImage(imageSrc)}
+          width={width}
+          height={height}
+          alt=""
+        />
+      )}
       <Dropzone onDrop={onDrop}>
         {({ getRootProps, getInputProps, isDragActive }) => {
           return (
