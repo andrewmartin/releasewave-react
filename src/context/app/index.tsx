@@ -14,12 +14,17 @@ import {
 export type FetchType = 'user';
 export type ModalType = 'login' | 'debug' | 'media';
 
+type ModalData = {
+  contentId: string; // the relevant ID of an item we are working with
+  contentType: 'article' | 'release' | 'review'; // the relevant ID of an item we are working with
+};
+
 export type AppAction =
   | { type: 'logout' }
   | { type: 'login'; fetchType: FetchType; user: User }
   | { type: 'error'; fetchType: FetchType; message: string }
   | { type: 'start'; fetchType: FetchType; isFetching: boolean }
-  | { type: 'modal:show'; modal: ModalType; message?: string }
+  | { type: 'modal:show'; modal: ModalType; message?: string; data?: ModalData }
   | { type: 'modal:close' }
   | { type: 'search'; searchTerm: string }
   | { type: 'search:show' }

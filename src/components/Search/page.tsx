@@ -1,6 +1,6 @@
-import { useArtistContext } from '@/context/artist';
+import { ArtistContext, useArtistContext } from '@/context/artist';
 
-import { useReleaseContext } from '@/context/release';
+import { ReleaseContext, useReleaseContext } from '@/context/release';
 import React, { FC, forwardRef, useEffect, useRef } from 'react';
 import { ArtistItem } from '../Artist/item';
 import { FaSearch } from 'react-icons/fa';
@@ -99,6 +99,38 @@ export const SearchBarWrapper: FC = () => {
   );
 };
 
+export const getSearch = async (
+  searchTerm: string,
+  dispatchRelease: ReleaseContext['dispatch'],
+  dispatchArtist: ArtistContext['dispatch'],
+) => {
+  dispatchRelease({
+    type: `start`,
+    fetchType: `releases`,
+    isFetching: true,
+  });
+  dispatchArtist({
+    type: `start`,
+    fetchType: `artist`,
+    isFetching: true,
+  });
+
+  const { data } = await AXIOS().instance.get<SearchResults>(
+    `search/${searchTerm}`,
+  );
+
+  dispatchRelease({
+    type: `successGetReleases`,
+    fetchType: `releases`,
+    data: data.releases,
+  });
+  dispatchArtist({
+    type: `successGetArtists`,
+    fetchType: `artist`,
+    data: data.artists,
+  });
+};
+
 export const SearchPage: FC<SearchPage> = (props) => {
   const { searchQuery } = props;
   const {
@@ -117,35 +149,8 @@ export const SearchPage: FC<SearchPage> = (props) => {
   const previousSearchValue = usePrevious(searchTerm);
 
   useEffect(() => {
-    async function getSearch() {
-      dispatchRelease({
-        type: `start`,
-        fetchType: `releases`,
-        isFetching: true,
-      });
-      dispatchArtist({
-        type: `start`,
-        fetchType: `artist`,
-        isFetching: true,
-      });
-
-      const { data } = await AXIOS().instance.get<SearchResults>(
-        `search/${searchTerm}`,
-      );
-      dispatchRelease({
-        type: `successGetReleases`,
-        fetchType: `releases`,
-        data: data.releases,
-      });
-      dispatchArtist({
-        type: `successGetArtists`,
-        fetchType: `artist`,
-        data: data.artists,
-      });
-    }
-
     if (previousSearchValue !== searchTerm && searchTerm) {
-      getSearch();
+      getSearch(searchTerm, dispatchRelease, dispatchArtist);
     }
   }, [
     dispatchArtist,

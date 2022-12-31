@@ -14,7 +14,7 @@
 }
 
 .FeaturedReleaseContent h2 {
-  @apply font-extrabold tracking-[-0.045em] text-[1.8em] md:!text-3xl w-full my-4 md:mt-20;
+  @apply font-extrabold tracking-[-0.045em] text-[1.8em] md:text-3xl w-full my-4 md:mt-20;
 }
 
 .FeaturedReleaseContent span {

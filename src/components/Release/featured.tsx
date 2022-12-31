@@ -68,9 +68,11 @@ export const FeaturedReleaseContainer: FC<PropsWithChildren> = () => {
           Here are some of our most recommended upcoming releases.
         </p>
       </div>
-      {releases?.items?.map((release) => (
-        <FeaturedRelease {...release} key={release.id} />
-      ))}
+      <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        {releases?.items?.map((release) => (
+          <FeaturedRelease {...release} key={release.id} />
+        ))}
+      </div>
     </>
   );
 };

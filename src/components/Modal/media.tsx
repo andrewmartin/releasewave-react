@@ -17,7 +17,7 @@ import styles from './Modal.module.css';
 const insertImage = (editor: CustomEditor, url: string, caption?: string) => {
   const image: ImageElement = {
     type: `image`,
-    url,
+    imageUrl: url,
     caption: `${caption}`,
     children: [{ text: `` }],
   };

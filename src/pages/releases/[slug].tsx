@@ -1,6 +1,7 @@
 import { Head } from '@/components/Head';
 import { ReleasePage } from '@/components/Release/page';
 import { FormProvider } from '@/context/app/form';
+import { ArtistContextContainer } from '@/context/artist';
 import { ReleaseContextContainer } from '@/context/release';
 import {
   IReleaseServerSideProps,
@@ -22,9 +23,11 @@ export default function Release(props: IReleaseServerSideProps) {
     <>
       <Head {...seo} />
       <ReleaseContextContainer release={release} reviews={reviews}>
-        <FormProvider>
-          <ReleasePage />
-        </FormProvider>
+        <ArtistContextContainer reviews={reviews}>
+          <FormProvider>
+            <ReleasePage />
+          </FormProvider>
+        </ArtistContextContainer>
       </ReleaseContextContainer>
     </>
   );

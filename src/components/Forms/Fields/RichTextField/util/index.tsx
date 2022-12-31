@@ -1,6 +1,9 @@
 import escapeHtml from 'escape-html';
 import { Element } from 'slate';
 import { jsx } from 'slate-hyperscript';
+import { ContentEmbed } from '../lib/custom-types';
+
+type SlateCustomDataAttributes = 'image' | ContentEmbed['type'];
 
 // https://codesandbox.io/s/slate-plugins-reproductions-yxr3q?file=/index.tsx
 export const deserialize = (el: any, markAttributes = {}): any => {
@@ -32,20 +35,55 @@ export const deserialize = (el: any, markAttributes = {}): any => {
     case `BR`:
       return `\n`;
     case `DIV`:
-      console.log(`img!!!\n`, el.getAttributeNames());
-      const isImage = el.classList.contains(`editor-image`);
-      if (!isImage) return jsx(`fragment`, {}, children);
-      const url = el.getElementsByTagName(`img`).item(0).getAttribute(`src`);
+      console.log(`div!!!\n`, el.getAttributeNames());
+      const customType: SlateCustomDataAttributes =
+        el.getAttribute(`data-slate-custom`);
+      console.log(`getAttribute data\n`, el.getAttribute(`data-slate-custom`));
+      const imageUrl = el
+        .getElementsByTagName(`img`)
+        .item(0)
+        .getAttribute(`src`);
       const caption = el.getElementsByTagName(`cite`).item(0).innerHTML;
-      return jsx(
-        `element`,
-        {
-          type: `image`,
-          url,
-          caption,
-        } as ImageNode,
-        children,
-      );
+      const href = el.getElementsByTagName(`a`).item(0)?.getAttribute(`href`);
+
+      switch (customType) {
+        case `image`:
+          return jsx(
+            `element`,
+            {
+              type: `image`,
+              imageUrl,
+              caption,
+            } as ImageNode,
+            children,
+          );
+        case `contentEmbed:release`:
+          return jsx(
+            `element`,
+            {
+              type: `contentEmbed:release`,
+              imageUrl,
+              href,
+              name: caption,
+            } as ContentEmbed,
+            children,
+          );
+        case `contentEmbed:artist`:
+          return jsx(
+            `element`,
+            {
+              type: `contentEmbed:artist`,
+              imageUrl,
+              href,
+              name: caption,
+            } as ContentEmbed,
+            children,
+          );
+
+        default:
+          return jsx(`fragment`, {}, children);
+      }
+
     case `BLOCKQUOTE`:
       return jsx(
         `element`,
@@ -85,33 +123,49 @@ type ImageNode = Element & {
   url: string;
 };
 
-export type CustomNode = ParagraphNode | ImageNode;
+export type CustomNode = ParagraphNode | ImageNode | ContentEmbed;
 
+/**
+ * convert slate nodes into raw HTML
+ */
 export const serialize = (node: CustomNode[]) => {
   let str = ``;
   console.log(`node!`, node);
 
   node.forEach((item) => {
+    console.log(`item`, item);
+
     switch (item.type) {
       case `paragraph`:
         const children = item?.children
           ?.map((n: any) => {
-            if (n.text) {
-              return escapeHtml(n.text);
-            }
-            return n;
+            return escapeHtml(n.text || ``);
           })
           .join(``);
 
-        str += `<p>${children}</p>`;
+        console.log(`children in paragraph`, children);
+
+        str += `<p>${children || ``}</p>`;
         break;
 
       case `image`:
-        const { url, caption } = item as ImageNode;
         str += `
-        <div class="editor-image">
-          <img src="${url}" />
-          ${caption ? `<cite>${caption}</cite>` : ``}
+        <div data-slate-custom="image" class="editor-image">
+          <img src="${item.imageUrl}" />
+          ${item.caption ? `<cite>${item.caption}</cite>` : ``}
+        </div>
+        `;
+        break;
+
+      case `contentEmbed:artist`:
+      case `contentEmbed:release`:
+        console.log(`contentEmbed item`, item);
+        str += `
+        <div data-slate-custom="${item.type}" class="editor-content-embed">
+          <a href="${item.href}">
+            <img src="${item.imageUrl}" />
+            ${item.name ? `<cite>${item.name}</cite>` : ``}
+          </a>
         </div>
         `;
         break;
@@ -120,6 +174,8 @@ export const serialize = (node: CustomNode[]) => {
         break;
     }
   });
+
+  console.log(`str`, str);
 
   return str;
 };

@@ -12,6 +12,7 @@ import styles from './Nav.module.css';
 import { SetOpen } from '../Footer';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
+import Logo from '../Logo';
 type Link = [name: string, href: string];
 
 const NAV_PAGES: Link[] = [
@@ -108,6 +109,9 @@ export const MobileNavMenu: FC<{
       isOpen={isOpen}
       onClose={onClose}
     >
+      <div className="w-full p-4 flex justify-center">
+        <Logo includeSVG={false} />
+      </div>
       <NavList
         itemClassName={styles.MobileNavItem}
         itemActiveClassName={styles.MobileNavItemActive}

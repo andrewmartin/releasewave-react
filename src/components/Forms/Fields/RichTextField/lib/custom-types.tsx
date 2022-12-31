@@ -39,10 +39,25 @@ export type HeadingTwoElement = {
 
 export type ImageElement = {
   type: 'image';
-  url: string;
+  imageUrl: string;
   caption?: string;
   children: Descendant[];
 };
+
+type ContentEmbedBaseType = {
+  imageUrl: string;
+  href: string;
+  name?: string;
+  children: Descendant[];
+};
+
+export type ContentEmbed =
+  | (ContentEmbedBaseType & {
+      type: 'contentEmbed:artist';
+    })
+  | (ContentEmbedBaseType & {
+      type: 'contentEmbed:release';
+    });
 
 export type LinkElement = { type: 'link'; url: string; children: Descendant[] };
 
@@ -96,7 +111,8 @@ export type CustomElement =
   | TableRowElement
   | TableCellElement
   | TitleElement
-  | VideoElement;
+  | VideoElement
+  | ContentEmbed;
 
 export type CustomText = {
   bold?: boolean;

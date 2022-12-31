@@ -153,11 +153,7 @@ export const Head = (props: SeoProps) => {
         property="og:image:height"
         content={ogImageHeight}
       />
-      <meta
-        key="og:image:height"
-        property="og:image:height"
-        content={`article`}
-      />
+      <meta key="og:type" property="og:type" content={`article`} />
       <meta key="og:image:alt" property="og:image:alt" content={ogImageAlt} />
       <meta name="twitter:card" content={description} />
       <meta name="twitter:site" content="@releasewave" />

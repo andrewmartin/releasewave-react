@@ -29,7 +29,7 @@ interface ArtistState {
   errors: Map<FetchType, string | undefined>;
 }
 
-interface AppContext {
+export interface ArtistContext {
   state: ArtistState;
   dispatch: Dispatch<ArtistAction>;
 }
@@ -82,6 +82,7 @@ function artistReducer(
     }
 
     case `successGetArtists`: {
+      console.log(`action`, action);
       if (action.data) {
         return {
           ...prevState,
@@ -101,7 +102,7 @@ function artistReducer(
   }
 }
 
-const ArtistContext = createContext<AppContext>({
+const ArtistContext = createContext<ArtistContext>({
   state: initialState,
   dispatch: () => {
     return;

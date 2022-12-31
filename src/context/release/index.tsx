@@ -40,7 +40,7 @@ interface ReleaseState {
   errors: Map<FetchType, string | undefined>;
 }
 
-interface AppContext {
+export interface ReleaseContext {
   state: ReleaseState;
   dispatch: Dispatch<ReleaseAction>;
 }
@@ -181,7 +181,7 @@ function releaseReducer(
   }
 }
 
-const ReleaseContext = createContext<AppContext>({
+const ReleaseContext = createContext<ReleaseContext>({
   state: initialState,
   dispatch: () => {
     return;

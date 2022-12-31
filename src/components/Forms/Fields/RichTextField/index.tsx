@@ -1,5 +1,5 @@
 import React, { FC, PropsWithChildren, useMemo, useState } from 'react';
-import { Node as SlateNode, createEditor } from 'slate';
+import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import classNames from 'classnames';
