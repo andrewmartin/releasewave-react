@@ -128,7 +128,7 @@ export const ImagesExample = () => {
       value={initialHTML}
     >
       <Toolbar>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center w-full space-x-2">
           <InsertImageButton />
           <ContentEmbedElement />
         </div>
@@ -175,7 +175,7 @@ const ContentEmbedEditorElement: FC<
             at: path,
           });
         }}
-        className={classNames(`btn btn-xs absolute top-[2em]`, {
+        className={classNames(`cursor-pointer btn btn-xs absolute top-[2em]`, {
           inline: selected && focused,
           none: !selected || !focused,
         })}
@@ -220,10 +220,13 @@ const ImageEditorElement: FC<
                   at: path,
                 });
               }}
-              className={classNames(`btn btn-xs absolute top-[2em]`, {
-                inline: selected && focused,
-                none: !selected || !focused,
-              })}
+              className={classNames(
+                `cursor-pointer btn btn-xs absolute top-[2em]`,
+                {
+                  inline: selected && focused,
+                  none: !selected || !focused,
+                },
+              )}
             >
               <Icon>Delete</Icon>
             </span>
