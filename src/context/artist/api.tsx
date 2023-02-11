@@ -114,7 +114,7 @@ export const getArtists: onGetArtists<ArtistAction> =
     try {
       const { data } = await AXIOS().instance.get<
         RailsCollectionResponse<Artist>
-      >(`releases`, {
+      >(`artists`, {
         params,
       });
       dispatch({
