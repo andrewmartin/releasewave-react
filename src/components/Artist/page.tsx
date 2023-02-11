@@ -174,17 +174,18 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                   type="text"
                   value={formik.values[`name`] || ``}
                 />
-                {artist?.name !== formik.values.name && (
-                  <button
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setShouldFetch(true);
-                    }}
-                    className="btn-sm btn-primary mt-4"
-                  >
-                    Fetch Social Links
-                  </button>
-                )}
+                {artist?.name !== formik.values.name ||
+                  (process.env.NODE_ENV === `development` && (
+                    <button
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setShouldFetch(true);
+                      }}
+                      className="btn-sm btn-primary mt-4"
+                    >
+                      Fetch Social Links
+                    </button>
+                  ))}
               </MaybeField>
               <SocialLinks {...artist} />
               {isEditing && (
