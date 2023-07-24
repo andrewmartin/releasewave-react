@@ -18,6 +18,7 @@ import {
   ReleaseFormValues,
   onEditRelease,
   onCreateRelease,
+  onDeleteRelease,
 } from '@/context/release/api';
 import { useRouter } from 'next/router';
 import { RichTextField } from '../Forms/Fields/RichTextField';
@@ -44,7 +45,7 @@ import { Head, SeoProps } from '../Head';
 import { PLAYLIST_URL } from '../Playlist';
 import moment from 'moment';
 import { CreateSocialFormContainer } from '../Forms/SocialPost/create';
-import ImagesExample from '../Forms/Fields/RichTextField/images';
+// import ImagesExample from '../Forms/Fields/RichTextField/images';
 // import ImagesExample from '../Forms/Fields/RichTextField/images';
 
 const Calendar =
@@ -139,15 +140,50 @@ export const ReleasePage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
     ogImage: image.square,
   };
 
+  const onDelete = async () =>
+    await onDeleteRelease(dispatch, appDispatch)(
+      {
+        releaseSlug: release?.slug as string,
+      },
+      () => {
+        console.log(`deleted`);
+      },
+    );
+
   return (
     <>
       <Head {...seo} />
       <MaybeForm
-        Footer={<FormFooter isFixed actionName="Edit" />}
+        Footer={
+          <FormFooter
+            AdditionalActions={
+              !isNew ? (
+                <button
+                  type="button"
+                  onClick={async (event) => {
+                    event.preventDefault();
+
+                    try {
+                      const success = await onDelete();
+                      if (success) {
+                        push(`/releases`);
+                      }
+                    } catch (error) {}
+                  }}
+                  className="btn justify-start self-start btn-danger"
+                >
+                  Delete
+                </button>
+              ) : undefined
+            }
+            isFixed
+            actionName="Edit"
+          />
+        }
         handleSubmit={formik.handleSubmit}
       >
         <div className={styles.ReleasePage}>
-          <ImagesExample />
+          {/* <ImagesExample /> */}
           <header className={styles.ReleasePageHeader}>
             <div className={styles.ReleasePageTitle}>
               <MaybeField<ReleaseFormValues>

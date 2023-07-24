@@ -1,6 +1,6 @@
 import React from 'react';
 import { useReleaseContext } from '@/context/release';
-import { onDeleteRelease } from '@/context/release/api';
+import { onDeleteReview } from '@/context/release/api';
 import { WithCurrentUser } from '@/hooks/user';
 import { Review, User } from '@/types/Data';
 import { PropsWithChildren } from 'react';
@@ -62,7 +62,7 @@ const ReviewItem = (review: Review) => {
   const { id, name, content, user_id, score } = review;
 
   const onDelete = async (id: number) => {
-    await onDeleteRelease(dispatchRelease, appDispatch)(
+    await onDeleteReview(dispatchRelease, appDispatch)(
       {
         id,
         releaseSlug: state?.release?.slug as string,

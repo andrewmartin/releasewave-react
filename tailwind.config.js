@@ -31,6 +31,7 @@ module.exports = {
       emerald: colors.emerald,
       indigo: colors.indigo,
       yellow: colors.yellow,
+      red: colors.red,
       // https://www.tailwindshades.com/
       pink: {
         DEFAULT: '#AC1E8C',

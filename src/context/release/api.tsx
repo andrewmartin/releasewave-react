@@ -29,6 +29,10 @@ export type DeleteReviewFormValues = {
   releaseSlug: Release['slug'];
 };
 
+export type DeleteReleaseFormValues = {
+  releaseSlug: Release['slug'];
+};
+
 /**
  * api helpers for release
  */
@@ -212,12 +216,12 @@ export const onEditReview: OnCreateReview<
   }
 };
 
-type OnDeleteRelease<Action, Values> = (
+type OnDeleteReview<Action, Values> = (
   dispatch: Dispatch<Action>,
   appDispatch: Dispatch<AppAction>,
 ) => (values: Values, onSuccess: () => void) => Promise<void>;
 
-export const onDeleteRelease: OnDeleteRelease<
+export const onDeleteReview: OnDeleteReview<
   ReleaseAction,
   DeleteReviewFormValues
 > = (dispatch, appDispatch) => async (values, onSuccess) => {
@@ -252,6 +256,51 @@ export const onDeleteRelease: OnDeleteRelease<
         ),
       );
     });
+  }
+};
+
+type OnDeleteRelease<Action, Values> = (
+  dispatch: Dispatch<Action>,
+  appDispatch: Dispatch<AppAction>,
+) => (values: Values, onSuccess: () => void) => Promise<boolean>;
+
+export const onDeleteRelease: OnDeleteRelease<
+  ReleaseAction,
+  DeleteReleaseFormValues
+> = (dispatch, appDispatch) => async (values, onSuccess) => {
+  const { releaseSlug: slug } = values;
+  if (!CONFIRM(`NO_UNDO`)) {
+    return false;
+  }
+  dispatch({
+    type: `start`,
+    fetchType: `review`,
+    isFetching: true,
+  });
+
+  try {
+    const { data } = await AXIOS().instance.delete<Review>(`releases/${slug}`);
+
+    onSuccess();
+
+    dispatch({
+      type: `successDeleteReview`,
+      fetchType: `review`,
+      data,
+    });
+
+    toast(`release deleted!`);
+    return true;
+  } catch (error: any) {
+    actionHelperCatch(error, appDispatch, () => {
+      dispatch(
+        genericErrorAction<ReleaseAction, FetchType>(
+          `review`,
+          error.toString(),
+        ),
+      );
+    });
+    return false;
   }
 };
 
