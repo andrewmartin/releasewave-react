@@ -113,13 +113,8 @@ export class Axios {
 export const AXIOS = (
   context?: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
 ) => {
-  console.log(
-    `process.env.NEXT_PUBLIC_API_ROOT`,
-    process.env.NEXT_PUBLIC_API_ROOT,
-  );
-
   return new Axios({
-    API_ROOT: `http://localhost:1337/api/v1/`,
+    API_ROOT: process.env.NEXT_PUBLIC_API_ROOT as string,
     headers: {},
     context,
   });
