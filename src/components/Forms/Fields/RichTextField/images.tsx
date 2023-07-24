@@ -34,6 +34,7 @@ import { useReleaseContext } from '@/context/release';
 import atomStyles from '@/styles/Atoms.module.css';
 import { usePrevious } from 'react-use';
 import { OutsideClick } from '@/hooks/useOutsideAlerter';
+import { appendHostToImage } from '@/util/image';
 
 const insertImage = (editor: any, url: any, caption?: string) => {
   const image: ImageElement = {
@@ -103,7 +104,7 @@ export const ImagesExample = () => {
   // const html =
   //   `<p>lorem</p><div data-slate-custom="image" class="editor-image"><img src="/static/placeholder/missing.png" /><cite>Some caption!</cite></div>`.trim();
   const html =
-    `<p>this is the test content</p><p></p><div data-slate-custom="contentEmbed:artist" class="editor-content-embed"><a href="/artists/pat-metheny"><img src="/static/placeholder/missing.png" /><cite>Pat Metheny</cite></a></div><div data-slate-custom="image" class="editor-image"><img src="http://localhost:1337///rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDQT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--1fdfe07a75400a12caf988306cb795bf3b461711/1668232738" /><cite>Some Caption</cite></div><p></p><p>i need to add spaces first</p>`.trim();
+    `<p>this is the test content</p><p></p><div data-slate-custom="contentEmbed:artist" class="editor-content-embed"><a href="/artists/pat-metheny"><img src="/static/placeholder/missing.png" /><cite>Pat Metheny</cite></a></div><div data-slate-custom="image" class="editor-image"><img alt="contentEditable image" src="https://api.releasewave.com///rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--ea5c88e36cb989a3d02f68bb04f5f94eb4d17ab9/1676488543" class="shadow-md block max-w-full max-h-[20em]"><cite>Some Caption</cite></div><p></p><p>i need to add spaces first</p>`.trim();
   const [initialHTML, setInitialHTML] = useState<Descendant[]>();
 
   useEffect(() => {
@@ -320,7 +321,7 @@ const ContentEmbedItem: FC<{
           width={40}
           height={40}
           alt="image"
-          src={imageSrc}
+          src={appendHostToImage(imageSrc)}
           className="mr-2 border-gray-100 border-2 block max-w-full max-h-[20em]"
         />
       )}
@@ -363,7 +364,7 @@ const ContentEmbedElement = () => {
     const contentEmbed: ContentEmbed = {
       type: contentEmbedType,
       href,
-      imageUrl,
+      imageUrl: appendHostToImage(imageUrl),
       name: text,
       children: [{ text: `` }],
     };

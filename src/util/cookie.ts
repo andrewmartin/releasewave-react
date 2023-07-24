@@ -72,7 +72,7 @@ export const hasLoggedInHeaders = (
   });
 
   if (found) {
-    console.log(`found by searching headers:`, HEADERS.join(`,`));
+    console.log(`found by searching headers:`, [`access-token`].join(`,`));
   }
 
   return found;

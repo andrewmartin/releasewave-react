@@ -18,6 +18,9 @@ export const globalServerSideProps: GetServerSideProps<
   };
 
   const fullUrl = `${process.env.NEXT_SITE_ROOT}${url}`;
+
+  console.log(`fullUrl`, fullUrl);
+
   try {
     const { data } = await serverSideFetch(context).getOptions();
     if (data?.id && data?.data) {

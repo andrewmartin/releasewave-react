@@ -59,8 +59,8 @@ export const FeaturedReleaseContainer: FC<PropsWithChildren> = () => {
         <h2 className="font-extrabold tracking-[-0.045em] text-[2em] md:!text-[2.5em] border-b-2 border-b-gray-300 mb-4 inline-block leading-[1]">
           The Wave
         </h2>
-        <p className="text-gray-500 italic w-full text-[1.4em] leading-[1.5]">
-          <span className="uppercase font-bold tracking-[0.045em] not-italic text-gray-400">
+        <p className="text-gray-500 italic w-full text-[1.2em] leading-[1.5]">
+          <span className="uppercase font-bold not-italic text-gray-400">
             Release Wave
           </span>
           {` `}
