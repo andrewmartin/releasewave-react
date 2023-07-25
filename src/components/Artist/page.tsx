@@ -127,6 +127,10 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
     ogImage: image.square,
   };
 
+  const shouldShowSocials =
+    artist?.name !== formik.values.name ||
+    [`DEVELOPMENT`].includes(process.env.NODE_ENV);
+
   return (
     <>
       <Head {...seo} />
@@ -174,18 +178,18 @@ export const ArtistPage = ({ isNew }: Partial<ServerSideWithAdminArgs>) => {
                   type="text"
                   value={formik.values[`name`] || ``}
                 />
-                {artist?.name !== formik.values.name ||
-                  (process.env.NODE_ENV === `development` && (
-                    <button
-                      onClick={(event) => {
-                        event.preventDefault();
-                        setShouldFetch(true);
-                      }}
-                      className="btn-sm btn-primary mt-4"
-                    >
-                      Fetch Social Links
-                    </button>
-                  ))}
+
+                {shouldShowSocials ? (
+                  <button
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setShouldFetch(true);
+                    }}
+                    className="btn-sm btn-primary mt-4"
+                  >
+                    Fetch Social Links
+                  </button>
+                ) : null}
               </MaybeField>
               <SocialLinks {...artist} />
               {isEditing && (
